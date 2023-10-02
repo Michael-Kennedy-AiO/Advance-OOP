@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./Styles/Config.css" />
+    <link rel="stylesheet" href="./Styles/Navbar.css" />
+  </head>
+  <body>
+    <nav class="sidebar">
+      <ul>
+        <li class="dropdown">
+          <div class="itemContainer" style="margin-bottom: 10px">
+            <a href="Landingpage.html">🗂️ Databases</a>
+            <div>
+              <button
+                onclick="toggleDropdown()"
+                style="color: #71bcde; font-size: 15px"
+              >
+                ▼
+              </button>
+            </div>
+          </div>
+          <ul
+            class="dropdown-menu"
+            style="margin-left: 20px"
+            id="dropdown-menu"
+          ></ul>
+        </li>
+        <li><a href="#">Billing</a></li>
+        <li><a href="#">Referral Program</a></li>
+      </ul>
+    </nav>
+    <main>
+      <button class="buttonback" onclick="backToDatabase()">⬅</button>
+      <div class="tableTwoData">
+        <div class="tableData">
+          <div class="tableContent">
+            <h2>Config Account Login</h2>
+          </div>
+          <table id="databaseTable">
+            <thead></thead>
+            <tbody>
+              <!-- Table rows will be dynamically generated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+    <script src="./JS/NavBar.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", loadData);
+
+      function loadData() {
+        const url = `/admin/Table/Get-TableInfo`; // Modify the URL with the appropriate API endpoint
+
+        const requestBody = {
+          DBId: dbId,
+          TableId: tbId,
+          AdminToken: token,
+        };
+        fetchData(url, requestBody);
+      }
+
+      let describle;
+
+      async function fetchData(url, data) {
+        try {
+          const response = await fetch(url, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          });
+
+          const responseData = await response.json();
+
+          if (responseData.status === "Success") {
+            makeTable(responseData.data);
+            describle = responseData.data.Describes;
+          }
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+      function makeTable(data) {
+        const propertyOrder = [
+          { key: "AccessKey", url: "/admin/Table/Config/AccessToken" },
+          { key: "ReadKey", url: "/admin/Table/Config/ReadKey" },
+          { key: "WriteKey", url: "/admin/Table/Config/WriteKey " },
+
+          { key: "Avaiable", url: "", editable: false },
+          { key: "TimeCreate", url: "", editable: false },
+          { key: "LogoutId", url: "", editable: false },
+          { key: "Version", url: "", editable: false },
+        ];
+
+        const table = document.getElementById("databaseTable");
+        const tableBody = table.querySelector("tbody");
+        table.classList.add("table-config");
+        // Clear existing table data
+        tableBody.innerHTML = "";
+
+        // Create rows for each property in the specified order
+        propertyOrder.forEach((property) => {
+          const { key, url, editable = true } = property;
+
+          if (data.hasOwnProperty(key)) {
+            const row = document.createElement("tr");
+
+            // Create cells for key, value, eye button, and button
+            const keyCell = document.createElement("td");
+            const valueCell = document.createElement("td");
+            const eyeButtonCell = document.createElement("td");
+            const buttonCell = document.createElement("td");
+
+            // Create eye button
+            const eyeButton = document.createElement("button");
+            eyeButton.textContent = "👁️";
+            eyeButton.classList.add("eye-button");
+
+            // Create edit button if editable is true
+            if (editable) {
+              const editButton = document.createElement("button");
+              editButton.textContent = "✏️";
+              editButton.classList.add("edit-button");
+              let isEditing = false;
+              const hiddenValue = "* * * * * * *";
+              let hidden = true;
+              keyCell.textContent = key;
+
+              const value = JSON.stringify(data[key]);
+              valueCell.innerHTML = `<span>${hiddenValue}</span><input type="text" class="input-field" value="${value}" style="display:none;" />`;
+              // Toggle visibility of value on eye button click
+              eyeButton.addEventListener("click", () => {
+                hidden = !hidden;
+                const valueSpan = valueCell.querySelector("span");
+                const valueInput = valueCell.querySelector("input");
+
+                if (!hidden) {
+                  valueSpan.textContent = value;
+                  eyeButton.textContent = "👁";
+                } else {
+                  valueSpan.textContent = hiddenValue;
+                  eyeButton.textContent = "👁";
+                }
+              });
+              editButton.addEventListener("click", () => {
+                // Handle the edit button click event
+                const spanElement = valueCell.querySelector("span");
+                const inputElement = valueCell.querySelector("input");
+
+                if (!isEditing) {
+                  // Switch to edit mode
+                  spanElement.style.display = "none";
+                  inputElement.style.display = "inline";
+                  inputElement.focus();
+                  editButton.textContent = "🔒";
+                  isEditing = true;
+                } else {
+                  // Switch to view mode and perform POST request
+                  spanElement.style.display = "inline";
+                  inputElement.style.display = "none";
+                  spanElement.textContent = inputElement.value;
+                  editButton.textContent = "✏️";
+                  isEditing = false;
+                  const token = localStorage.getItem("token"); // Get the token from local storage
+
+                  const urlParams = new URLSearchParams(window.location.search);
+                  const dbId = urlParams.get("dbId"); // Get the dbId from the URL parameter
+                  // Perform the POST request with the updated value if a URL is provided
+                  if (url) {
+                    const updatedValue = inputElement.value;
+                    const postData = {
+                      [key]: updatedValue,
+                      TableId: tbId,
+                      DBId: dbId,
+                      AdminToken: token,
+                    };
+
+                    fetch(url, {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify(postData),
+                    })
+                      .then((response) => response.json())
+                      .then((responseData) => {
+                        // Handle the response if needed
+                        console.log(responseData);
+                      })
+                      .catch((error) => {
+                        console.error("Error:", error);
+                      });
+                  }
+                }
+              });
+
+              buttonCell.appendChild(editButton);
+              eyeButtonCell.appendChild(eyeButton);
+            } else {
+              if (key == "TimeCreate") {
+                keyCell.textContent = key;
+                const date = new Date(data[key]);
+                valueCell.innerHTML = `<span>${date.toLocaleString()}</span>`;
+              } else {
+                keyCell.textContent = key;
+                const value = JSON.stringify(data[key]);
+                valueCell.innerHTML = `<span>${value}</span>`;
+              }
+            }
+
+            // Append cells to the row
+            row.appendChild(keyCell);
+            row.appendChild(valueCell);
+            row.appendChild(eyeButtonCell);
+            row.appendChild(buttonCell);
+
+            // Append the row to the table body
+            tableBody.appendChild(row);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./Styles/Config.css" />
+    <link rel="stylesheet" href="./Styles/Navbar.css" />
+  </head>
+  <body>
+    <nav class="sidebar">
+      <ul>
+        <li class="dropdown">
+          <div class="itemContainer" style="margin-bottom: 10px">
+            <a href="Landingpage.html">🗂️ Databases</a>
+            <div>
+              <button
+                onclick="toggleDropdown()"
+                style="color: #71bcde; font-size: 15px"
+              >
+                ▼
+              </button>
+            </div>
+          </div>
+          <ul
+            class="dropdown-menu"
+            style="margin-left: 20px"
+            id="dropdown-menu"
+          ></ul>
+        </li>
+        <li><a href="#">Billing</a></li>
+        <li><a href="#">Referral Program</a></li>
+      </ul>
+    </nav>
+    <main>
+      <div class="tableTwoData">
+        <div class="tableData">
+          <div class="tableContent">
+            <h2>Config Account Login</h2>
+          </div>
+          <table id="databaseTable">
+            <thead></thead>
+            <tbody>
+              <!-- Table rows will be dynamically generated -->
+            </tbody>
+          </table>
+        </div>
+        <div class="tableDataRule">
+          <div class="tableContent">
+            <h2>Login Rule</h2>
+          </div>
+          <table id="loginRuleTable">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th style="text-align: center">
+                  <button id="editRule" class="edit-button">✏️</button>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Table rows will be dynamically generated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="tableData">
+        <div class="tableContent">
+          <h2>Describle</h2>
+          <button id="editDescrible" class="edit-button">✏️</button>
+          <button id="addColumn" class="edit-button" onclick="addColumn()">
+            ➕
+          </button>
+          <button
+            id="delete-button"
+            style="display: inline-block"
+            onclick="getCheckedColumnNames()"
+          >
+            Delete
+          </button>
+          <button
+            style="display: inline-block; margin-left: auto"
+            onclick="showDialogIndexing()"
+          >
+            Indexing
+          </button>
+        </div>
+        <table id="dataStructureTable">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Column Name</th>
+              <th>Type</th>
+              <th>Indexing</th>
+              <th>Size</th>
+              <th>View ID</th>
+              <th>Default Value</th>
+              <th>Unique</th>
+              <th>Auto Increment</th>
+              <th>Unsign</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Table rows will be dynamically generated -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+    <script src="./JS/NavBar.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", loadData);
+
+      function loadData() {
+        const token = localStorage.getItem("token"); // Get the token from local storage
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const dbId = urlParams.get("dbId"); // Get the dbId from the URL parameter
+
+        const url = `/admin/TableAccount/Config/TableInfo`; // Modify the URL with the appropriate API endpoint
+
+        const requestBody = {
+          DBId: dbId,
+          AdminToken: token,
+        };
+        fetchData(url, requestBody);
+      }
+
+      let describle;
+
+      async function fetchData(url, data) {
+        try {
+          const response = await fetch(url, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          });
+
+          const responseData = await response.json();
+
+          if (responseData.status === "Success") {
+            makeTable(responseData.data);
+            makeLoginRuleTable(responseData.data.Permission);
+            makeDataStructureTable(responseData.data.Describes);
+            describle = responseData.data.Describes;
+            // Use describle here or call another function that relies on it
+          }
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+      function makeTable(data) {
+        const propertyOrder = [
+          { key: "AccessKey", url: "/admin/TableAccount/Config/AccessToken" },
+          { key: "ReadKey", url: "/admin/TableAccount/Config/ReadKey" },
+          { key: "WriteKey", url: "/admin/TableAccount/Config/WriteKey" },
+          {
+            key: "TokenLifeTime",
+            url: "/admin/TableAccount/Config/TokenLifeTime",
+          },
+          { key: "MailService", url: "/admin/TableAccount/Config/MailService" },
+          { key: "TimeCreate", url: "", editable: false },
+          { key: "TotalRow", url: "", editable: false },
+        ];
+
+        const table = document.getElementById("databaseTable");
+        const tableBody = table.querySelector("tbody");
+        table.classList.add("table-config");
+        // Clear existing table data
+        tableBody.innerHTML = "";
+
+        // Create rows for each property in the specified order
+        propertyOrder.forEach((property) => {
+          const { key, url, editable = true } = property;
+
+          if (data.hasOwnProperty(key)) {
+            const row = document.createElement("tr");
+
+            // Create cells for key, value, eye button, and button
+            const keyCell = document.createElement("td");
+            const valueCell = document.createElement("td");
+            const eyeButtonCell = document.createElement("td");
+            const buttonCell = document.createElement("td");
+
+            // Create eye button
+            const eyeButton = document.createElement("button");
+            eyeButton.textContent = "👁️";
+            eyeButton.classList.add("eye-button");
+
+            // Create edit button if editable is true
+            if (editable) {
+              const editButton = document.createElement("button");
+              editButton.textContent = "✏️";
+              editButton.classList.add("edit-button");
+              let isEditing = false;
+              const hiddenValue = "* * * * * * *";
+              let hidden = true;
+              // Set initial content of key and value cells
+              keyCell.textContent = key;
+              const value = JSON.stringify(data[key]);
+              valueCell.innerHTML = `<span>${hiddenValue}</span><input type="text" class="input-field" value="${value}" style="display:none;" />`;
+
+              // Toggle visibility of value on eye button click
+              eyeButton.addEventListener("click", () => {
+                hidden = !hidden;
+                const valueSpan = valueCell.querySelector("span");
+                const valueInput = valueCell.querySelector("input");
+
+                if (!hidden) {
+                  valueSpan.textContent = value;
+                  eyeButton.textContent = "👁";
+                } else {
+                  valueSpan.textContent = hiddenValue;
+                  eyeButton.textContent = "👁";
+                }
+              });
+              editButton.addEventListener("click", () => {
+                // Handle the edit button click event
+                const spanElement = valueCell.querySelector("span");
+                const inputElement = valueCell.querySelector("input");
+
+                if (!isEditing) {
+                  // Switch to edit mode
+                  spanElement.style.display = "none";
+                  inputElement.style.display = "inline";
+                  inputElement.focus();
+                  editButton.textContent = "🔒";
+                  isEditing = true;
+                } else {
+                  // Switch to view mode and perform POST request
+                  spanElement.style.display = "inline";
+                  inputElement.style.display = "none";
+                  spanElement.textContent = inputElement.value;
+                  editButton.textContent = "✏️";
+                  isEditing = false;
+                  const token = localStorage.getItem("token"); // Get the token from local storage
+
+                  const urlParams = new URLSearchParams(window.location.search);
+                  const dbId = urlParams.get("dbId"); // Get the dbId from the URL parameter
+                  // Perform the POST request with the updated value if a URL is provided
+                  if (url) {
+                    const updatedValue = inputElement.value;
+                    const postData = {
+                      [key]: updatedValue,
+                      DBId: dbId,
+                      AdminToken: token,
+                    };
+
+                    fetch(url, {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify(postData),
+                    })
+                      .then((response) => response.json())
+                      .then((responseData) => {
+                        // Handle the response if needed
+                        console.log(responseData);
+                      })
+                      .catch((error) => {
+                        console.error("Error:", error);
+                      });
+                  }
+                }
+              });
+
+              buttonCell.appendChild(editButton);
+              eyeButtonCell.appendChild(eyeButton);
+            } else {
+              keyCell.textContent = key;
+              const value = JSON.stringify(data[key]);
+              valueCell.innerHTML = `<span>${value}</span>`;
+            }
+
+            // Append cells to the row
+            row.appendChild(keyCell);
+            row.appendChild(valueCell);
+            row.appendChild(eyeButtonCell);
+            row.appendChild(buttonCell);
+
+            // Append the row to the table body
+            tableBody.appendChild(row);
+          }
+        });
+      }
+      function makeLoginRuleTable(permission) {
+        const table = document.getElementById("loginRuleTable");
+        const tableBody = table.querySelector("tbody");
+
+        // Clear existing table data
+        tableBody.innerHTML = "";
+
+        const permissionIcons = {
+          Device:
+            "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2OTYuNyA4NDEuOSI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5jbHMtMSB7CiAgICAgICAgZmlsbDogIzQwYTgwMDsKICAgICAgfQogICAgPC9zdHlsZT4KICA8L2RlZnM+CiAgPHBhdGggY2xhc3M9ImNscy0xIiBkPSJtNjk2LjcsNzI1LjFjMC00NC4xLTI3LjItODQuNC03MC4yLTEwNC4xbC0xNTEuMy02OS4zYy0xOS41LTktMzEuOS0yNy4zLTMxLjktNDcuM3YtNTQuNGM0LjItNC40LDkuMS0xMC4xLDE0LjMtMTYuOSwyMC42LTI2LjcsMzYuMi01Niw0Ny04Ni45LDE5LjQtNS41LDMzLjctMjEuOSwzMy43LTQxLjR2LTU4LjFjMC0xMi44LTYuMi0yNC4yLTE1LjgtMzIuMnYtODMuOVM1NDEuMywwLDM0OC40LDBzLTE3NC4yLDEzMC42LTE3NC4yLDEzMC42djgzLjljLTkuNiw4LTE1LjgsMTkuNC0xNS44LDMyLjJ2NTguMWMwLDE1LjMsOC44LDI4LjgsMjEuOSwzNi41LDE1LjgsNjMuMiw1Ny4zLDEwOC42LDU3LjMsMTA4LjZ2NTMuMWMwLDE5LjMtMTEuNSwzNy4yLTMwLjEsNDYuNGwtMTQxLjMsNzAuNkMyNS40LDY0MC41LDAsNjc5LjcsMCw3MjIuM3Y0N2MwLDQwLjEsMTU2LDcyLjYsMzQ4LjQsNzIuNnMzNDguNC0zMi41LDM0OC40LTcyLjZ2LTQ0LjJaIi8+Cjwvc3ZnPg==",
+
+          SystemAccount:
+            "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgOTU3LjQgOTU3LjQiPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuY2xzLTEgewogICAgICAgIGZpbGw6ICNmZmY7CiAgICAgIH0KCiAgICAgIC5jbHMtMiB7CiAgICAgICAgZmlsbDogIzc3NzsKICAgICAgfQoKICAgICAgLmNscy0zIHsKICAgICAgICBmaWxsOiAjNGU0ZTRlOwogICAgICB9CgogICAgICAuY2xzLTQgewogICAgICAgIGZpbGw6ICM5ZTllOWU7CiAgICAgIH0KCiAgICAgIC5jbHMtNCwgLmNscy01LCAuY2xzLTYgewogICAgICAgIGZpbGwtcnVsZTogZXZlbm9kZDsKICAgICAgfQoKICAgICAgLmNscy01IHsKICAgICAgICBmaWxsOiAjZTBlMGUwOwogICAgICB9CgogICAgICAuY2xzLTcgewogICAgICAgIGNsaXAtcGF0aDogdXJsKCNjbGlwcGF0aCk7CiAgICAgIH0KCiAgICAgIC5jbHMtOCB7CiAgICAgICAgZmlsbDogbm9uZTsKICAgICAgfQoKICAgICAgLmNscy02IHsKICAgICAgICBmaWxsOiAjYmRiZGJkOwogICAgICB9CiAgICA8L3N0eWxlPgogICAgPGNsaXBQYXRoIGlkPSJjbGlwcGF0aCI+CiAgICAgIDxyZWN0IGNsYXNzPSJjbHMtOCIgd2lkdGg9Ijk1Ny40IiBoZWlnaHQ9Ijk1Ny40Ii8+CiAgICA8L2NsaXBQYXRoPgogIDwvZGVmcz4KICA8cmVjdCBjbGFzcz0iY2xzLTEiIHg9IjU3LjgiIHk9IjU3LjgiIHdpZHRoPSI4NDEuOSIgaGVpZ2h0PSI4NDEuOSIvPgogIDxnIGNsYXNzPSJjbHMtNyI+CiAgICA8Zz4KICAgICAgPHBhdGggY2xhc3M9ImNscy02IiBkPSJtNjI4LjMsODY3LjdoLTI5OS4yYy0yLjYtLjEtMy4zLDAtNS44LS42LTguNi0xLjctMTYuNC03LjUtMjAuNi0xNS4zLTQuMS03LjgtNC42LTE3LjQtMS4zLTI1LjYsNC4xLTkuOSwxMy44LTE3LjIsMjQuNy0xOC4zLDEsMCwxLjksMCwyLjktLjFoMzQuNWwyNS44LTE1NC41Yy42LTIuOCwxLjMtNS41LDIuNS04LDQuNC05LjIsMTMuOS0xNS45LDI0LjItMTYuOSwxLDAsMS45LDAsMi44LS4xaDExOS43Yy45LDAsMS45LDAsMi44LjEsMi44LjQsNS41LjksOC4xLDEuOSw4LjcsMy40LDE1LjYsMTEuMSwxOCwyMC4yLjIuOS40LDEuOC42LDIuOGwyNS44LDE1NC41aDM0LjVjMSwwLDEuOSwwLDIuOS4xLDEsLjIsMS45LjIsMi45LjQsMTEuNSwyLjMsMjEuMiwxMS44LDIzLjUsMjMuNSwxLjksOS42LTEuMywyMC4xLTguMiwyNy00LjIsNC4yLTkuNSw3LTE1LjMsOC4yLTIuNi41LTMuMi40LTUuOC42aDBaIi8+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtNCIgZD0ibTQ3OC43LDYyOC4zaDU5LjhjLjksMCwxLjksMCwyLjguMSwyLjguNCw1LjUuOSw4LjEsMS45LDguNywzLjQsMTUuNiwxMS4xLDE4LDIwLjIuMi45LjQsMS44LjYsMi44bDI1LjgsMTU0LjVoMzcuNGMxLC4zLDEuOS40LDIuOS42LDExLjUsMi4zLDIxLjIsMTEuOCwyMy41LDIzLjUsMS45LDkuNi0xLjMsMjAuMS04LjIsMjctNC4yLDQuMi05LjUsNy0xNS4zLDguMi0yLjYuNS0zLjIuNC01LjguNmgtMTQ5LjZ2LTIzOS40aDBaIi8+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtNSIgZD0ibTgzOCw4OS44YzE4LjQsMCwzNi43LDkuMiw0Ny45LDI0LjIsNy42LDEwLjIsMTEuNywyMi44LDExLjgsMzUuNS4yLDE1OS43LjIsMzE5LjQsMCw0NzkuMSwwLDE4LjMtOSwzNi4zLTIzLjYsNDcuNC0xMC4zLDcuOC0yMy4xLDEyLjItMzYuMSwxMi4yLTIzOS41LjQtNDc5LC40LTcxOC40LDAtMTguNywwLTM3LjEtOS4zLTQ4LjMtMjQuNy03LjMtMTAuMS0xMS4zLTIyLjQtMTEuNC0zNC45LS4zLTE1OS43LS4zLTMxOS40LDAtNDc5LjEsMC0xNS4xLDYuMS0zMC4yLDE2LjUtNDEuMSwxMS4xLTExLjYsMjYuOS0xOC41LDQzLjEtMTguNiwyMzkuNS0uNCw0NzktLjQsNzE4LjQsMGgwWiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTYiIGQ9Im00NzguNyw4OS41YzExOS43LDAsMjM5LjUsMCwzNTkuMi4zLDE4LjQsMCwzNi43LDkuMiw0Ny45LDI0LjIsNy42LDEwLjIsMTEuNywyMi44LDExLjgsMzUuNS4yLDE1OS43LjIsMzE5LjQsMCw0NzkuMSwwLDE4LjMtOSwzNi4zLTIzLjYsNDcuNC0xMC4zLDcuOC0yMy4xLDEyLjItMzYuMSwxMi4yLTExOS43LjItMjM5LjUuMy0zNTkuMi4zVjg5LjVoMFoiLz4KICAgICAgPHBhdGggY2xhc3M9ImNscy0yIiBkPSJtNDc4LjcsMTQ5LjZIMTE5Ljd2NDE4LjloMzU5VjE0OS42WiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTMiIGQ9Im04MzcuOCwxNDkuNmgtMzU5djQxOC45aDM1OVYxNDkuNloiLz4KICAgIDwvZz4KICA8L2c+Cjwvc3ZnPg==",
+
+          Facebook:
+            "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgODQyIDg0NC45Ij4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CgogICAgICAuY2xzLTIgewogICAgICAgIGZpbGw6ICMwNTliZTU7CiAgICAgIH0KCiAgICAgIC5jbHMtMyB7CiAgICAgICAgY2xpcC1wYXRoOiB1cmwoI2NsaXBwYXRoKTsKICAgICAgfQoKICAgICAgLmNscy00IHsKICAgICAgICBmaWxsOiBub25lOwogICAgICB9CiAgICA8L3N0eWxlPgogICAgPGNsaXBQYXRoIGlkPSJjbGlwcGF0aCI+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtNCIgZD0ibTQyMSwzaDBjMjMyLjUsMCw0MjAuOSwxODguNSw0MjAuOSw0MjAuOWgwYzAsMjMyLjUtMTg4LjUsNDIwLjktNDIwLjksNDIwLjloMEMxODguNiw4NDQuOS4xLDY1Ni40LjEsNDIzLjlILjFDLjEsMTkxLjUsMTg4LjYsMyw0MjEsM1oiLz4KICAgIDwvY2xpcFBhdGg+CiAgPC9kZWZzPgogIDxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iLjEiIHdpZHRoPSI4NDEuOSIgaGVpZ2h0PSI4NDEuOSIvPgogIDxnIGNsYXNzPSJjbHMtMyI+CiAgICA8cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Im04NDIsNDI2LjVDODQyLDE5Mi42LDY1My41LDIuOSw0MjEuMSwyLjksMTg4LjUsMywwLDE5Mi42LDAsNDI2LjZzMTU0LDM4Ni42LDM1NS4yLDQxOC40di0yOTZoLTEwNi44di0xMjIuNGgxMDYuOXYtOTMuNGMwLTEwNi4xLDYyLjktMTY0LjcsMTU5LTE2NC43czk0LjIsOC4zLDk0LjIsOC4zdjEwNC4yaC01My4xYy01Mi4yLDAtNjguNiwzMi43LTY4LjYsNjYuMnY3OS41aDExNi43bC0xOC42LDEyMi40aC05OC4xdjI5NmMyMDEuMi0zMS44LDM1NS4yLTIwNywzNTUuMi00MTguNFoiLz4KICA8L2c+Cjwvc3ZnPg==",
+
+          Google:
+            "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMTAwMCAxMDAwIj4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjZmYzZDAwOwogICAgICB9CgogICAgICAuY2xzLTIgewogICAgICAgIGZpbGw6ICM0Y2FmNTA7CiAgICAgIH0KCiAgICAgIC5jbHMtMyB7CiAgICAgICAgY2xpcC1wYXRoOiB1cmwoI2NsaXBwYXRoKTsKICAgICAgfQoKICAgICAgLmNscy00IHsKICAgICAgICBmaWxsOiAjZmZjMTA3OwogICAgICB9CgogICAgICAuY2xzLTUgewogICAgICAgIGZpbGw6IG5vbmU7CiAgICAgIH0KCiAgICAgIC5jbHMtNiB7CiAgICAgICAgZmlsbDogIzE5NzZkMjsKICAgICAgfQogICAgPC9zdHlsZT4KICAgIDxjbGlwUGF0aCBpZD0iY2xpcHBhdGgiPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTUiIGQ9Im01MDAsMGgwYzI3Ni4xLDAsNTAwLDIyMy45LDUwMCw1MDBoMGMwLDI3Ni4xLTIyMy45LDUwMC01MDAsNTAwaDBDMjIzLjksMTAwMCwwLDc3Ni4xLDAsNTAwaDBDMCwyMjMuOSwyMjMuOSwwLDUwMCwwWiIvPgogICAgPC9jbGlwUGF0aD4KICA8L2RlZnM+CiAgPHJlY3QgY2xhc3M9ImNscy01IiB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwMCIgaGVpZ2h0PSIxMDAwIi8+CiAgPGcgY2xhc3M9ImNscy0zIj4KICAgIDxnPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTQiIGQ9Im05OTAuMyw0MDIuMWgtNDAuM3YtMi4xaC00NTB2MjAwaDI4Mi42Yy00MS4yLDExNi40LTE1MiwyMDAtMjgyLjYsMjAwcy0zMDAtMTM0LjMtMzAwLTMwMFMzMzQuMywyMDAsNTAwLDIwMHMxNDYsMjguOCwxOTksNzZsMTQxLjQtMTQxLjRDNzUxLjEsNTEuMyw2MzEuNywwLDUwMCwwLDIyMy45LDAsMCwyMjMuOSwwLDUwMHMyMjMuOSw1MDAsNTAwLDUwMCw1MDAtMjIzLjksNTAwLTUwMC0zLjQtNjYuMi05LjctOTcuOVoiLz4KICAgICAgPHBhdGggY2xhc3M9ImNscy0xIiBkPSJtNTcuNiwyNjcuM2wxNjQuMywxMjAuNWM0NC40LTExMCwxNTIuMS0xODcuNywyNzguMS0xODcuN3MxNDYsMjguOCwxOTksNzZsMTQxLjQtMTQxLjRDNzUxLjEsNTEuMyw2MzEuNywwLDUwMCwwLDMwNy45LDAsMTQxLjQsMTA4LjQsNTcuNiwyNjcuM1oiLz4KICAgICAgPHBhdGggY2xhc3M9ImNscy0yIiBkPSJtNTAwLDEwMDBjMTI5LjEsMCwyNDYuNS00OS40LDMzNS4yLTEyOS44bC0xNTQuNy0xMzAuOWMtNTEuOSwzOS41LTExNS4zLDYwLjgtMTgwLjUsNjAuNy0xMzAsMC0yNDAuNS04Mi45LTI4Mi4xLTE5OC42bC0xNjMsMTI1LjZjODIuNywxNjEuOSwyNTAuOCwyNzMsNDQ1LjEsMjczWiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTYiIGQ9Im05OTAuMyw0MDIuMWgtNDAuM3YtMi4xaC00NTB2MjAwaDI4Mi42Yy0xOS43LDU1LjQtNTUuMiwxMDMuOC0xMDIuMiwxMzkuM2gwczE1NC43LDEzMC45LDE1NC43LDEzMC45Yy0xMC45LDkuOSwxNjQuOC0xMjAuMiwxNjQuOC0zNzAuMnMtMy41LTY2LjItOS43LTk3LjlaIi8+CiAgICA8L2c+CiAgPC9nPgo8L3N2Zz4=",
+
+          AdsId:
+            "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4NDEuOSA4NDEuOSI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5jbHMtMSB7CiAgICAgICAgZmlsbDogI2ZmZjsKICAgICAgfQoKICAgICAgLmNscy0yIHsKICAgICAgICBmaWxsOiAjZTIxYjFiOwogICAgICB9CgogICAgICAuY2xzLTMgewogICAgICAgIGZpbGw6ICNjY2M7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iMCIgd2lkdGg9Ijg0MS45IiBoZWlnaHQ9Ijg0MS45Ii8+CiAgPGc+CiAgICA8cGF0aCBjbGFzcz0iY2xzLTMiIGQ9Im0xMDQuOSwyNDcuM2gtNTAuOGMtMjkuOCwwLTU0LDI0LjMtNTQuMSw1NC4xdjE4MC4zYzAsMjkuOCwyNC4zLDU0LDU0LjEsNTQuMWg1MC44czIuMy0yOTAuOCwwLTI4OC41WiIvPgogICAgPHBhdGggY2xhc3M9ImNscy0yIiBkPSJtMTQ0LjMsMjQ0LjJ2Mjk1LjhsMTExLjYsMjEuOSw1MS43LDE3Mi4yaDcyLjF2LTE0Ny45bDM1NC44LDY5LjdWMTI4LjNMMTQ0LjMsMjQ0LjJaIi8+CiAgICA8cGF0aCBjbGFzcz0iY2xzLTMiIGQ9Im04MzkuNCwxMDcuN2wtNjUuNiwxMi45djU0My4xbDY1LjYsMTIuOVYxMDcuN1oiLz4KICA8L2c+Cjwvc3ZnPg==",
+
+          Apple:
+            "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDEwMDAiPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuY2xzLTEgewogICAgICAgIGZpbGw6IG5vbmU7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxwYXRoIGQ9Im05MDMuNSw3NzkuM2MtMTUuMSwzNC45LTMzLDY3LjEtNTMuOCw5Ni43LTI4LjMsNDAuMy01MS40LDY4LjItNjkuMyw4My43LTI3LjcsMjUuNC01Ny4zLDM4LjUtODksMzkuMi0yMi44LDAtNTAuMi02LjUtODIuMi0xOS42LTMyLjEtMTMuMS02MS42LTE5LjYtODguNS0xOS42cy01OC42LDYuNS05MSwxOS42Yy0zMi41LDEzLjItNTguNiwyMC03OC43LDIwLjctMzAuNCwxLjMtNjAuOC0xMi4xLTkxLTQwLjItMTkuMy0xNi44LTQzLjUtNDUuNy03Mi40LTg2LjctMzEuMS00My43LTU2LjYtOTQuNC03Ni42LTE1Mi4yLTIxLjQtNjIuNC0zMi4yLTEyMi44LTMyLjItMTgxLjNzMTQuNS0xMjQuOCw0My41LTE3My4zYzIyLjgtMzguOSw1My4xLTY5LjYsOTEuMS05Mi4xLDM4LTIyLjUsNzktMzQsMTIzLjEtMzQuNywyNC4yLDAsNTUuOSw3LjUsOTUuMiwyMi4yLDM5LjMsMTQuNyw2NC41LDIyLjIsNzUuNSwyMi4yczM2LjMtOC43LDgzLjgtMjYuMmM0NC45LTE2LjIsODIuOC0yMi44LDExMy45LTIwLjIsODQuMSw2LjgsMTQ3LjMsNDAsMTg5LjQsOTkuNy03NS4yLDQ1LjYtMTEyLjUsMTA5LjQtMTExLjcsMTkxLjQuNyw2My44LDIzLjgsMTE2LjksNjkuMywxNTkuMSwyMC42LDE5LjYsNDMuNiwzNC43LDY5LjMsNDUuNC01LjYsMTYuMS0xMS40LDMxLjUtMTcuNiw0Ni40aDBaTTcxMC41LDIwYzAsNTAtMTguMyw5Ni43LTU0LjcsMTM5LjktNDMuOSw1MS40LTk3LjEsODEuMS0xNTQuOCw3Ni40LS43LTYtMS4yLTEyLjMtMS4yLTE4LjksMC00OCwyMC45LTk5LjQsNTgtMTQxLjQsMTguNS0yMS4zLDQyLjEtMzksNzAuNy01My4xLDI4LjUtMTMuOSw1NS41LTIxLjYsODAuOS0yMi45LjcsNi43LDEsMTMuNCwxLDIwaDBaIi8+CiAgPHJlY3QgY2xhc3M9ImNscy0xIiB5PSIwIiB3aWR0aD0iMTAwMCIgaGVpZ2h0PSIxMDAwIi8+Cjwvc3ZnPg==",
+
+          EmailCode:
+            "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgODUwLjkgODQ3Ij4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CgogICAgICAuY2xzLTIgewogICAgICAgIGZpbGw6ICNjZGNjY2E7CiAgICAgIH0KCiAgICAgIC5jbHMtMyB7CiAgICAgICAgZmlsbDogI2ZjZDc1MTsKICAgICAgfQoKICAgICAgLmNscy00IHsKICAgICAgICBmaWxsOiAjMzMzZDQ3OwogICAgICB9CgogICAgICAuY2xzLTUgewogICAgICAgIGZpbGw6ICNmZmEyMjk7CiAgICAgIH0KCiAgICAgIC5jbHMtNiB7CiAgICAgICAgY2xpcC1wYXRoOiB1cmwoI2NsaXBwYXRoKTsKICAgICAgfQoKICAgICAgLmNscy03IHsKICAgICAgICBmaWxsOiBub25lOwogICAgICB9CgogICAgICAuY2xzLTggewogICAgICAgIGZpbGw6ICNmZWNhNWM7CiAgICAgIH0KCiAgICAgIC5jbHMtOSB7CiAgICAgICAgZmlsbDogI2YyZjJmMjsKICAgICAgfQogICAgPC9zdHlsZT4KICAgIDxjbGlwUGF0aCBpZD0iY2xpcHBhdGgiPgogICAgICA8cmVjdCBjbGFzcz0iY2xzLTciIHk9Ii45IiB3aWR0aD0iODUwLjkiIGhlaWdodD0iODQ2LjIiLz4KICAgIDwvY2xpcFBhdGg+CiAgPC9kZWZzPgogIDxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iNC41IiB3aWR0aD0iODQxLjkiIGhlaWdodD0iODQxLjkiLz4KICA8ZyBjbGFzcz0iY2xzLTYiPgogICAgPGc+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMyIgZD0ibTQuNSw4NDEuMnYtNDcyLjhsNDIxLjYsMjQ3LjlMNC41LDg0MS4yWiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTMiIGQ9Im04NDUuOSw4NDEuMnYtNDcyLjhsLTQyMS42LDI0Ny45LDQyMS42LDIyNC45WiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTUiIGQ9Im00LjUsODQxLjJsNDE5LjgtMjI0LjksNDIxLjYsMjI0LjlINC41WiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTgiIGQ9Im00MjQuMyw0LjhMNC41LDM2OC40bDQxOS44LDI0Ny45LDQyMS42LTI0Ny45TDQyNC4zLDQuOFoiLz4KICAgICAgPHBhdGggY2xhc3M9ImNscy05IiBkPSJtNDI1LjEsNjE1LjhsMzI4LjYtMTkzLjJWMTE3LjJIMTAwLjJ2MzA3LjZsMzI0LjksMTkxWiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Im01MjcuNSwyNDYuNEgxOTcuOHYxNC4yaDMyOS43di0xNC4yWiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Im02MzAuNywyMjMuNmgtNjAuMnY1OS44aDYwLjJ2LTU5LjhaIi8+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMiIgZD0ibTUyNy41LDMzNi40SDE5Ny44djE0LjJoMzI5Ljd2LTE0LjJaIi8+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0ibTYzMC43LDMxMy41aC02MC4ydjU5LjhoNjAuMnYtNTkuOFoiLz4KICAgICAgPHBhdGggY2xhc3M9ImNscy0yIiBkPSJtNTI3LjUsNDE0SDE5Ny44djE0LjJoMzI5Ljd2LTE0LjJaIi8+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMiIgZD0ibTUyNy41LDQzOC4zSDE5Ny44djE0LjJoMzI5Ljd2LTE0LjJaIi8+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0ibTYzMC43LDQwMy4zaC02MC4ydjU5LjhoNjAuMnYtNTkuOFoiLz4KICAgICAgPHBhdGggY2xhc3M9ImNscy00IiBkPSJtNTk3LjQsMjc0LjVsLTIyLjYtMjEuMiw1LjYtNiwxNi4xLDE1LjIsMjIuNC0yNi45LDYuMiw1LjEtMjcuOCwzMy43WiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTQiIGQ9Im01OTgsMzYyLjhsLTIyLjQtMjEuMiw1LjUtNS44LDE2LjMsMTUuMiwyMi4zLTI3LjEsNi4zLDUuMy0yNy45LDMzLjVaIi8+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0ibTYzMC43LDQ5NC44di0xLjdoLTYwLjJ2MzdsNjAuMi0zNS40WiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Im0yNTUuNCw1MTZsMjQuMywxNC4yaDI0Ny44di0xNC4ySDI1NS40WiIvPgogICAgPC9nPgogIDwvZz4KPC9zdmc+",
+        };
+        // Create table data rows for each permission
+        Object.entries(permission).forEach(([key, value]) => {
+          const row = document.createElement("tr");
+          const keyCell = document.createElement("td");
+          const valueCell = document.createElement("td");
+          valueCell.style.textAlign = "center";
+          const keyContainer = document.createElement("div");
+          keyContainer.style.display = "flex";
+          keyContainer.style.gap = "10px";
+          keyContainer.style.alignItems = "center";
+
+          const keyName = document.createElement("div");
+          if (key in permissionIcons) {
+            const icon = document.createElement("img");
+            icon.classList.add("icon");
+            icon.src = permissionIcons[key];
+            icon.alt = key;
+            keyName.textContent = key;
+            keyContainer.appendChild(icon);
+            keyContainer.appendChild(keyName);
+          } else {
+            keyContainer.textContent = key;
+          }
+
+          keyCell.appendChild(keyContainer);
+
+          // Set the value checkbox
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.disabled = true;
+          checkbox.checked = value;
+          valueCell.appendChild(checkbox);
+
+          row.appendChild(keyCell);
+          row.appendChild(valueCell);
+          tableBody.appendChild(row);
+        });
+
+        const editButton = document.getElementById("editRule");
+        const checkboxes = table.querySelectorAll('input[type="checkbox"]');
+        let isEditing = false;
+
+        // Add a click event listener to the edit button
+        editButton.addEventListener("click", () => {
+          // Toggle the editing state
+          isEditing = !isEditing;
+
+          // Enable/disable checkboxes based on the editing state
+          checkboxes.forEach((checkbox) => {
+            checkbox.disabled = !isEditing;
+          });
+
+          // Change the button text based on the editing state
+          editButton.textContent = isEditing ? "🔒" : "✏️";
+          const token = localStorage.getItem("token"); // Get the token from local storage
+
+          const urlParams = new URLSearchParams(window.location.search);
+          const dbId = urlParams.get("dbId"); // Get the dbId from the URL parameter
+          // Perform a POST request when the editing state is false (i.e., Save button is clicked)
+          if (!isEditing) {
+            const postData = {};
+
+            // Construct the POST data object from the checked checkboxes
+            Object.entries(permission).forEach(([key, _], index) => {
+              const checkbox = checkboxes[index];
+              postData[key] = checkbox.checked;
+            });
+
+            // Add additional properties to the POST data object
+            postData.DBId = dbId;
+            postData.AdminToken = token;
+
+            // Perform the POST request
+            fetch("/admin/TableAccount/Config/LoginRule", {
+              method: "POST",
+              body: JSON.stringify(postData),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                // Handle the response data if needed
+                console.log(data);
+              })
+              .catch((error) => {
+                // Handle any errors that occurred during the POST request
+                console.error(error);
+              });
+          }
+        });
+      }
+      function makeDataStructureTable(describe) {
+        const dataTypeMapping = {
+          1: { label: "BOOLEAN", size: 1 },
+          10: { label: "BYTE", size: 1 },
+          11: { label: "STATUS", size: 1 },
+          12: { label: "PERMISSION", size: 1 },
+          13: { label: "AVARTAR", size: 1 },
+          14: { label: "Gender", size: 1 },
+          20: { label: "SHORT", size: 2 },
+          21: { label: "CountryCode", size: 2 },
+          40: { label: "INTEGER", size: 4 },
+          42: { label: "IPV4", size: 4 },
+          60: { label: "FLOAT", size: 4 },
+          80: { label: "LONG", size: 8 },
+          88: { label: "USER_ID", size: 8 },
+          89: { label: "TIMEMILI", size: 8 },
+          90: { label: "DOUBLE", size: 8 },
+          100: { label: "BYTE_ARRAY" },
+          101: { label: "List" },
+          110: { label: "LIST_Object" },
+          111: { label: "LIST_Boolean" },
+          112: { label: "LIST_Byte" },
+          113: { label: "LIST_Short" },
+          114: { label: "LIST_Integer" },
+          115: { label: "LIST_Float" },
+          116: { label: "LIST_Long" },
+          117: { label: "LIST_Double" },
+          118: { label: "LIST_String" },
+          120: { label: "IPV6" },
+          126: { label: "STRING" },
+        };
+
+        const table = document.getElementById("dataStructureTable");
+        const tableBody = table.querySelector("tbody");
+        table.classList.add("table-Describle");
+
+        // Clear existing table data
+        tableBody.innerHTML = "";
+
+        // Create table data rows for each describe item
+        describe.forEach((item) => {
+          const row = document.createElement("tr");
+          const nameCell = document.createElement("td");
+          nameCell.textContent = item.ColumnName;
+          const sizeCell = document.createElement("td");
+          sizeCell.textContent = item.Size;
+          const typeCell = document.createElement("td");
+          const dataType = dataTypeMapping[item.Type].label || "Unknown";
+          typeCell.textContent = dataType;
+          const describleType = parseInt(item.Type);
+          let parsedDefaultValue;
+          if (describleType === 1) {
+            // Boolean or Byte
+            parsedDefaultValue = item.DefaultValue === "true";
+          } else if (9 < describleType && describleType < 60) {
+            // Integer
+            parsedDefaultValue = parseInt(item.DefaultValue);
+          } else if (59 < describleType && describleType <= 90) {
+            // Float
+            parsedDefaultValue = parseFloat(item.DefaultValue);
+          } else if (describleType > 100 && describleType <= 118) {
+            // List or LIST_Object
+            parsedDefaultValue = JSON.parse(item.DefaultValue);
+          } else if (describleType === 100) {
+            parsedDefaultValue = "[" + item.DefaultValue + "]";
+            // console.log(byteArrayString);
+          } else {
+            parsedDefaultValue = item.DefaultValue;
+          }
+          const defaultValueCell = document.createElement("td");
+
+          defaultValueCell.textContent = parsedDefaultValue;
+          const viewIdCell = document.createElement("td");
+          viewIdCell.textContent = item.ViewId;
+          const indexingCell = document.createElement("td");
+          const indexingCheckbox = document.createElement("input");
+          indexingCheckbox.type = "checkbox";
+          indexingCheckbox.checked = item.Indexing;
+          indexingCheckbox.disabled = true; // Initially disabled
+          const deleteCell = document.createElement("td");
+          const deleteCheckbox = document.createElement("input");
+          deleteCheckbox.type = "checkbox";
+          const autoincre = document.createElement("td");
+          const autoincreInput = document.createElement("input");
+          autoincreInput.type = "checkbox";
+          const unSign = document.createElement("td");
+          const unSignInput = document.createElement("input");
+          unSignInput.type = "checkbox";
+          const unique = document.createElement("td");
+          const uniqueInput = document.createElement("input");
+          uniqueInput.type = "checkbox";
+          uniqueInput.checked = combineProperty(item.Properties)[0];
+          autoincreInput.checked = combineProperty(item.Properties)[1];
+          unSignInput.checked = combineProperty(item.Properties)[2];
+          uniqueInput.disabled = true; // Initially disabled
+          autoincreInput.disabled = true; // Initially disabled
+          unSignInput.disabled = true; // Initially disabled
+          deleteCell.appendChild(deleteCheckbox);
+          unSign.appendChild(unSignInput);
+          indexingCell.appendChild(indexingCheckbox);
+          unique.appendChild(uniqueInput);
+          autoincre.appendChild(autoincreInput);
+          row.appendChild(deleteCell);
+          row.appendChild(nameCell);
+          row.appendChild(typeCell);
+          row.appendChild(indexingCell);
+          row.appendChild(sizeCell);
+          row.appendChild(viewIdCell);
+          row.appendChild(defaultValueCell);
+          row.appendChild(unique);
+          row.appendChild(autoincre);
+          row.appendChild(unSign);
+          tableBody.appendChild(row);
+        });
+        const toggleButton = document.getElementById("editDescrible");
+        let isEditing = false;
+        toggleButton.addEventListener("click", () => {
+          isEditing = !isEditing;
+          const cells = tableBody.querySelectorAll(
+            "td:nth-child(5), td:nth-child(6), td:nth-child(7)"
+          );
+          const indexingCheckboxes = tableBody.querySelectorAll(
+            "td:nth-child(4) input[type='checkbox']"
+          );
+          const uqCheckboxes = tableBody.querySelectorAll(
+            "td:nth-child(8) input[type='checkbox']"
+          );
+          const aiCheckboxes = tableBody.querySelectorAll(
+            "td:nth-child(9) input[type='checkbox']"
+          );
+          const unCheckboxes = tableBody.querySelectorAll(
+            "td:nth-child(10) input[type='checkbox']"
+          );
+
+          const token = localStorage.getItem("token"); // Get the token from local storage
+
+          const urlParams = new URLSearchParams(window.location.search);
+          const dbId = urlParams.get("dbId"); // Get the dbId from the URL parameter
+          const updatedData = {
+            Describes: [],
+            DBId: dbId,
+            AdminToken: token,
+          };
+          const rows = tableBody.querySelectorAll("tr");
+          // Toggle between text content and input fields
+          cells.forEach((cell) => {
+            const isInputField =
+              cell.firstChild && cell.firstChild.tagName === "INPUT";
+            if (isInputField) {
+              toggleButton.textContent = "✏️";
+              indexingCheckboxes.forEach((checkbox) => {
+                checkbox.disabled = true; // disable checkboxes
+              });
+              uqCheckboxes.forEach((checkbox) => {
+                checkbox.disabled = true; // disable checkboxes
+              });
+              aiCheckboxes.forEach((checkbox) => {
+                checkbox.disabled = true; // disable checkboxes
+              });
+              unCheckboxes.forEach((checkbox) => {
+                checkbox.disabled = true; // disable checkboxes
+              });
+              // Convert input field back to text content
+              const textValue = cell.firstChild.value;
+              cell.removeChild(cell.firstChild);
+              cell.textContent = textValue;
+            } else {
+              toggleButton.textContent = "🔒";
+              indexingCheckboxes.forEach((checkbox) => {
+                checkbox.disabled = false; // Enable checkboxes
+              });
+              uqCheckboxes.forEach((checkbox) => {
+                checkbox.disabled = false; // disable checkboxes
+              });
+              aiCheckboxes.forEach((checkbox) => {
+                checkbox.disabled = false; // disable checkboxes
+              });
+              unCheckboxes.forEach((checkbox) => {
+                checkbox.disabled = false; // disable checkboxes
+              });
+              const inputValue = cell.textContent;
+              cell.textContent = "";
+
+              const inputField = document.createElement("input");
+              inputField.type = "text";
+              inputField.classList.add("input-field");
+              inputField.value = inputValue;
+              cell.appendChild(inputField);
+            }
+          });
+          if (!isEditing) {
+            rows.forEach((row) => {
+              const name = row.querySelector("td:nth-child(2)").textContent;
+              const type = row.querySelector("td:nth-child(3)").textContent;
+              const typeOption = Object.entries(typeOptions).find(
+                ([key, option]) => option.label === type
+              );
+              const size = parseFloat(
+                row.querySelector("td:nth-child(5)").textContent
+              );
+              const viewId = parseFloat(
+                row.querySelector("td:nth-child(6)").textContent
+              );
+              const defaultValueCell =
+                row.querySelector("td:nth-child(7)").textContent;
+              console.log(defaultValueCell);
+              const describleType = parseInt(typeOption[0]);
+              console.log(describleType);
+              let defaultValue;
+              if (describleType === 1) {
+                // Boolean or Byte
+                defaultValue = defaultValueCell === "true";
+              } else if (9 < describleType && describleType < 60) {
+                // Integer
+                defaultValue = parseInt(defaultValueCell);
+              } else if (59 < describleType && describleType <= 90) {
+                // Float
+                defaultValue = parseFloat(defaultValueCell);
+              } else if (describleType > 100 && describleType <= 118) {
+                // List or LIST_Object
+                defaultValue = JSON.parse(defaultValueCell);
+              } else if (describleType === 100) {
+                defaultValue = JSON.parse(defaultValueCell);
+                // console.log(byteArrayString);
+              } else {
+                defaultValue = defaultValueCell;
+              }
+
+              // console.log(defaultValue);
+              const updatedItem = describe.find(
+                (item) => item.ColumnName === name
+              );
+              if (updatedItem) {
+                updatedItem.Size = size;
+                updatedItem.ViewId = viewId;
+                updatedItem.Properties = pareProperty(
+                  row.querySelector("td:nth-child(8) input[type='checkbox']")
+                    .checked,
+                  row.querySelector("td:nth-child(9) input[type='checkbox']")
+                    .checked,
+                  row.querySelector("td:nth-child(10) input[type='checkbox']")
+                    .checked
+                );
+                updatedItem.DefaultValue = defaultValue;
+                updatedItem.Indexing = row.querySelector(
+                  "td:nth-child(4) input[type='checkbox']"
+                ).checked;
+                updatedData.Describes.push(updatedItem);
+              }
+            });
+            console.log("Updated Data:", updatedData);
+            // Perform the POST request
+            fetch("/admin/TableAccount/Describes/Change", {
+              method: "POST",
+              body: JSON.stringify(updatedData),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                // Handle the response data if needed
+                console.log(data);
+              })
+              .catch((error) => {
+                // Handle any errors that occurred during the POST request
+                console.error(error);
+              });
+          }
+        });
+      }
+      function getCheckedColumnNames() {
+        const tableBody = document.querySelector("#dataStructureTable tbody");
+        const checkboxes = tableBody.querySelectorAll(
+          'td:nth-child(1) input[type="checkbox"]:checked'
+        );
+
+        const columnNames = [];
+
+        checkboxes.forEach((checkbox) => {
+          const row = checkbox.parentNode.parentNode;
+          const columnName = row.querySelector("td:nth-child(2)").textContent;
+          columnNames.push(columnName);
+        });
+        const afterDelete = describle.filter(
+          (item) => !columnNames.includes(item.ColumnName)
+        );
+        const url = "/admin/TableAccount/Describes/Change";
+        const token = localStorage.getItem("token");
+        const urlParams = new URLSearchParams(window.location.search);
+        const dbId = urlParams.get("dbId");
+        const requestBody = {
+          Describes: afterDelete,
+          DBId: dbId,
+          AdminToken: token,
+        };
+
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        })
+          .then((response) => response.json())
+          .then((responseData) => {
+            if (responseData.status === "Success") {
+              console.log(responseData);
+              loadData();
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+
+      function addColumn() {
+        async function fetchDataColumn(url, data) {
+          try {
+            const response = await fetch(url, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(data),
+            });
+
+            const responseData = await response.json();
+
+            if (responseData.status === "Success") {
+              console.log(responseData);
+              loadData();
+            }
+          } catch (error) {
+            console.error("Error:", error);
+          }
+        }
+
+        const table = `
+      <table>
+        <tr>
+          <td>ColumnName:</td>
+          <td><input type="text" id="columnNameInput"></td>
+        </tr>
+        <tr>
+          <td>ViewId:</td>
+          <td><input type="text" id="viewIdInput"></td>
+        </tr>
+        <tr>
+          <td>Indexing:</td>
+          <td><input type="checkbox" id="indexingCheckbox"></td>
+        </tr>
+        <tr>
+          <td>Properties:</td>
+          <td><input type="text" id="propertiesInput"></td>
+        </tr>
+        <tr>
+          <td>Size:</td>
+          <td><input type="number" id="sizeInputNewAccount" readonly></td>
+        </tr>
+        <tr>
+          <td>Type:</td>
+          <td>
+            <select id="typeSelectNewAccount" onchange="updateSizeInput()">
+              ${Object.entries(typeOptions)
+                .map(
+                  ([value, { label }]) =>
+                    `<option value="${value}">${label}</option>`
+                )
+                .join("")}
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>DefaultValue:</td>
+          <td><input type="text" id="defaultValueInput"></td>
+        </tr>
+      </table>`;
+        // Create and display the dialog box
+        const dialog = document.createElement("div");
+        dialog.innerHTML = table;
+        dialog.style.backgroundColor = "white";
+        dialog.style.padding = "20px";
+        dialog.style.border = "1px solid black";
+        dialog.style.position = "fixed";
+        dialog.style.top = "50%";
+        dialog.style.left = "50%";
+        dialog.style.transform = "translate(-50%, -50%)";
+        dialog.style.zIndex = "9999";
+
+        // Add an "Add" button to the dialog
+        const addButton = document.createElement("button");
+        addButton.textContent = "➕";
+        // addButton.classList.add("edit-button");
+        // addButton.style.marginTop = "10px";
+        addButton.addEventListener("click", () => {
+          const columnNameInput = document.getElementById("columnNameInput");
+          const viewIdInput = document.getElementById("viewIdInput");
+          const indexingCheckbox = document.getElementById("indexingCheckbox");
+          const propertiesInput = document.getElementById("propertiesInput");
+          const sizeInput = document.getElementById("sizeInputNewAccount");
+          const typeSelect = document.getElementById("typeSelectNewAccount");
+          const defaultValueInput =
+            document.getElementById("defaultValueInput");
+          const selectedType = parseInt(typeSelect.value);
+          let parsedDefaultValue;
+          if (selectedType === 1) {
+            // Boolean or Byte
+            parsedDefaultValue = item.DefaultValue === "true";
+          } else if (9 < selectedType && selectedType < 60) {
+            // Integer
+            parsedDefaultValue = parseInt(item.DefaultValue);
+          } else if (59 < selectedType && selectedType <= 90) {
+            // Float
+            parsedDefaultValue = parseFloat(item.DefaultValue);
+          } else if (selectedType > 100 && selectedType <= 118) {
+            // List or LIST_Object
+            parsedDefaultValue = JSON.parse(item.DefaultValue);
+          } else if (selectedType === 100) {
+            parsedDefaultValue = "[" + item.DefaultValue + "]";
+            // console.log(byteArrayString);
+          } else {
+            parsedDefaultValue = item.DefaultValue;
+          }
+          const DescribleData = describle;
+          const data = {
+            ColumnName: columnNameInput.value,
+            ViewId: parseInt(viewIdInput.value),
+            Indexing: indexingCheckbox.checked,
+            Properties: parseInt(propertiesInput.value),
+            Size: parseInt(sizeInput.value),
+            Type: parseInt(typeSelect.value),
+            DefaultValue: parsedDefaultValue,
+          };
+          DescribleData.push(data);
+          console.log(DescribleData);
+
+          // Call fetchData with the appropriate URL and data
+          const url = "/admin/TableAccount/Describes/Change";
+          const token = localStorage.getItem("token");
+          const urlParams = new URLSearchParams(window.location.search);
+          const dbId = urlParams.get("dbId");
+          const requestBody = {
+            Describes: DescribleData,
+            DBId: dbId,
+            AdminToken: token,
+          };
+          fetchDataColumn(url, requestBody);
+          dialog.remove();
+        });
+        dialog.appendChild(addButton);
+        // Add a close button to the dialog
+        const closeButton = document.createElement("button");
+        closeButton.innerHTML = "Close";
+        closeButton.classList.add("close-button");
+
+        // closeButton.style.marginTop = "10px";
+        closeButton.addEventListener("click", () => {
+          dialog.remove();
+        });
+        dialog.appendChild(closeButton);
+        // Append the dialog to the document body
+        document.body.appendChild(dialog);
+      }
+      function updateSizeInput() {
+        const typeSelect = document.getElementById("typeSelectNewAccount");
+        const sizeInput = document.getElementById("sizeInputNewAccount");
+
+        const selectedType = typeSelect.value;
+        const selectedOption = typeOptions[selectedType];
+        console.log(selectedType);
+        if (selectedOption && selectedOption.size) {
+          sizeInput.value = selectedOption.size;
+          sizeInput.disabled = true;
+        } else {
+          sizeInput.value = "";
+          sizeInput.disabled = false;
+          sizeInput.removeAttribute("readonly");
+        }
+      }
+      // const sizeInput = document.getElementById("sizeInput");
+      // sizeInput.addEventListener("keydown", function (event) {
+      //   if (!sizeInput.disabled) {
+      //     event.preventDefault();
+      //   }
+      // });
+      function showDialogIndexing() {
+        // Create the table content
+        const tableContent = describle
+          .map((describe, index) => {
+            return `
+            <tr>
+              <td>${describe.ColumnName}</td>
+              <td><input type="checkbox" ${
+                describe.Indexing ? "checked" : ""
+              }  onchange="ChangeIndexing('${index}',this)"/></td>
+            </tr>
+          `;
+          })
+          .join("");
+
+        // Create the dialog container
+        const dialogContainer = document.createElement("div");
+        dialogContainer.classList.add("dialog");
+
+        // Create the dialog
+        const dialog = document.createElement("div");
+        dialog.classList.add("dialog-indexing");
+
+        // Create the table element
+        const table = document.createElement("table");
+        table.innerHTML = tableContent;
+
+        // Append the table to the dialog
+        dialog.appendChild(table);
+
+        // Append the dialog to the dialog container
+        dialogContainer.appendChild(dialog);
+
+        // Append the dialog container to the document body
+        document.body.appendChild(dialogContainer);
+
+        // Close the dialog when clicked outside
+        dialogContainer.addEventListener("click", function (event) {
+          if (event.target === dialogContainer) {
+            document.body.removeChild(dialogContainer);
+          }
+        });
+        dialog.style.display = "block";
+        dialogContainer.style.display = "block";
+      }
+      function ChangeIndexing(index, value) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = localStorage.getItem("token"); // Get the token from local storage
+        const dbId = urlParams.get("dbId"); // Get the dbId from the URL parameter
+        const data = {
+          indexDescribe: index,
+          flag: value.checked,
+          DBId: dbId,
+          AdminToken: token,
+        };
+
+        fetch("/admin/TableAccount/Describes/Indexing", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            // Handle the response data
+            loadData();
+            console.log(data);
+          })
+          .catch((error) => {
+            // Handle any errors
+            console.error("Error:", error);
+          });
+      }
+      const FLAG_AI = 1;
+      const FLAG_UN = 2;
+      const FLAG_UQ = 4;
+      function pareProperty(uq, ai, un) {
+        let Property = 0;
+        console.log(uq, ai, un);
+        if (ai) Property = Property | FLAG_AI;
+
+        if (un) Property = Property | FLAG_UN;
+
+        if (uq) Property = Property | FLAG_UQ;
+        console.log(Property);
+        return Property;
+      }
+      function combineProperty(property) {
+        const propertyOrder = [];
+        propertyOrder[0] = (property & FLAG_UQ) == FLAG_UQ ? true : false;
+        propertyOrder[1] = (property & FLAG_AI) == FLAG_AI ? true : false;
+        propertyOrder[2] = (property & FLAG_UN) == FLAG_UN ? true : false;
+        return propertyOrder;
+      }
+    </script>
+  </body>
+</html>

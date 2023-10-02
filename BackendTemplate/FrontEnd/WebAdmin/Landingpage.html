@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Binary Backend</title>
+    <link
+      rel="icon"
+      href="data:image/png;base64,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"
+    />
+    <link rel="stylesheet" href="./Styles/Navbar.css" />
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        height: 100vh;
+        overflow: hidden;
+      }
+      header {
+        position: relative;
+        background: linear-gradient(
+          270deg,
+          rgba(9, 107, 222, 1) 0%,
+          rgba(109, 185, 255, 1) 100%
+        );
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+        display: flex;
+        height: 30px;
+        justify-content: space-between;
+        align-items: center;
+        padding: 30px 30px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        font-family: Arial, sans-serif;
+      }
+      th,
+      td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #f5f5f5;
+        font-weight: bold;
+      }
+
+      tr:hover {
+        background-color: #f9f9f9;
+      }
+
+      .tableData {
+        width: 100%;
+        overflow: auto;
+      }
+      .tableData thead {
+        position: sticky;
+        top: 0;
+        /* height: 20px !important;
+        padding: 5px; */
+      }
+      .headerContent {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0px;
+        align-items: center;
+      }
+      .createBtn {
+        height: 40px;
+        background: linear-gradient(
+          270deg,
+          rgba(9, 107, 222, 1) 0%,
+          rgba(109, 185, 255, 1) 100%
+        );
+        color: white;
+        padding: 5px 10px;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        border-radius: 4px;
+      }
+      dialog#newDB {
+        width: 300px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Styles for the dialog content */
+      dialog#newDB p {
+        margin-bottom: 10px;
+      }
+
+      /* Styles for the input field */
+      dialog#newDB input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+      }
+
+      dialog#newDB button {
+        display: block;
+        width: 100%;
+        padding: 8px 16px;
+
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      dialog#newDB button:hover {
+        background-color: #0069d9;
+      }
+      .contentContainer {
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="sidebar">
+      <ul>
+        <li class="dropdown">
+          <div class="itemContainer active" style="margin-bottom: 10px">
+            <a href="Landingpage.html">🗂️ Databases</a>
+            <div>
+              <button
+                onclick="toggleDropdown()"
+                style="color: #71bcde; font-size: 15px"
+              >
+                ▼
+              </button>
+            </div>
+          </div>
+          <ul
+            class="dropdown-menu"
+            style="margin-left: 15px"
+            id="dropdown-menu"
+          ></ul>
+        </li>
+        <li><a href="#">Billing</a></li>
+        <li><a href="#">Referral Program</a></li>
+      </ul>
+    </nav>
+    <main class="contentContainer">
+      <div class="headerContent">
+        <h2>Database lists</h2>
+        <button class="createBtn" onclick="modalnewDB()">
+          Create new database
+        </button>
+      </div>
+      <div class="tableData">
+        <table id="databaseTable">
+          <thead>
+            <tr>
+              <th>Database Name</th>
+              <th>Description</th>
+              <th>DBId</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Table rows will be dynamically generated -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+    <dialog id="newDB">
+      <button
+        style="
+          background-color: rgba(0, 0, 0, 0);
+          color: black;
+          padding: 0;
+          margin: 0;
+          float: right;
+          width: fit-content;
+        "
+        id="closemodalDB"
+      >
+        X
+      </button>
+      <p>Enter a new key name:</p>
+      <div id="inputDBcontainer"></div>
+
+      <button id="Createbtn">Update</button>
+    </dialog>
+    <script src="./JS/NavBar.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", loadData);
+      function loadData() {
+        fetch("/admin/Lobby/Get-Database-Info", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            AdminToken: token, // Include the token in the request body with the name "AdminToken"
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status === "Success") {
+              const databaseList = data.data;
+              console.log(databaseList);
+              localStorage.setItem("listTable", JSON.stringify(databaseList));
+              const tableBody = document.querySelector("#databaseTable tbody");
+              tableBody.innerHTML = generateTableRows(databaseList);
+              generateListDB(databaseList);
+              addRowClickListeners(databaseList);
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+
+      function generateTableRows(databaseList) {
+        return databaseList
+          .map((database) => {
+            const { DatabaseName, Description, DBId, id, AccountLogin } =
+              database;
+            return `<tr data-dbId="${DBId}">
+                        <td>${AccountLogin ? "⭐  " : "☆  "}${DatabaseName}</td>
+                        <td>${Description}</td>
+                        <td>${DBId}</td>
+                    </tr>`;
+          })
+          .join("");
+      }
+      function addRowClickListeners(databaseList) {
+        const tableRows = document.querySelectorAll("#databaseTable tbody tr");
+        tableRows.forEach((row) => {
+          row.addEventListener("click", () => {
+            const dbId = row.getAttribute("data-dbId");
+            navigateToDatabasePage(dbId);
+          });
+        });
+      }
+      function navigateToDatabasePage(dbId) {
+        // Replace 'database.html' with the path to your database page
+        window.location.href = `database.html?dbId=${dbId}`;
+      }
+      // Get the dialog element
+      const dialog = document.getElementById("newDB");
+      const inputDBcontainer = document.getElementById("inputDBcontainer");
+
+      // Define the event listener functions
+      function closeDialog() {
+        dialog.close();
+      }
+
+      function submitData() {
+        const databasename = document.getElementById("databasename").value;
+        const description = document.getElementById("descriptionContent").value;
+        const data = {
+          DatabaseName: databasename,
+          Description: description,
+          ViewId: 123,
+          AdminToken: token,
+        };
+
+        fetch("/admin/Lobby/Create-Database", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status === "Success") {
+              loadData();
+              dialog.close();
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+
+      function modalnewDB() {
+        inputDBcontainer.innerHTML = `<input type="text" id="databasename" placeholder="Database name" />
+  <input type="text" id="descriptionContent" placeholder="Description" />`;
+
+        // Open the dialog
+        dialog.showModal();
+      }
+
+      // Attach the event listeners
+      const closemodalDB = document.getElementById("closemodalDB");
+      const Createbtn = document.getElementById("Createbtn");
+      closemodalDB.addEventListener("click", closeDialog);
+      Createbtn.addEventListener("click", submitData);
+    </script>
+  </body>
+</html>

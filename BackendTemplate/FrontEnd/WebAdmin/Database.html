@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Binary Backend</title>
+    <link
+      rel="icon"
+      href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEMAAABBCAYAAACKAhl4AAAACXBIWXMAAC4jAAAuIwF4pT92AAAHXElEQVR4nM1cXWgdRRT+knvboFaSYLHV+pOgch/E7s2iWMSf6ot9KDbQh1ZFEiWCiGtTsOCD2lt/HkS0aVeLD7fYIlr71Bah2KcmUrSKjB3wL2DLDUWMtpJcrP1Lk8oJZ+O6vbs7Mzub5IMlYXfnZ785c+bMOWdu0+XLl2Ebjut3AGiTwjtmq2rH9QcBjAPYT5cU3rjtflslw3H9bgD9AB4CMCKF12Gp3jYAY6FbdSalIoVXs9EGbJHhuH4vdQzArZFHD0vhDVqon0jeF/N4ty1SilkKO65fBjDAktAIRFJmMgB0Jzzr4edtWRsxJsNxfZKEzSmv9Tiu3x+e347rrwdwH4Dl/AHLIv34A8AogOMAvpbCqwJYmdJOr+l3hKE9TVg50nx1FItsA3A9TRkAS7N0NgZDUnhpZClBSzJ4WpDYt2oU22CjowmwIhWEZtUXWUl+r0lE3thmczVRJoOXzPmES7yCWYMOGTQv5TwiY5Ntw0tLgbLxM6ihPPPCSSm8W2zXrSMZ4JGYawmh0VudR8VGFqjj+mRpWlNcmjgkhbcqj4pNja5vLLV/hhXhP/y3lfu0KOb9c3kRARMyHNf/CcASw/bog78C8DFblkntrGcbgoy1hXz7RcN2laCrQLcD8AzaIV3zrhTemyaddFy/D8AKKbw+k/KqUCbDcf37AXxJZTTqnwLwgRReriNqCzrT5HNNIk4DuFsKbyS4wfsa2mGSWa/i66jxUp6LMycKJclwXP8VAG9o1HtcCu/2UPk23ur3GPazzj6LAcPySlC1M9K26mFEiSjzCJsSAV5ltjquvytDHalIJcNx/arGdBqNENFhsMtNwrR/xFJdV0BFMtYq1kXL5orIvUoKEWTJDoUuFcu2wtPOOhJHnFcQ1YY3hZUlI87pQjqgO84/yhLVGzM9W1kJW58yaZLxlmI9p2OUW9RBHKA/yVFMPgopvAp7yRqhrNgvLaSRcY9iZVqGmBSe6qjuj7k/u2TwZuwqhTrOSOF9ptMoTwMVxHnFc7E5io7rD7BeCAyccY6EPaVYx16DditpvkuOlcS9Yy1SF0aRRS6Ie2zmjujUYaLIekKGWBRtLBFJdkku9kYxIQCkgktSeEcMy67hSxe7bTqBCZPV0vSqlymixv6I2UQ9qxN4slpq4yW/zH8DYRjKSsbvs0zESl2pmKyWypGPj1vuM0vGnxnLq2KEjbRExTlZLXWEPrqsqwKykpE3DvD2vaHC5Lke/vjYUVfBXJMxEloZwhbpeFQKso66CrKScVOGshQajN2B2h51FWQlw9QxvLHRXmayWurm1WIuglTjzSyqpohz6achzmgqz2G07lhz1mAQuwR1IBP8mTVeQucCtWYLaUZPaL4f6x8p9A3vKvQN0/N2jpdsPDux4MOT9daRianCuZwJqjUt79pOm6GPGjwkz9ODCh5x8ih3NnDskNTEeZs7VY0nx/VJgR6m/69tuYDS4tO4a8noWGf72NnVpV9+5amV2a1Y6BtuKrJkkGgOBlewrDmuT43dllJPEzthkpLQoujXyPeYee/vCy347rdldJHkNK9558D0noJM7C2HH9mxaOHFdTe31ieWLxk919k+dnVL8dLCxJr/Aw08ijxCcaJ7UNFx8xj5PxpJRww2OK5fS3L98662krCZm5nehb7h8QM7/LXsn2nha0aSSotPTQUk3XHdXwsKzVPXNKorNW7iuP6UYvDohBTe/6TIcf1jKauDjPFmBfZFkvjP5Jg6rv8FgEcV+kh4QDz//g/cRpkFgXRVTYWMowDuVWzID4cS2a2/VbGsDmYy/BzXXwdA1dNGoYwb4h6qhApe0ujkC9y5ALsy2jGNIAP95Lg+5ZJ+qlH27aSHquHFNHEPgyp8XApvL8zTJeNAG7deslOYiKOKflrwfqc96QXV8OIa/kgVkH7ZExhjvDJ1cI63CYZ4teqSwutmIkj6hAYRhCfTXtBJSdgJ4BnNj6EMn1WRdGmlbN6EANM+zWV8uh9SeNFo3xXQTVY5BWCxZkcukhKVwntZs1y07X7OBNDdD5HleqNKSoMuGbSNPqGbJcg4D+AT+iBVe4Rtjdc5bGESX53ODJTCO6jyskkiPc3XPZqJK1GQI/lHAN8yuWEs5QD2nQZSGMWrOqlTpqmPGwG8l6GTs4GdujlgJuJOym0rB5zsH3CzB+14TqZjWY7rvwZgy6x8mj6C0IJyKNKYDFZutXl25CIKLUKMpgnDZnpSXmjVcV4ZkcGJZnN9skAVyjlg2mTwiaQsmXuzBZoiT2skxsz7iFoY5FeZCBw3KVAKR0ahLRnMdJfB1vxnNtZOKkbvz/O7hwA8K4VXAPCcQjna2ZZNjp5nXU0qGqcTr4igcR3lUI4W+VyPxO0jGhwDD6PO2/u4PLBUZD7+rXDqOUCXjR8KYOUd1Vlk6wxkzS+39sMAvDWvxJBSl8KzksgaCh3U2ZM2YCuTx/pPRnAmXz/7HIJgMaUeWTuMyyua9ZMGufx+RgCeQkQKxWJs/EBAfgDwL6rhvac2TGw8AAAAAElFTkSuQmCC"
+    />
+    <link rel="stylesheet" href="./Styles/Database.css" />
+    <link rel="stylesheet" href="./Styles/Navbar.css" />
+  </head>
+  <body>
+    <nav class="sidebar">
+      <ul>
+        <li class="dropdown">
+          <div class="itemContainer" style="margin-bottom: 10px">
+            <a href="Landingpage.html">🗂️ Databases</a>
+            <div>
+              <button
+                onclick="toggleDropdown()"
+                style="color: #71bcde; font-size: 15px"
+              >
+                ▼
+              </button>
+            </div>
+          </div>
+          <ul
+            class="dropdown-menu"
+            style="margin-left: 20px"
+            id="dropdown-menu"
+          ></ul>
+        </li>
+        <li><a href="#">Billing</a></li>
+        <li><a href="#">Referral Program</a></li>
+      </ul>
+    </nav>
+    <main class="content">
+      <div class="headerContent">
+        <div>
+          <select id="searchSelect" class="searchSelect">
+            <option value="Credential">Credential</option>
+            <option value="RangeUserId">User ID</option>
+            <option value="Latest">Latest</option>
+          </select>
+          <input
+            type="search"
+            id="searchInput"
+            class="searchInput"
+            placeholder="Credential"
+          />
+          <button class="searchBtn" onclick="searchData()">🔍</button>
+        </div>
+        <div>
+          <button class="createBtn" onclick="showDialogSetting()">
+            Create account
+          </button>
+          <button class="configBtn" onclick="modalDescribesetting()">👁️‍🗨️</button>
+          <button class="configBtn" onclick="navigateToConfigPage()">⚙️</button>
+        </div>
+      </div>
+      <div class="tableData">
+        <table id="databaseTable">
+          <thead></thead>
+          <tbody>
+            <!-- Table rows will be dynamically generated -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+    <div id="dialog" class="dialog">
+      <div class="dialog-content">
+        <span class="close" onclick="closeDialog()">&times;</span>
+        <table id="table"></table>
+      </div>
+    </div>
+    <dialog id="describesetting">
+      <button
+        style="
+          background-color: rgba(0, 0, 0, 0);
+          color: black;
+          padding: 0;
+          margin: 0;
+          float: right;
+          width: fit-content;
+        "
+        id="closemodal1"
+      >
+        X
+      </button>
+      <p>Enter a new key name:</p>
+      <div id="describesettingcontainer">
+        <!-- <table id="dragTable" class="dragTable">
+          <tbody id="dragTableBody"></tbody>
+        </table> -->
+      </div>
+
+      <button id="Settingbtn">Update</button>
+    </dialog>
+
+    <script src="./JS/NavBar.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", loadData);
+      function loadData() {
+        // const token = localStorage.getItem("token"); // Get the token from local storage
+        // const urlParams = new URLSearchParams(window.location.search);
+        // const dbId = urlParams.get("dbId"); // Get the dbId from the URL parameter
+
+        const url = `/admin/AccountQuerry/LatestCreate`; // Modify the URL with the appropriate API endpoint
+
+        const requestBody = {
+          numberUser: 50,
+          DBId: dbId,
+          AdminToken: token,
+        };
+        fecthData(url, requestBody);
+      }
+      const searchInput = document.getElementById("searchSelect");
+      const operator = document.getElementById("operator");
+      const search = document.getElementById("searchInput");
+      const searchInputParent = searchInput.parentNode;
+      let comparisonOperatorSelect = null;
+      let limit = null;
+      let start = null;
+      let end = null;
+      searchInput.addEventListener("change", function (event) {
+        event.preventDefault();
+        const selectedValue = searchInput.value;
+        console.log(selectedValue);
+        if (selectedValue === "Latest") {
+          search.placeholder = "Example: 500";
+        } else if (selectedValue === "Credential") {
+          search.placeholder = "Credential";
+        } else if (selectedValue === "RangeUserId") {
+          search.placeholder = "Example: 100 or 100,120,123... or 100-200";
+        }
+        if (
+          selectedValue !== "Latest" &&
+          selectedValue !== "Credential" &&
+          selectedValue !== "RangeUserId"
+        ) {
+          // Remove the existing comparisonOperatorSelect if it exists
+          if (comparisonOperatorSelect) {
+            searchInputParent.removeChild(comparisonOperatorSelect);
+            comparisonOperatorSelect = null;
+          }
+          // Create and insert the comparisonOperatorSelect
+          comparisonOperatorSelect = document.createElement("select");
+          limit = document.createElement("input");
+          limit.type = "number";
+          limit.classList.add("limit");
+          limit.placeholder = "Limit";
+          limit.id = "limit";
+          start = document.createElement("input");
+          start.type = "number";
+          start.classList.add("limit");
+          start.placeholder = "Start";
+          start.id = "start";
+          end = document.createElement("input");
+          end.type = "number";
+          end.classList.add("limit");
+          end.placeholder = "End";
+          end.id = "end";
+          search.placeholder = "Value";
+          comparisonOperatorSelect.classList.add("searchSelect");
+          comparisonOperatorSelect.id = "operator";
+          comparisonOperatorSelect.innerHTML = `
+                                           <option value=${1} >=</option>
+                                           <option value=${10}><</option>
+                                           <option value=${11}><=</option>
+                                           <option value=${20}>></option>
+                                           <option value=${21}>>=</option>
+                                           <option value=${30}>Between</option>
+                                         `;
+          comparisonOperatorSelect.addEventListener("change", function (event) {
+            event.preventDefault();
+            const operatorOption = comparisonOperatorSelect.value;
+            console.log(operatorOption);
+
+            if (operatorOption === "30") {
+              comparisonOperatorSelect.insertAdjacentElement("afterend", start);
+              start.insertAdjacentElement("afterend", end);
+              if (limit && limit.parentNode) {
+                searchInputParent.removeChild(limit); // Remove the "limit" element if it exists
+              }
+              search.style.display = "none";
+            } else {
+              search.insertAdjacentElement("afterend", limit);
+              search.style.display = "inline-block";
+              if (start.parentNode) {
+                start.parentNode.removeChild(start);
+              }
+              if (end.parentNode) {
+                end.parentNode.removeChild(end);
+              }
+            }
+          });
+          search.insertAdjacentElement("afterend", limit);
+          searchInput.insertAdjacentElement(
+            "afterend",
+            comparisonOperatorSelect
+          );
+          // comparisonOperatorSelect.insertAdjacentElement("afterend", start);
+        } else {
+          if (comparisonOperatorSelect) {
+            searchInputParent.removeChild(comparisonOperatorSelect);
+            if (limit && limit.parentNode) {
+              searchInputParent.removeChild(limit); // Remove the "limit" element if it exists
+            }
+            if (start.parentNode) {
+              start.parentNode.removeChild(start);
+            }
+            if (end.parentNode) {
+              end.parentNode.removeChild(end);
+            }
+            comparisonOperatorSelect = null;
+            search.style.display = "inline-block";
+          }
+        }
+      });
+      function showDialogCreateAccount() {
+        // Create the table content
+        const form = `
+                                     <div class="form-container">
+                           <h2>Create New Account</h2>
+                           <form id="createAccountForm" onsubmit="CreateAccount(event)" >
+                             <label for="credential">Credential:</label>
+                             <input type="text" id="credential" name="credential" required><br><br>
+
+                             <label for="password">Password:</label>
+                             <input type="password" id="password" name="password" required><br><br>
+
+                             <input type="submit" value="Create Account">
+                           </form>
+                         </div>
+                                   `;
+        // <label for="databaseId">Database ID:</label>
+        //                <input type="text" id="databaseId" name="databaseId" required><br><br>
+        // Create the dialog container
+        const dialogContainer = document.createElement("div");
+        dialogContainer.classList.add("dialog");
+
+        // Create the dialog
+        const dialog = document.createElement("div");
+        dialog.classList.add("dialog-indexing");
+
+        dialog.innerHTML = form;
+
+        dialogContainer.appendChild(dialog);
+
+        document.body.appendChild(dialogContainer);
+
+        // Close the dialog when clicked outside
+        dialogContainer.addEventListener("click", function (event) {
+          if (event.target === dialogContainer) {
+            document.body.removeChild(dialogContainer);
+          }
+        });
+        dialog.style.display = "block";
+        dialogContainer.style.display = "block";
+      }
+      function CreateAccount(event) {
+        event.preventDefault(); // Prevent form submission
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = localStorage.getItem("token"); // Get the token from local storage
+        const dbId = urlParams.get("dbId"); // Get the dbId from the URL parameter
+        // Retrieve form field values
+        const credential = document.getElementById("credential").value;
+        // const databaseId = document.getElementById("databaseId").value;
+        const password = document.getElementById("password").value;
+        const data = {
+          Credential: credential,
+          DatabaseId: dbId,
+          Password: password,
+          DBId: dbId,
+          AdminToken: token,
+        };
+
+        fetch("/admin/TableAccount/Create-Account", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            const url = `/admin/AccountQuerry/LatestCreate`;
+            const requestBody = {
+              numberUser: 50,
+              DBId: dbId,
+              AdminToken: token,
+            };
+            fecthData(url, requestBody);
+            console.log(data);
+          })
+          .catch((error) => {
+            // Handle any errors
+            console.error("Error:", error);
+          });
+      }
+
+      function searchData() {
+        const selectedColumn = document.getElementById("searchSelect").value;
+        const searchQuery = document.getElementById("searchInput").value;
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = localStorage.getItem("token"); // Get the token from local storage
+        const dbId = urlParams.get("dbId"); // Get the dbId from the URL parameter
+        let searchUrl = "";
+        let requestBody = {};
+        // for reach Describe check cloum have indexing == true add more select
+        switch (selectedColumn) {
+          case "Credential":
+            searchUrl = "/admin/AccountQuerry/Credential";
+            requestBody = {
+              Credential: searchQuery,
+              DBId: dbId,
+              AdminToken: token,
+            };
+            break;
+          case "RangeUserId":
+            const [userIdBegin, userIdEnd] = searchQuery.split("-");
+            if (searchQuery.includes("-")) {
+              searchUrl = "/admin/AccountQuerry/RangeUserId";
+              const [userIdBegin, userIdEnd] = searchQuery.split("-");
+              requestBody = {
+                userIdBegin: parseInt(userIdBegin),
+                userIdEnd: parseInt(userIdEnd),
+                DBId: dbId,
+                AdminToken: token,
+              };
+            } else {
+              searchUrl = "/admin/AccountQuerry/ListUserId";
+              const listUserId = searchQuery
+                .split(",")
+                .map((id) => parseInt(id));
+              requestBody = {
+                listUserId: listUserId,
+                DBId: dbId,
+                AdminToken: token,
+              };
+            }
+            break;
+          case "Latest":
+            searchUrl = "/admin/AccountQuerry/LatestCreate";
+            requestBody = {
+              numberUser: searchQuery,
+              DBId: dbId,
+              AdminToken: token,
+            };
+            break;
+          default:
+            const limit = document.getElementById("limit");
+            const operator = document.getElementById("operator");
+            const startValue = document.getElementById("start");
+            const endValue = document.getElementById("end");
+            const selectedColumnName = document.getElementById("searchSelect");
+            console.log(
+              selectedColumnName.options[selectedColumnName.selectedIndex]
+                .textContent
+            );
+            if (operator.value === "30") {
+              searchUrl = "/admin/AccountQuerry/Indexing/Between ";
+              requestBody = {
+                indexDescribe: parseInt(selectedColumn),
+                ColumnName:
+                  selectedColumnName.options[selectedColumnName.selectedIndex]
+                    .textContent,
+                valueLeft: parseFloat(startValue.value),
+                valueRight: parseFloat(endValue.value),
+                DBId: dbId,
+                AdminToken: token,
+              };
+            } else {
+              searchUrl = "/admin/AccountQuerry/Indexing/ComparisonOperators ";
+              requestBody = {
+                indexDescribe: parseInt(selectedColumn),
+                ColumnName:
+                  selectedColumnName.options[selectedColumnName.selectedIndex]
+                    .textContent,
+                ComparisonOperator: parseInt(operator.value),
+                valueQuerry: searchQuery,
+                limit: parseInt(limit.value) ? parseInt(limit.value) : 50,
+                DBId: dbId,
+                AdminToken: token,
+              };
+            }
+            console.log(requestBody);
+            break;
+        }
+        fecthData(searchUrl, requestBody);
+      }
+
+      let sortColumn = null;
+      let sortAscending = true;
+      let DataRows = [];
+
+      function handleSort(columnIndex) {
+        if (columnIndex >= 2) {
+          sortColumn = columnIndex + 1;
+        } else if (columnIndex === 0) {
+          sortColumn = 2;
+        } else if (columnIndex === 1) {
+          sortColumn = 0;
+        }
+
+        sortAscending = !sortAscending;
+
+        // Sort the dataRows array based on the selected column
+        DataRows.sort((a, b) => {
+          const valueA = a[sortColumn];
+          const valueB = b[sortColumn];
+
+          // Compare the values based on sortAscending flag
+          if (valueA < valueB) return sortAscending ? -1 : 1;
+          if (valueA > valueB) return sortAscending ? 1 : -1;
+          return 0;
+        });
+
+        // Regenerate the table rows based on the sorted data
+        const sortedTableRows = generateTableRows(Describe, DataRows);
+
+        // Replace the table body with the sorted rows
+        const tableBody = document.querySelector("#databaseTable tbody");
+        tableBody.innerHTML = sortedTableRows;
+
+        // Update the table header with arrow indicators
+        updateTableHeader(columnIndex);
+      }
+
+      function updateTableHeader(columnIndex) {
+        const tableHeaders = document.querySelectorAll(".table-header-cell");
+
+        // Remove arrow indicators from all headers
+        tableHeaders.forEach((header) => {
+          header.textContent = header.textContent
+            .replace(" ⬆", "")
+            .replace(" ⬇", "");
+        });
+
+        // Add arrow indicator to the clicked header
+        const clickedHeader = tableHeaders[columnIndex];
+        if (sortAscending) {
+          clickedHeader.textContent += " ⬆";
+        } else {
+          clickedHeader.textContent += " ⬇";
+        }
+      }
+
+      function generateTableHeader(describes, dataRows) {
+        const compulsoryHeaders = [
+          "UserId",
+          "Credential",
+          "Time Create",
+          "Status",
+        ];
+        if (!describes || describes.length === 0) return ""; // Handle case when there are no describes
+
+        const headers = describes
+          .sort((a, b) => a.ViewId - b.ViewId) // Sort the array based on the ViewId in ascending order
+          .map((describe) => describe.ColumnName);
+        const tableHeaders = compulsoryHeaders.concat(headers);
+
+        return tableHeaders
+          .map(
+            (header, index) =>
+              `<th class="table-header-cell" onclick="handleSort(${index})">${header}</th>`
+          )
+          .join("");
+      }
+
+      function generateTableRows(describes, dataRows) {
+        if (
+          !describes ||
+          describes.length === 0 ||
+          !dataRows ||
+          dataRows.length === 0
+        )
+          return ""; // Handle case when there are no describes or dataRows
+
+        const tableRows = dataRows.map((dataRow) => {
+          const viewIds = describes.map((describe) => describe.ViewId);
+          const combinedData = dataRow
+            .slice(5)
+            .map((value, index) => {
+              return { value, viewid: viewIds[index] };
+            })
+            .sort((a, b) => a.viewid - b.viewid);
+          const combinedCell = [dataRow[0], dataRow[1]]; // Combine cell index 1 and 2
+          const reorderedDataRow = [
+            dataRow[2],
+            combinedCell,
+            ...dataRow.slice(3), // Exclude cell index 1 and 2
+          ];
+          const NewreorderedDataRow = [
+            dataRow[2],
+            combinedCell,
+            dataRow[3],
+            dataRow[4],
+            ...combinedData, // Exclude cell index 1 and 2
+          ];
+          // console.log(NewreorderedDataRow);
+          const cells = NewreorderedDataRow.map((cell, index) => {
+            if (index === 0) {
+              const rowData = JSON.stringify(reorderedDataRow);
+              const encodedData = encodeURIComponent(rowData);
+              const encodedDescribes = encodeURIComponent(
+                JSON.stringify(describes)
+              );
+              return `<td><a class="opendialog" onclick="showDialog('${encodedData}', '${encodedDescribes}')">${cell}</a></td>`;
+            }
+            if (index === 1) {
+              // Assuming the DB Id column is at index 1
+              let icon = "";
+              icon = generateIcon(cell[1]);
+              return `<td > <div style="display:flex; align-items:center; gap: 1px;"> <div> <img src="${icon}" class="icon"/></div> <div> ${cell[0]} </div></div> </td>`;
+            }
+            if (index == 3) {
+              let status;
+              status = generateStatus(cell);
+              return `<td><select class="optionStatus" onchange="updateStatus(${reorderedDataRow[0]},this)">${status}</select></td>`;
+            }
+            if (index >= 4) {
+              return `<td>${cell.value}</td>`;
+            }
+            if (Array.isArray(cell)) {
+              return `<td><button class="copyBtn" onclick="copyToClipboard(this,'${cell}')">❏</button ></td>`;
+            }
+            return `<td>${cell}</td>`;
+          });
+          return `<tr>${cells.join("")}</tr>`;
+        });
+
+        return tableRows.join("");
+      }
+      function copyToClipboard(button, value) {
+        navigator.clipboard.writeText(value);
+        console.log(value);
+        button.innerHTML = "✓";
+        setTimeout(function () {
+          button.innerHTML = "❏";
+        }, 1000);
+      }
+      function generateStatus(value) {
+        const statusOptions = [
+          { value: 0, label: "🟢" },
+          { value: 1, label: "🔘" },
+          { value: 2, label: "⚪" },
+          { value: 3, label: "🔵" },
+          { value: 4, label: "🔴" },
+          { value: 5, label: "⚫" },
+          { value: 6, label: "🟡" },
+          { value: 7, label: "🟢" },
+          { value: 8, label: "🔘" },
+          { value: 9, label: "⚪" },
+          { value: 10, label: "🔵" },
+          { value: 11, label: "🔴" },
+          { value: 12, label: "⚫" },
+          { value: 13, label: "🟡" },
+        ];
+
+        const options = statusOptions.map((option) => {
+          const selected = option.value === value ? "selected" : "";
+          return `<option value="${option.value}" label="${option.label}" ${selected} ></option>`;
+        });
+
+        return options;
+      }
+
+      function showSelectedName(selectElement) {
+        const selectedOption =
+          selectElement.options[selectElement.selectedIndex];
+        console.log(selectedOption.label); // Use the label for display purposes
+        console.log(selectedOption.value); // Use the value for processing or storing the selection
+      }
+      function generateIcon(value) {
+        let icon = "";
+        if (value === 1) {
+          icon =
+            "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgOTU3LjQgOTU3LjQiPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuY2xzLTEgewogICAgICAgIGZpbGw6ICNmZmY7CiAgICAgIH0KCiAgICAgIC5jbHMtMiB7CiAgICAgICAgZmlsbDogIzc3NzsKICAgICAgfQoKICAgICAgLmNscy0zIHsKICAgICAgICBmaWxsOiAjNGU0ZTRlOwogICAgICB9CgogICAgICAuY2xzLTQgewogICAgICAgIGZpbGw6ICM5ZTllOWU7CiAgICAgIH0KCiAgICAgIC5jbHMtNCwgLmNscy01LCAuY2xzLTYgewogICAgICAgIGZpbGwtcnVsZTogZXZlbm9kZDsKICAgICAgfQoKICAgICAgLmNscy01IHsKICAgICAgICBmaWxsOiAjZTBlMGUwOwogICAgICB9CgogICAgICAuY2xzLTcgewogICAgICAgIGNsaXAtcGF0aDogdXJsKCNjbGlwcGF0aCk7CiAgICAgIH0KCiAgICAgIC5jbHMtOCB7CiAgICAgICAgZmlsbDogbm9uZTsKICAgICAgfQoKICAgICAgLmNscy02IHsKICAgICAgICBmaWxsOiAjYmRiZGJkOwogICAgICB9CiAgICA8L3N0eWxlPgogICAgPGNsaXBQYXRoIGlkPSJjbGlwcGF0aCI+CiAgICAgIDxyZWN0IGNsYXNzPSJjbHMtOCIgd2lkdGg9Ijk1Ny40IiBoZWlnaHQ9Ijk1Ny40Ii8+CiAgICA8L2NsaXBQYXRoPgogIDwvZGVmcz4KICA8cmVjdCBjbGFzcz0iY2xzLTEiIHg9IjU3LjgiIHk9IjU3LjgiIHdpZHRoPSI4NDEuOSIgaGVpZ2h0PSI4NDEuOSIvPgogIDxnIGNsYXNzPSJjbHMtNyI+CiAgICA8Zz4KICAgICAgPHBhdGggY2xhc3M9ImNscy02IiBkPSJtNjI4LjMsODY3LjdoLTI5OS4yYy0yLjYtLjEtMy4zLDAtNS44LS42LTguNi0xLjctMTYuNC03LjUtMjAuNi0xNS4zLTQuMS03LjgtNC42LTE3LjQtMS4zLTI1LjYsNC4xLTkuOSwxMy44LTE3LjIsMjQuNy0xOC4zLDEsMCwxLjksMCwyLjktLjFoMzQuNWwyNS44LTE1NC41Yy42LTIuOCwxLjMtNS41LDIuNS04LDQuNC05LjIsMTMuOS0xNS45LDI0LjItMTYuOSwxLDAsMS45LDAsMi44LS4xaDExOS43Yy45LDAsMS45LDAsMi44LjEsMi44LjQsNS41LjksOC4xLDEuOSw4LjcsMy40LDE1LjYsMTEuMSwxOCwyMC4yLjIuOS40LDEuOC42LDIuOGwyNS44LDE1NC41aDM0LjVjMSwwLDEuOSwwLDIuOS4xLDEsLjIsMS45LjIsMi45LjQsMTEuNSwyLjMsMjEuMiwxMS44LDIzLjUsMjMuNSwxLjksOS42LTEuMywyMC4xLTguMiwyNy00LjIsNC4yLTkuNSw3LTE1LjMsOC4yLTIuNi41LTMuMi40LTUuOC42aDBaIi8+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtNCIgZD0ibTQ3OC43LDYyOC4zaDU5LjhjLjksMCwxLjksMCwyLjguMSwyLjguNCw1LjUuOSw4LjEsMS45LDguNywzLjQsMTUuNiwxMS4xLDE4LDIwLjIuMi45LjQsMS44LjYsMi44bDI1LjgsMTU0LjVoMzcuNGMxLC4zLDEuOS40LDIuOS42LDExLjUsMi4zLDIxLjIsMTEuOCwyMy41LDIzLjUsMS45LDkuNi0xLjMsMjAuMS04LjIsMjctNC4yLDQuMi05LjUsNy0xNS4zLDguMi0yLjYuNS0zLjIuNC01LjguNmgtMTQ5LjZ2LTIzOS40aDBaIi8+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtNSIgZD0ibTgzOCw4OS44YzE4LjQsMCwzNi43LDkuMiw0Ny45LDI0LjIsNy42LDEwLjIsMTEuNywyMi44LDExLjgsMzUuNS4yLDE1OS43LjIsMzE5LjQsMCw0NzkuMSwwLDE4LjMtOSwzNi4zLTIzLjYsNDcuNC0xMC4zLDcuOC0yMy4xLDEyLjItMzYuMSwxMi4yLTIzOS41LjQtNDc5LC40LTcxOC40LDAtMTguNywwLTM3LjEtOS4zLTQ4LjMtMjQuNy03LjMtMTAuMS0xMS4zLTIyLjQtMTEuNC0zNC45LS4zLTE1OS43LS4zLTMxOS40LDAtNDc5LjEsMC0xNS4xLDYuMS0zMC4yLDE2LjUtNDEuMSwxMS4xLTExLjYsMjYuOS0xOC41LDQzLjEtMTguNiwyMzkuNS0uNCw0NzktLjQsNzE4LjQsMGgwWiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTYiIGQ9Im00NzguNyw4OS41YzExOS43LDAsMjM5LjUsMCwzNTkuMi4zLDE4LjQsMCwzNi43LDkuMiw0Ny45LDI0LjIsNy42LDEwLjIsMTEuNywyMi44LDExLjgsMzUuNS4yLDE1OS43LjIsMzE5LjQsMCw0NzkuMSwwLDE4LjMtOSwzNi4zLTIzLjYsNDcuNC0xMC4zLDcuOC0yMy4xLDEyLjItMzYuMSwxMi4yLTExOS43LjItMjM5LjUuMy0zNTkuMi4zVjg5LjVoMFoiLz4KICAgICAgPHBhdGggY2xhc3M9ImNscy0yIiBkPSJtNDc4LjcsMTQ5LjZIMTE5Ljd2NDE4LjloMzU5VjE0OS42WiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTMiIGQ9Im04MzcuOCwxNDkuNmgtMzU5djQxOC45aDM1OVYxNDkuNloiLz4KICAgIDwvZz4KICA8L2c+Cjwvc3ZnPg==";
+        } else if (value === 2) {
+          icon =
+            "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgODQyIDg0NC45Ij4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CgogICAgICAuY2xzLTIgewogICAgICAgIGZpbGw6ICMwNTliZTU7CiAgICAgIH0KCiAgICAgIC5jbHMtMyB7CiAgICAgICAgY2xpcC1wYXRoOiB1cmwoI2NsaXBwYXRoKTsKICAgICAgfQoKICAgICAgLmNscy00IHsKICAgICAgICBmaWxsOiBub25lOwogICAgICB9CiAgICA8L3N0eWxlPgogICAgPGNsaXBQYXRoIGlkPSJjbGlwcGF0aCI+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtNCIgZD0ibTQyMSwzaDBjMjMyLjUsMCw0MjAuOSwxODguNSw0MjAuOSw0MjAuOWgwYzAsMjMyLjUtMTg4LjUsNDIwLjktNDIwLjksNDIwLjloMEMxODguNiw4NDQuOS4xLDY1Ni40LjEsNDIzLjlILjFDLjEsMTkxLjUsMTg4LjYsMyw0MjEsM1oiLz4KICAgIDwvY2xpcFBhdGg+CiAgPC9kZWZzPgogIDxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iLjEiIHdpZHRoPSI4NDEuOSIgaGVpZ2h0PSI4NDEuOSIvPgogIDxnIGNsYXNzPSJjbHMtMyI+CiAgICA8cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Im04NDIsNDI2LjVDODQyLDE5Mi42LDY1My41LDIuOSw0MjEuMSwyLjksMTg4LjUsMywwLDE5Mi42LDAsNDI2LjZzMTU0LDM4Ni42LDM1NS4yLDQxOC40di0yOTZoLTEwNi44di0xMjIuNGgxMDYuOXYtOTMuNGMwLTEwNi4xLDYyLjktMTY0LjcsMTU5LTE2NC43czk0LjIsOC4zLDk0LjIsOC4zdjEwNC4yaC01My4xYy01Mi4yLDAtNjguNiwzMi43LTY4LjYsNjYuMnY3OS41aDExNi43bC0xOC42LDEyMi40aC05OC4xdjI5NmMyMDEuMi0zMS44LDM1NS4yLTIwNywzNTUuMi00MTguNFoiLz4KICA8L2c+Cjwvc3ZnPg==";
+        } else if (value === 3) {
+          icon =
+            "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMTAwMCAxMDAwIj4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjZmYzZDAwOwogICAgICB9CgogICAgICAuY2xzLTIgewogICAgICAgIGZpbGw6ICM0Y2FmNTA7CiAgICAgIH0KCiAgICAgIC5jbHMtMyB7CiAgICAgICAgY2xpcC1wYXRoOiB1cmwoI2NsaXBwYXRoKTsKICAgICAgfQoKICAgICAgLmNscy00IHsKICAgICAgICBmaWxsOiAjZmZjMTA3OwogICAgICB9CgogICAgICAuY2xzLTUgewogICAgICAgIGZpbGw6IG5vbmU7CiAgICAgIH0KCiAgICAgIC5jbHMtNiB7CiAgICAgICAgZmlsbDogIzE5NzZkMjsKICAgICAgfQogICAgPC9zdHlsZT4KICAgIDxjbGlwUGF0aCBpZD0iY2xpcHBhdGgiPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTUiIGQ9Im01MDAsMGgwYzI3Ni4xLDAsNTAwLDIyMy45LDUwMCw1MDBoMGMwLDI3Ni4xLTIyMy45LDUwMC01MDAsNTAwaDBDMjIzLjksMTAwMCwwLDc3Ni4xLDAsNTAwaDBDMCwyMjMuOSwyMjMuOSwwLDUwMCwwWiIvPgogICAgPC9jbGlwUGF0aD4KICA8L2RlZnM+CiAgPHJlY3QgY2xhc3M9ImNscy01IiB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwMCIgaGVpZ2h0PSIxMDAwIi8+CiAgPGcgY2xhc3M9ImNscy0zIj4KICAgIDxnPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTQiIGQ9Im05OTAuMyw0MDIuMWgtNDAuM3YtMi4xaC00NTB2MjAwaDI4Mi42Yy00MS4yLDExNi40LTE1MiwyMDAtMjgyLjYsMjAwcy0zMDAtMTM0LjMtMzAwLTMwMFMzMzQuMywyMDAsNTAwLDIwMHMxNDYsMjguOCwxOTksNzZsMTQxLjQtMTQxLjRDNzUxLjEsNTEuMyw2MzEuNywwLDUwMCwwLDIyMy45LDAsMCwyMjMuOSwwLDUwMHMyMjMuOSw1MDAsNTAwLDUwMCw1MDAtMjIzLjksNTAwLTUwMC0zLjQtNjYuMi05LjctOTcuOVoiLz4KICAgICAgPHBhdGggY2xhc3M9ImNscy0xIiBkPSJtNTcuNiwyNjcuM2wxNjQuMywxMjAuNWM0NC40LTExMCwxNTIuMS0xODcuNywyNzguMS0xODcuN3MxNDYsMjguOCwxOTksNzZsMTQxLjQtMTQxLjRDNzUxLjEsNTEuMyw2MzEuNywwLDUwMCwwLDMwNy45LDAsMTQxLjQsMTA4LjQsNTcuNiwyNjcuM1oiLz4KICAgICAgPHBhdGggY2xhc3M9ImNscy0yIiBkPSJtNTAwLDEwMDBjMTI5LjEsMCwyNDYuNS00OS40LDMzNS4yLTEyOS44bC0xNTQuNy0xMzAuOWMtNTEuOSwzOS41LTExNS4zLDYwLjgtMTgwLjUsNjAuNy0xMzAsMC0yNDAuNS04Mi45LTI4Mi4xLTE5OC42bC0xNjMsMTI1LjZjODIuNywxNjEuOSwyNTAuOCwyNzMsNDQ1LjEsMjczWiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTYiIGQ9Im05OTAuMyw0MDIuMWgtNDAuM3YtMi4xaC00NTB2MjAwaDI4Mi42Yy0xOS43LDU1LjQtNTUuMiwxMDMuOC0xMDIuMiwxMzkuM2gwczE1NC43LDEzMC45LDE1NC43LDEzMC45Yy0xMC45LDkuOSwxNjQuOC0xMjAuMiwxNjQuOC0zNzAuMnMtMy41LTY2LjItOS43LTk3LjlaIi8+CiAgICA8L2c+CiAgPC9nPgo8L3N2Zz4=";
+        } else if (value === 4) {
+          icon =
+            "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4NDEuOSA4NDEuOSI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5jbHMtMSB7CiAgICAgICAgZmlsbDogI2ZmZjsKICAgICAgfQoKICAgICAgLmNscy0yIHsKICAgICAgICBmaWxsOiAjZTIxYjFiOwogICAgICB9CgogICAgICAuY2xzLTMgewogICAgICAgIGZpbGw6ICNjY2M7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iMCIgd2lkdGg9Ijg0MS45IiBoZWlnaHQ9Ijg0MS45Ii8+CiAgPGc+CiAgICA8cGF0aCBjbGFzcz0iY2xzLTMiIGQ9Im0xMDQuOSwyNDcuM2gtNTAuOGMtMjkuOCwwLTU0LDI0LjMtNTQuMSw1NC4xdjE4MC4zYzAsMjkuOCwyNC4zLDU0LDU0LjEsNTQuMWg1MC44czIuMy0yOTAuOCwwLTI4OC41WiIvPgogICAgPHBhdGggY2xhc3M9ImNscy0yIiBkPSJtMTQ0LjMsMjQ0LjJ2Mjk1LjhsMTExLjYsMjEuOSw1MS43LDE3Mi4yaDcyLjF2LTE0Ny45bDM1NC44LDY5LjdWMTI4LjNMMTQ0LjMsMjQ0LjJaIi8+CiAgICA8cGF0aCBjbGFzcz0iY2xzLTMiIGQ9Im04MzkuNCwxMDcuN2wtNjUuNiwxMi45djU0My4xbDY1LjYsMTIuOVYxMDcuN1oiLz4KICA8L2c+Cjwvc3ZnPg==";
+        } else if (value === 5) {
+          icon =
+            "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDEwMDAiPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuY2xzLTEgewogICAgICAgIGZpbGw6IG5vbmU7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxwYXRoIGQ9Im05MDMuNSw3NzkuM2MtMTUuMSwzNC45LTMzLDY3LjEtNTMuOCw5Ni43LTI4LjMsNDAuMy01MS40LDY4LjItNjkuMyw4My43LTI3LjcsMjUuNC01Ny4zLDM4LjUtODksMzkuMi0yMi44LDAtNTAuMi02LjUtODIuMi0xOS42LTMyLjEtMTMuMS02MS42LTE5LjYtODguNS0xOS42cy01OC42LDYuNS05MSwxOS42Yy0zMi41LDEzLjItNTguNiwyMC03OC43LDIwLjctMzAuNCwxLjMtNjAuOC0xMi4xLTkxLTQwLjItMTkuMy0xNi44LTQzLjUtNDUuNy03Mi40LTg2LjctMzEuMS00My43LTU2LjYtOTQuNC03Ni42LTE1Mi4yLTIxLjQtNjIuNC0zMi4yLTEyMi44LTMyLjItMTgxLjNzMTQuNS0xMjQuOCw0My41LTE3My4zYzIyLjgtMzguOSw1My4xLTY5LjYsOTEuMS05Mi4xLDM4LTIyLjUsNzktMzQsMTIzLjEtMzQuNywyNC4yLDAsNTUuOSw3LjUsOTUuMiwyMi4yLDM5LjMsMTQuNyw2NC41LDIyLjIsNzUuNSwyMi4yczM2LjMtOC43LDgzLjgtMjYuMmM0NC45LTE2LjIsODIuOC0yMi44LDExMy45LTIwLjIsODQuMSw2LjgsMTQ3LjMsNDAsMTg5LjQsOTkuNy03NS4yLDQ1LjYtMTEyLjUsMTA5LjQtMTExLjcsMTkxLjQuNyw2My44LDIzLjgsMTE2LjksNjkuMywxNTkuMSwyMC42LDE5LjYsNDMuNiwzNC43LDY5LjMsNDUuNC01LjYsMTYuMS0xMS40LDMxLjUtMTcuNiw0Ni40aDBaTTcxMC41LDIwYzAsNTAtMTguMyw5Ni43LTU0LjcsMTM5LjktNDMuOSw1MS40LTk3LjEsODEuMS0xNTQuOCw3Ni40LS43LTYtMS4yLTEyLjMtMS4yLTE4LjksMC00OCwyMC45LTk5LjQsNTgtMTQxLjQsMTguNS0yMS4zLDQyLjEtMzksNzAuNy01My4xLDI4LjUtMTMuOSw1NS41LTIxLjYsODAuOS0yMi45LjcsNi43LDEsMTMuNCwxLDIwaDBaIi8+CiAgPHJlY3QgY2xhc3M9ImNscy0xIiB5PSIwIiB3aWR0aD0iMTAwMCIgaGVpZ2h0PSIxMDAwIi8+Cjwvc3ZnPg==";
+        } else if (value === 6) {
+          icon =
+            "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgODUwLjkgODQ3Ij4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CgogICAgICAuY2xzLTIgewogICAgICAgIGZpbGw6ICNjZGNjY2E7CiAgICAgIH0KCiAgICAgIC5jbHMtMyB7CiAgICAgICAgZmlsbDogI2ZjZDc1MTsKICAgICAgfQoKICAgICAgLmNscy00IHsKICAgICAgICBmaWxsOiAjMzMzZDQ3OwogICAgICB9CgogICAgICAuY2xzLTUgewogICAgICAgIGZpbGw6ICNmZmEyMjk7CiAgICAgIH0KCiAgICAgIC5jbHMtNiB7CiAgICAgICAgY2xpcC1wYXRoOiB1cmwoI2NsaXBwYXRoKTsKICAgICAgfQoKICAgICAgLmNscy03IHsKICAgICAgICBmaWxsOiBub25lOwogICAgICB9CgogICAgICAuY2xzLTggewogICAgICAgIGZpbGw6ICNmZWNhNWM7CiAgICAgIH0KCiAgICAgIC5jbHMtOSB7CiAgICAgICAgZmlsbDogI2YyZjJmMjsKICAgICAgfQogICAgPC9zdHlsZT4KICAgIDxjbGlwUGF0aCBpZD0iY2xpcHBhdGgiPgogICAgICA8cmVjdCBjbGFzcz0iY2xzLTciIHk9Ii45IiB3aWR0aD0iODUwLjkiIGhlaWdodD0iODQ2LjIiLz4KICAgIDwvY2xpcFBhdGg+CiAgPC9kZWZzPgogIDxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iNC41IiB3aWR0aD0iODQxLjkiIGhlaWdodD0iODQxLjkiLz4KICA8ZyBjbGFzcz0iY2xzLTYiPgogICAgPGc+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMyIgZD0ibTQuNSw4NDEuMnYtNDcyLjhsNDIxLjYsMjQ3LjlMNC41LDg0MS4yWiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTMiIGQ9Im04NDUuOSw4NDEuMnYtNDcyLjhsLTQyMS42LDI0Ny45LDQyMS42LDIyNC45WiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTUiIGQ9Im00LjUsODQxLjJsNDE5LjgtMjI0LjksNDIxLjYsMjI0LjlINC41WiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTgiIGQ9Im00MjQuMyw0LjhMNC41LDM2OC40bDQxOS44LDI0Ny45LDQyMS42LTI0Ny45TDQyNC4zLDQuOFoiLz4KICAgICAgPHBhdGggY2xhc3M9ImNscy05IiBkPSJtNDI1LjEsNjE1LjhsMzI4LjYtMTkzLjJWMTE3LjJIMTAwLjJ2MzA3LjZsMzI0LjksMTkxWiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Im01MjcuNSwyNDYuNEgxOTcuOHYxNC4yaDMyOS43di0xNC4yWiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Im02MzAuNywyMjMuNmgtNjAuMnY1OS44aDYwLjJ2LTU5LjhaIi8+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMiIgZD0ibTUyNy41LDMzNi40SDE5Ny44djE0LjJoMzI5Ljd2LTE0LjJaIi8+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0ibTYzMC43LDMxMy41aC02MC4ydjU5LjhoNjAuMnYtNTkuOFoiLz4KICAgICAgPHBhdGggY2xhc3M9ImNscy0yIiBkPSJtNTI3LjUsNDE0SDE5Ny44djE0LjJoMzI5Ljd2LTE0LjJaIi8+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMiIgZD0ibTUyNy41LDQzOC4zSDE5Ny44djE0LjJoMzI5Ljd2LTE0LjJaIi8+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0ibTYzMC43LDQwMy4zaC02MC4ydjU5LjhoNjAuMnYtNTkuOFoiLz4KICAgICAgPHBhdGggY2xhc3M9ImNscy00IiBkPSJtNTk3LjQsMjc0LjVsLTIyLjYtMjEuMiw1LjYtNiwxNi4xLDE1LjIsMjIuNC0yNi45LDYuMiw1LjEtMjcuOCwzMy43WiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTQiIGQ9Im01OTgsMzYyLjhsLTIyLjQtMjEuMiw1LjUtNS44LDE2LjMsMTUuMiwyMi4zLTI3LjEsNi4zLDUuMy0yNy45LDMzLjVaIi8+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0ibTYzMC43LDQ5NC44di0xLjdoLTYwLjJ2MzdsNjAuMi0zNS40WiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Im0yNTUuNCw1MTZsMjQuMywxNC4yaDI0Ny44di0xNC4ySDI1NS40WiIvPgogICAgPC9nPgogIDwvZz4KPC9zdmc+";
+        } else if (value === 0) {
+          icon =
+            "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2OTYuNyA4NDEuOSI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5jbHMtMSB7CiAgICAgICAgZmlsbDogIzQwYTgwMDsKICAgICAgfQogICAgPC9zdHlsZT4KICA8L2RlZnM+CiAgPHBhdGggY2xhc3M9ImNscy0xIiBkPSJtNjk2LjcsNzI1LjFjMC00NC4xLTI3LjItODQuNC03MC4yLTEwNC4xbC0xNTEuMy02OS4zYy0xOS41LTktMzEuOS0yNy4zLTMxLjktNDcuM3YtNTQuNGM0LjItNC40LDkuMS0xMC4xLDE0LjMtMTYuOSwyMC42LTI2LjcsMzYuMi01Niw0Ny04Ni45LDE5LjQtNS41LDMzLjctMjEuOSwzMy43LTQxLjR2LTU4LjFjMC0xMi44LTYuMi0yNC4yLTE1LjgtMzIuMnYtODMuOVM1NDEuMywwLDM0OC40LDBzLTE3NC4yLDEzMC42LTE3NC4yLDEzMC42djgzLjljLTkuNiw4LTE1LjgsMTkuNC0xNS44LDMyLjJ2NTguMWMwLDE1LjMsOC44LDI4LjgsMjEuOSwzNi41LDE1LjgsNjMuMiw1Ny4zLDEwOC42LDU3LjMsMTA4LjZ2NTMuMWMwLDE5LjMtMTEuNSwzNy4yLTMwLjEsNDYuNGwtMTQxLjMsNzAuNkMyNS40LDY0MC41LDAsNjc5LjcsMCw3MjIuM3Y0N2MwLDQwLjEsMTU2LDcyLjYsMzQ4LjQsNzIuNnMzNDguNC0zMi41LDM0OC40LTcyLjZ2LTQ0LjJaIi8+Cjwvc3ZnPg==";
+        }
+        return icon;
+      }
+
+      function showDialog(rowData, describes) {
+        // Parse the rowData parameter to access individual cell values
+        const decodedData = decodeURIComponent(rowData);
+        const cells = JSON.parse(decodedData);
+
+        const table = document.createElement("table");
+        table.classList.add("vertical-table");
+        const compulsoryHeaders = [
+          "UserId",
+          "Credential",
+          "Time Create",
+          "Status",
+        ];
+        // Iterate over each cell in the rowData
+        cells.forEach((cell, index) => {
+          // Create a table row for each cell
+
+          const row = document.createElement("tr");
+
+          // Create the table header cell
+          const headerCell = document.createElement("td");
+          if (index >= 0 && index < 4) {
+            headerCell.textContent = compulsoryHeaders[index];
+          } else if (index >= 4) {
+            const describeIndex = index - 4;
+            if (describeIndex >= 0 && describeIndex < describes.length) {
+              headerCell.textContent = JSON.parse(
+                decodeURIComponent(describes)
+              )[describeIndex].ColumnName;
+            } else {
+              headerCell.textContent = "Unknown Header";
+            }
+          } else {
+            headerCell.textContent = ""; // Empty header for non-describe columns
+          }
+          row.appendChild(headerCell);
+
+          // Create the table data cell
+          const dataCell = document.createElement("td");
+          if (index === 1) {
+            // Assuming the DB Id column is at index 2
+            let icon = "";
+            icon = generateIcon(cell[1]);
+
+            const iconImg = document.createElement("img");
+            iconImg.classList.add("icon");
+            iconImg.src = icon;
+            iconImg.alt = cell;
+            const cre = document.createElement("span");
+            const cellCre = document.createElement("div");
+            cre.textContent = cell[0];
+            cellCre.style.display = "flex";
+            cellCre.style.gap = "5px";
+            cellCre.style.alignItems = "center";
+            cellCre.appendChild(iconImg);
+            cellCre.appendChild(cre);
+            dataCell.appendChild(cellCre);
+          } else if (index >= 4) {
+            const input = document.createElement("input");
+            input.type = "text";
+            input.classList.add("edit-input");
+            input.value = cell;
+            dataCell.appendChild(input);
+          } else {
+            dataCell.textContent = cell;
+          }
+
+          row.appendChild(dataCell);
+          // Append the row to the table
+          table.appendChild(row);
+        });
+        // const rowToMove = table.rows[2];
+        // table.insertBefore(rowToMove, table.rows[0]);
+        // Create the dialog container
+        const dialogContainer = document.createElement("div");
+        dialogContainer.classList.add("dialog");
+
+        // Create the dialog content
+        const dialogContent = document.createElement("div");
+        dialogContent.classList.add("dialog-content");
+
+        // Create the close button
+        const closeButton = document.createElement("span");
+        closeButton.classList.add("close");
+        closeButton.textContent = "×";
+        closeButton.addEventListener("click", () => {
+          dialogContainer.style.display = "none";
+        });
+        dialogContent.appendChild(closeButton);
+
+        // Append the table to the dialog content
+        dialogContent.appendChild(table);
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = localStorage.getItem("token"); // Get the token from local storage
+        const dbId = urlParams.get("dbId"); // Get the dbId from the URL parameter
+        // Create the save button
+        const saveButton = document.createElement("button");
+        saveButton.textContent = "Save";
+        saveButton.addEventListener("click", () => {
+          const editedCells = Array.from(
+            dialogContent.querySelectorAll(".edit-input")
+          ).map((input) => input.value); // No conversion to string
+
+          const listUpdate = editedCells
+            .map((value, index) => {
+              const describeIndex = index; // Adjust the index to match the describe array
+
+              if (describeIndex >= 0 && describeIndex < describes.length) {
+                const describe = JSON.parse(decodeURIComponent(describes))[
+                  describeIndex
+                ];
+
+                let parsedValue = value; // Default parsed value is the input value
+
+                // Check the describe.Type and parse the value accordingly
+                switch (describe.Type) {
+                  case 1: // BOOLEAN
+                    parsedValue = value === "true";
+                    break;
+                  case 10: // BYTE
+                  case 20: // SHORT
+                  case 40: // INTEGER
+                  case 80: // LONG
+                  case 88: // USER_ID
+                  case 89: // TIMEMILI
+                  case 12: // PERMISSION
+                    parsedValue = parseInt(value);
+                    break;
+                  case 11: // STATUS
+                  case 13: // AVATAR
+                  case 14: // Gender
+                  case 21: // CountryCode
+                  case 126: // STRING
+                    parsedValue = value;
+                    break;
+                  case 42: // IPV4
+                  case -2: // IPV6
+                    parsedValue = value.split(",").map((item) => item.trim());
+                    break;
+                  case 60: // FLOAT
+                  case 90: // DOUBLE
+                    parsedValue = parseFloat(value);
+                    break;
+                  case 100: // ByteArray
+                  case 101: // LIST
+                    if (/^[-\d\s,]+$/.test(value)) {
+                      parsedValue = value
+                        .split(",")
+                        .map((item) => parseInt(item.trim()));
+                    } else {
+                      parsedValue = value;
+                    }
+                    break;
+                  default:
+                    parsedValue = value;
+                }
+                return {
+                  UserId: cells[0],
+                  ColumnName: describe.ColumnName,
+                  IndexDescribe: index,
+                  Type: describe.Type,
+                  value: parsedValue,
+                };
+              }
+            })
+            .filter((item) => item !== undefined);
+
+          const data = {
+            listUpdate: listUpdate,
+            DBId: dbId,
+            AdminToken: token,
+          };
+          console.log(data);
+          // Send the updated data to the server
+          fetch("/admin/TableAccount/Update-UserData", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          })
+            .then((response) => response.json())
+            .then((result) => {
+              dialogContainer.style.display = "none";
+              console.log(result);
+              if (result.status === "Success") {
+                searchData();
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        });
+        dialogContent.appendChild(saveButton);
+
+        // Append the dialog content to the dialog container
+        dialogContainer.appendChild(dialogContent);
+
+        // Append the dialog container to the document body
+        document.body.appendChild(dialogContainer);
+
+        // Display the dialog
+        dialogContainer.style.display = "block";
+      }
+
+      function closeDialog() {
+        const dialog = document.getElementById("dialog");
+        dialog.style.display = "none";
+      }
+      const inputDBcontainer = document.getElementById(
+        "describesettingcontainer"
+      );
+      function fecthData(url, data) {
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status === "Success") {
+              const describes = data.data.Describes;
+              const dataRows = data.data.DataRow;
+              Describe = data.data.Describes;
+              DataRows = data.data.DataRow;
+              Describesss = data.data.Describes;
+              inputDBcontainer.innerHTML = `<table id="dragTable" class="dragTable">
+          <tbody id="dragTableBody">
+            ${data.data.Describes.map((column, index) => ({
+              column,
+              originalIndex: index,
+            }))
+              .sort((a, b) => a.column.ViewId - b.column.ViewId)
+              .map(
+                (column) => `
+                  <tr draggable="true">
+                    <td data-viewid="${column.originalIndex}" class="indexView"> <input type="text" id="input" value=${column.column.ColumnName} required><div> ⥮</div></td>
+                  </tr>`
+              )
+              .join("")}
+            </tbody>
+        </table>
+              
+            `;
+              const tableBody = document.querySelector("#databaseTable tbody");
+              const tableHeader = document.querySelector(
+                "#databaseTable thead"
+              );
+              tableBody.innerHTML = generateTableRows(describes, dataRows);
+              tableHeader.innerHTML = generateTableHeader(describes, dataRows);
+              const searchSelect = document.getElementById("searchSelect");
+
+              const existingOptions = Array.from(searchSelect.options).map(
+                (option) => option.value
+              );
+
+              describes.forEach((item, index) => {
+                if (
+                  item.Indexing &&
+                  !existingOptions.includes(index.toString())
+                ) {
+                  const option = document.createElement("option");
+                  option.value = index;
+                  option.textContent = item.ColumnName;
+                  searchSelect.appendChild(option);
+                }
+              });
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+      function navigateToConfigPage() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const dbId = urlParams.get("dbId"); // Get the dbId from the URL parameter
+        window.location.href = `Config.html?dbId=${dbId}`;
+      }
+      function updateStatus(id, option) {
+        data = {
+          userId: id,
+          status: option.value,
+          DBId: dbId,
+          AdminToken: token,
+        };
+        fetch("/admin/TableAccount/Update-AccountStatus ", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status === "Success") {
+              search();
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+      const dialog = document.getElementById("describesetting");
+      // Define the event listener functions
+      function closeDialog() {
+        dialog.close();
+      }
+
+      function showDialogSetting() {
+        const table = document.getElementById("dragTable");
+        const rows = Array.from(table.getElementsByTagName("tr"));
+
+        const data = {
+          ColumnName: [],
+          indexDescribe: [],
+          ViewId: [],
+          DBId: dbId,
+          AdminToken: token,
+        };
+
+        rows.forEach((row, index) => {
+          const cells = Array.from(row.getElementsByTagName("td"));
+          const columnName = cells[0].querySelector("input").value;
+          const viewId = parseInt(cells[0].getAttribute("data-viewid"), 10);
+
+          data.ColumnName.push(columnName);
+          data.indexDescribe.push(viewId);
+          data.ViewId.push(index);
+        });
+
+        console.log(data);
+        fetch(" /admin/TableAccount/Describes/Update-ViewId", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status === "Success") {
+              dialog.close();
+              loadData();
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+        // dialog.close();
+        // loadData();
+      }
+
+      function modalDescribesetting() {
+        const sortedColumns = Describe.map((column, index) => ({
+          column,
+          originalIndex: index,
+        })).sort((a, b) => a.column.ViewId - b.column.ViewId);
+        console.log(sortedColumns);
+        // inputDBcontainer.innerHTML = `
+        //   ${Describe.map((column, index) => ({
+        //     column,
+        //     originalIndex: index,
+        //   }))
+        //     .sort((a, b) => a.column.ViewId - b.column.ViewId)
+        //     .map(
+        //       (column) => `
+        //       <tr draggable="true">
+        //         <td data-viewid="${column.originalIndex}">${column.column.ColumnName} ${column.originalIndex}</td>
+        //       </tr>`
+        //     )
+        //     .join("")}
+        // `;
+
+        function dragTableRows() {
+          const table = document.getElementById("dragTable");
+          const tbody = table.getElementsByTagName("tbody")[0];
+          let dragIndex = null;
+          let dragRow = null;
+          let placeholderRow = null;
+
+          function handleDragStart(event) {
+            dragIndex = Array.from(tbody.children).indexOf(this);
+            dragRow = this;
+            event.dataTransfer.effectAllowed = "move";
+            event.dataTransfer.setData("text/html", dragRow.innerHTML);
+            dragRow.classList.add("dragged");
+          }
+
+          function handleDragEnd() {
+            dragRow.classList.remove("dragged");
+            if (placeholderRow) {
+              tbody.insertBefore(dragRow, placeholderRow);
+              placeholderRow.remove();
+            }
+            dragIndex = null;
+            dragRow = null;
+            placeholderRow = null;
+          }
+
+          function handleDragEnter(event) {
+            event.preventDefault();
+            event.currentTarget.classList.add("hover");
+          }
+
+          function handleDragLeave(event) {
+            event.currentTarget.classList.remove("hover");
+          }
+
+          function handleDragOver(event) {
+            event.preventDefault();
+            const targetRow = event.target.closest("tr");
+            if (targetRow === dragRow) return;
+            const targetOffset =
+              event.clientY - targetRow.getBoundingClientRect().top;
+            const nextRow =
+              targetOffset > targetRow.offsetHeight / 2
+                ? targetRow.nextElementSibling
+                : targetRow;
+
+            if (nextRow !== placeholderRow) {
+              if (placeholderRow) {
+                tbody.insertBefore(placeholderRow, nextRow);
+              } else {
+                placeholderRow = createPlaceholderRow(targetRow.cells.length);
+                tbody.insertBefore(placeholderRow, nextRow);
+              }
+            }
+          }
+
+          function createPlaceholderRow(cellCount) {
+            const row = document.createElement("tr");
+            const cell = document.createElement("td");
+            cell.colSpan = cellCount;
+            row.classList.add("placeholder");
+            row.appendChild(cell);
+            return row;
+          }
+
+          function addEventListeners() {
+            const rows = Array.from(tbody.children);
+            rows.forEach((row) => {
+              row.addEventListener("dragstart", handleDragStart);
+              row.addEventListener("dragend", handleDragEnd);
+              row.addEventListener("dragenter", handleDragEnter);
+              row.addEventListener("dragleave", handleDragLeave);
+            });
+            table.addEventListener("dragover", handleDragOver);
+          }
+
+          // Restore the row order on page load
+
+          // Add event listeners to enable drag and drop functionality
+          addEventListeners();
+        }
+        dragTableRows();
+        dialog.showModal();
+      }
+
+      // Attach the event listeners
+      const closemodalDB = document.getElementById("closemodal1");
+      const Settingbtn = document.getElementById("Settingbtn");
+      closemodalDB.addEventListener("click", closeDialog);
+      Settingbtn.addEventListener("click", showDialogSetting);
+    </script>
+  </body>
+</html>
+<!-- else if (cell[1] === 2) {
+              icon =
+                "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgODQyIDg0NC45Ij4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CgogICAgICAuY2xzLTIgewogICAgICAgIGZpbGw6ICMwNTliZTU7CiAgICAgIH0KCiAgICAgIC5jbHMtMyB7CiAgICAgICAgY2xpcC1wYXRoOiB1cmwoI2NsaXBwYXRoKTsKICAgICAgfQoKICAgICAgLmNscy00IHsKICAgICAgICBmaWxsOiBub25lOwogICAgICB9CiAgICA8L3N0eWxlPgogICAgPGNsaXBQYXRoIGlkPSJjbGlwcGF0aCI+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtNCIgZD0ibTQyMSwzaDBjMjMyLjUsMCw0MjAuOSwxODguNSw0MjAuOSw0MjAuOWgwYzAsMjMyLjUtMTg4LjUsNDIwLjktNDIwLjksNDIwLjloMEMxODguNiw4NDQuOS4xLDY1Ni40LjEsNDIzLjlILjFDLjEsMTkxLjUsMTg4LjYsMyw0MjEsM1oiLz4KICAgIDwvY2xpcFBhdGg+CiAgPC9kZWZzPgogIDxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iLjEiIHdpZHRoPSI4NDEuOSIgaGVpZ2h0PSI4NDEuOSIvPgogIDxnIGNsYXNzPSJjbHMtMyI+CiAgICA8cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Im04NDIsNDI2LjVDODQyLDE5Mi42LDY1My41LDIuOSw0MjEuMSwyLjksMTg4LjUsMywwLDE5Mi42LDAsNDI2LjZzMTU0LDM4Ni42LDM1NS4yLDQxOC40di0yOTZoLTEwNi44di0xMjIuNGgxMDYuOXYtOTMuNGMwLTEwNi4xLDYyLjktMTY0LjcsMTU5LTE2NC43czk0LjIsOC4zLDk0LjIsOC4zdjEwNC4yaC01My4xYy01Mi4yLDAtNjguNiwzMi43LTY4LjYsNjYuMnY3OS41aDExNi43bC0xOC42LDEyMi40aC05OC4xdjI5NmMyMDEuMi0zMS44LDM1NS4yLTIwNywzNTUuMi00MTguNFoiLz4KICA8L2c+Cjwvc3ZnPg==";
+            } else if (cell[1] === 3) {
+              icon =
+                "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMTAwMCAxMDAwIj4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjZmYzZDAwOwogICAgICB9CgogICAgICAuY2xzLTIgewogICAgICAgIGZpbGw6ICM0Y2FmNTA7CiAgICAgIH0KCiAgICAgIC5jbHMtMyB7CiAgICAgICAgY2xpcC1wYXRoOiB1cmwoI2NsaXBwYXRoKTsKICAgICAgfQoKICAgICAgLmNscy00IHsKICAgICAgICBmaWxsOiAjZmZjMTA3OwogICAgICB9CgogICAgICAuY2xzLTUgewogICAgICAgIGZpbGw6IG5vbmU7CiAgICAgIH0KCiAgICAgIC5jbHMtNiB7CiAgICAgICAgZmlsbDogIzE5NzZkMjsKICAgICAgfQogICAgPC9zdHlsZT4KICAgIDxjbGlwUGF0aCBpZD0iY2xpcHBhdGgiPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTUiIGQ9Im01MDAsMGgwYzI3Ni4xLDAsNTAwLDIyMy45LDUwMCw1MDBoMGMwLDI3Ni4xLTIyMy45LDUwMC01MDAsNTAwaDBDMjIzLjksMTAwMCwwLDc3Ni4xLDAsNTAwaDBDMCwyMjMuOSwyMjMuOSwwLDUwMCwwWiIvPgogICAgPC9jbGlwUGF0aD4KICA8L2RlZnM+CiAgPHJlY3QgY2xhc3M9ImNscy01IiB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwMCIgaGVpZ2h0PSIxMDAwIi8+CiAgPGcgY2xhc3M9ImNscy0zIj4KICAgIDxnPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTQiIGQ9Im05OTAuMyw0MDIuMWgtNDAuM3YtMi4xaC00NTB2MjAwaDI4Mi42Yy00MS4yLDExNi40LTE1MiwyMDAtMjgyLjYsMjAwcy0zMDAtMTM0LjMtMzAwLTMwMFMzMzQuMywyMDAsNTAwLDIwMHMxNDYsMjguOCwxOTksNzZsMTQxLjQtMTQxLjRDNzUxLjEsNTEuMyw2MzEuNywwLDUwMCwwLDIyMy45LDAsMCwyMjMuOSwwLDUwMHMyMjMuOSw1MDAsNTAwLDUwMCw1MDAtMjIzLjksNTAwLTUwMC0zLjQtNjYuMi05LjctOTcuOVoiLz4KICAgICAgPHBhdGggY2xhc3M9ImNscy0xIiBkPSJtNTcuNiwyNjcuM2wxNjQuMywxMjAuNWM0NC40LTExMCwxNTIuMS0xODcuNywyNzguMS0xODcuN3MxNDYsMjguOCwxOTksNzZsMTQxLjQtMTQxLjRDNzUxLjEsNTEuMyw2MzEuNywwLDUwMCwwLDMwNy45LDAsMTQxLjQsMTA4LjQsNTcuNiwyNjcuM1oiLz4KICAgICAgPHBhdGggY2xhc3M9ImNscy0yIiBkPSJtNTAwLDEwMDBjMTI5LjEsMCwyNDYuNS00OS40LDMzNS4yLTEyOS44bC0xNTQuNy0xMzAuOWMtNTEuOSwzOS41LTExNS4zLDYwLjgtMTgwLjUsNjAuNy0xMzAsMC0yNDAuNS04Mi45LTI4Mi4xLTE5OC42bC0xNjMsMTI1LjZjODIuNywxNjEuOSwyNTAuOCwyNzMsNDQ1LjEsMjczWiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTYiIGQ9Im05OTAuMyw0MDIuMWgtNDAuM3YtMi4xaC00NTB2MjAwaDI4Mi42Yy0xOS43LDU1LjQtNTUuMiwxMDMuOC0xMDIuMiwxMzkuM2gwczE1NC43LDEzMC45LDE1NC43LDEzMC45Yy0xMC45LDkuOSwxNjQuOC0xMjAuMiwxNjQuOC0zNzAuMnMtMy41LTY2LjItOS43LTk3LjlaIi8+CiAgICA8L2c+CiAgPC9nPgo8L3N2Zz4=";
+            } else if (cell[1] === 4) {
+              icon =
+                "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4NDEuOSA4NDEuOSI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5jbHMtMSB7CiAgICAgICAgZmlsbDogI2ZmZjsKICAgICAgfQoKICAgICAgLmNscy0yIHsKICAgICAgICBmaWxsOiAjZTIxYjFiOwogICAgICB9CgogICAgICAuY2xzLTMgewogICAgICAgIGZpbGw6ICNjY2M7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iMCIgd2lkdGg9Ijg0MS45IiBoZWlnaHQ9Ijg0MS45Ii8+CiAgPGc+CiAgICA8cGF0aCBjbGFzcz0iY2xzLTMiIGQ9Im0xMDQuOSwyNDcuM2gtNTAuOGMtMjkuOCwwLTU0LDI0LjMtNTQuMSw1NC4xdjE4MC4zYzAsMjkuOCwyNC4zLDU0LDU0LjEsNTQuMWg1MC44czIuMy0yOTAuOCwwLTI4OC41WiIvPgogICAgPHBhdGggY2xhc3M9ImNscy0yIiBkPSJtMTQ0LjMsMjQ0LjJ2Mjk1LjhsMTExLjYsMjEuOSw1MS43LDE3Mi4yaDcyLjF2LTE0Ny45bDM1NC44LDY5LjdWMTI4LjNMMTQ0LjMsMjQ0LjJaIi8+CiAgICA8cGF0aCBjbGFzcz0iY2xzLTMiIGQ9Im04MzkuNCwxMDcuN2wtNjUuNiwxMi45djU0My4xbDY1LjYsMTIuOVYxMDcuN1oiLz4KICA8L2c+Cjwvc3ZnPg==";
+            } else if (cell[1] === 5) {
+              icon =
+                "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDEwMDAiPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuY2xzLTEgewogICAgICAgIGZpbGw6IG5vbmU7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxwYXRoIGQ9Im05MDMuNSw3NzkuM2MtMTUuMSwzNC45LTMzLDY3LjEtNTMuOCw5Ni43LTI4LjMsNDAuMy01MS40LDY4LjItNjkuMyw4My43LTI3LjcsMjUuNC01Ny4zLDM4LjUtODksMzkuMi0yMi44LDAtNTAuMi02LjUtODIuMi0xOS42LTMyLjEtMTMuMS02MS42LTE5LjYtODguNS0xOS42cy01OC42LDYuNS05MSwxOS42Yy0zMi41LDEzLjItNTguNiwyMC03OC43LDIwLjctMzAuNCwxLjMtNjAuOC0xMi4xLTkxLTQwLjItMTkuMy0xNi44LTQzLjUtNDUuNy03Mi40LTg2LjctMzEuMS00My43LTU2LjYtOTQuNC03Ni42LTE1Mi4yLTIxLjQtNjIuNC0zMi4yLTEyMi44LTMyLjItMTgxLjNzMTQuNS0xMjQuOCw0My41LTE3My4zYzIyLjgtMzguOSw1My4xLTY5LjYsOTEuMS05Mi4xLDM4LTIyLjUsNzktMzQsMTIzLjEtMzQuNywyNC4yLDAsNTUuOSw3LjUsOTUuMiwyMi4yLDM5LjMsMTQuNyw2NC41LDIyLjIsNzUuNSwyMi4yczM2LjMtOC43LDgzLjgtMjYuMmM0NC45LTE2LjIsODIuOC0yMi44LDExMy45LTIwLjIsODQuMSw2LjgsMTQ3LjMsNDAsMTg5LjQsOTkuNy03NS4yLDQ1LjYtMTEyLjUsMTA5LjQtMTExLjcsMTkxLjQuNyw2My44LDIzLjgsMTE2LjksNjkuMywxNTkuMSwyMC42LDE5LjYsNDMuNiwzNC43LDY5LjMsNDUuNC01LjYsMTYuMS0xMS40LDMxLjUtMTcuNiw0Ni40aDBaTTcxMC41LDIwYzAsNTAtMTguMyw5Ni43LTU0LjcsMTM5LjktNDMuOSw1MS40LTk3LjEsODEuMS0xNTQuOCw3Ni40LS43LTYtMS4yLTEyLjMtMS4yLTE4LjksMC00OCwyMC45LTk5LjQsNTgtMTQxLjQsMTguNS0yMS4zLDQyLjEtMzksNzAuNy01My4xLDI4LjUtMTMuOSw1NS41LTIxLjYsODAuOS0yMi45LjcsNi43LDEsMTMuNCwxLDIwaDBaIi8+CiAgPHJlY3QgY2xhc3M9ImNscy0xIiB5PSIwIiB3aWR0aD0iMTAwMCIgaGVpZ2h0PSIxMDAwIi8+Cjwvc3ZnPg==";
+            } else if (cell[1] === 6) {
+              icon =
+                "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgODUwLjkgODQ3Ij4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CgogICAgICAuY2xzLTIgewogICAgICAgIGZpbGw6ICNjZGNjY2E7CiAgICAgIH0KCiAgICAgIC5jbHMtMyB7CiAgICAgICAgZmlsbDogI2ZjZDc1MTsKICAgICAgfQoKICAgICAgLmNscy00IHsKICAgICAgICBmaWxsOiAjMzMzZDQ3OwogICAgICB9CgogICAgICAuY2xzLTUgewogICAgICAgIGZpbGw6ICNmZmEyMjk7CiAgICAgIH0KCiAgICAgIC5jbHMtNiB7CiAgICAgICAgY2xpcC1wYXRoOiB1cmwoI2NsaXBwYXRoKTsKICAgICAgfQoKICAgICAgLmNscy03IHsKICAgICAgICBmaWxsOiBub25lOwogICAgICB9CgogICAgICAuY2xzLTggewogICAgICAgIGZpbGw6ICNmZWNhNWM7CiAgICAgIH0KCiAgICAgIC5jbHMtOSB7CiAgICAgICAgZmlsbDogI2YyZjJmMjsKICAgICAgfQogICAgPC9zdHlsZT4KICAgIDxjbGlwUGF0aCBpZD0iY2xpcHBhdGgiPgogICAgICA8cmVjdCBjbGFzcz0iY2xzLTciIHk9Ii45IiB3aWR0aD0iODUwLjkiIGhlaWdodD0iODQ2LjIiLz4KICAgIDwvY2xpcFBhdGg+CiAgPC9kZWZzPgogIDxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iNC41IiB3aWR0aD0iODQxLjkiIGhlaWdodD0iODQxLjkiLz4KICA8ZyBjbGFzcz0iY2xzLTYiPgogICAgPGc+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMyIgZD0ibTQuNSw4NDEuMnYtNDcyLjhsNDIxLjYsMjQ3LjlMNC41LDg0MS4yWiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTMiIGQ9Im04NDUuOSw4NDEuMnYtNDcyLjhsLTQyMS42LDI0Ny45LDQyMS42LDIyNC45WiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTUiIGQ9Im00LjUsODQxLjJsNDE5LjgtMjI0LjksNDIxLjYsMjI0LjlINC41WiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTgiIGQ9Im00MjQuMyw0LjhMNC41LDM2OC40bDQxOS44LDI0Ny45LDQyMS42LTI0Ny45TDQyNC4zLDQuOFoiLz4KICAgICAgPHBhdGggY2xhc3M9ImNscy05IiBkPSJtNDI1LjEsNjE1LjhsMzI4LjYtMTkzLjJWMTE3LjJIMTAwLjJ2MzA3LjZsMzI0LjksMTkxWiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Im01MjcuNSwyNDYuNEgxOTcuOHYxNC4yaDMyOS43di0xNC4yWiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Im02MzAuNywyMjMuNmgtNjAuMnY1OS44aDYwLjJ2LTU5LjhaIi8+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMiIgZD0ibTUyNy41LDMzNi40SDE5Ny44djE0LjJoMzI5Ljd2LTE0LjJaIi8+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0ibTYzMC43LDMxMy41aC02MC4ydjU5LjhoNjAuMnYtNTkuOFoiLz4KICAgICAgPHBhdGggY2xhc3M9ImNscy0yIiBkPSJtNTI3LjUsNDE0SDE5Ny44djE0LjJoMzI5Ljd2LTE0LjJaIi8+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMiIgZD0ibTUyNy41LDQzOC4zSDE5Ny44djE0LjJoMzI5Ljd2LTE0LjJaIi8+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0ibTYzMC43LDQwMy4zaC02MC4ydjU5LjhoNjAuMnYtNTkuOFoiLz4KICAgICAgPHBhdGggY2xhc3M9ImNscy00IiBkPSJtNTk3LjQsMjc0LjVsLTIyLjYtMjEuMiw1LjYtNiwxNi4xLDE1LjIsMjIuNC0yNi45LDYuMiw1LjEtMjcuOCwzMy43WiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTQiIGQ9Im01OTgsMzYyLjhsLTIyLjQtMjEuMiw1LjUtNS44LDE2LjMsMTUuMiwyMi4zLTI3LjEsNi4zLDUuMy0yNy45LDMzLjVaIi8+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0ibTYzMC43LDQ5NC44di0xLjdoLTYwLjJ2MzdsNjAuMi0zNS40WiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Im0yNTUuNCw1MTZsMjQuMywxNC4yaDI0Ny44di0xNC4ySDI1NS40WiIvPgogICAgPC9nPgogIDwvZz4KPC9zdmc+";
+            } else if (cell[1] === 0) {
+              icon =
+                "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2OTYuNyA4NDEuOSI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5jbHMtMSB7CiAgICAgICAgZmlsbDogIzQwYTgwMDsKICAgICAgfQogICAgPC9zdHlsZT4KICA8L2RlZnM+CiAgPHBhdGggY2xhc3M9ImNscy0xIiBkPSJtNjk2LjcsNzI1LjFjMC00NC4xLTI3LjItODQuNC03MC4yLTEwNC4xbC0xNTEuMy02OS4zYy0xOS41LTktMzEuOS0yNy4zLTMxLjktNDcuM3YtNTQuNGM0LjItNC40LDkuMS0xMC4xLDE0LjMtMTYuOSwyMC42LTI2LjcsMzYuMi01Niw0Ny04Ni45LDE5LjQtNS41LDMzLjctMjEuOSwzMy43LTQxLjR2LTU4LjFjMC0xMi44LTYuMi0yNC4yLTE1LjgtMzIuMnYtODMuOVM1NDEuMywwLDM0OC40LDBzLTE3NC4yLDEzMC42LTE3NC4yLDEzMC42djgzLjljLTkuNiw4LTE1LjgsMTkuNC0xNS44LDMyLjJ2NTguMWMwLDE1LjMsOC44LDI4LjgsMjEuOSwzNi41LDE1LjgsNjMuMiw1Ny4zLDEwOC42LDU3LjMsMTA4LjZ2NTMuMWMwLDE5LjMtMTEuNSwzNy4yLTMwLjEsNDYuNGwtMTQxLjMsNzAuNkMyNS40LDY0MC41LDAsNjc5LjcsMCw3MjIuM3Y0N2MwLDQwLjEsMTU2LDcyLjYsMzQ4LjQsNzIuNnMzNDguNC0zMi41LDM0OC40LTcyLjZ2LTQ0LjJaIi8+Cjwvc3ZnPg==";
+            }-->
+<!-- else if (cell[1] === 2) {
+              icon =
+                "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgODQyIDg0NC45Ij4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CgogICAgICAuY2xzLTIgewogICAgICAgIGZpbGw6ICMwNTliZTU7CiAgICAgIH0KCiAgICAgIC5jbHMtMyB7CiAgICAgICAgY2xpcC1wYXRoOiB1cmwoI2NsaXBwYXRoKTsKICAgICAgfQoKICAgICAgLmNscy00IHsKICAgICAgICBmaWxsOiBub25lOwogICAgICB9CiAgICA8L3N0eWxlPgogICAgPGNsaXBQYXRoIGlkPSJjbGlwcGF0aCI+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtNCIgZD0ibTQyMSwzaDBjMjMyLjUsMCw0MjAuOSwxODguNSw0MjAuOSw0MjAuOWgwYzAsMjMyLjUtMTg4LjUsNDIwLjktNDIwLjksNDIwLjloMEMxODguNiw4NDQuOS4xLDY1Ni40LjEsNDIzLjlILjFDLjEsMTkxLjUsMTg4LjYsMyw0MjEsM1oiLz4KICAgIDwvY2xpcFBhdGg+CiAgPC9kZWZzPgogIDxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iLjEiIHdpZHRoPSI4NDEuOSIgaGVpZ2h0PSI4NDEuOSIvPgogIDxnIGNsYXNzPSJjbHMtMyI+CiAgICA8cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Im04NDIsNDI2LjVDODQyLDE5Mi42LDY1My41LDIuOSw0MjEuMSwyLjksMTg4LjUsMywwLDE5Mi42LDAsNDI2LjZzMTU0LDM4Ni42LDM1NS4yLDQxOC40di0yOTZoLTEwNi44di0xMjIuNGgxMDYuOXYtOTMuNGMwLTEwNi4xLDYyLjktMTY0LjcsMTU5LTE2NC43czk0LjIsOC4zLDk0LjIsOC4zdjEwNC4yaC01My4xYy01Mi4yLDAtNjguNiwzMi43LTY4LjYsNjYuMnY3OS41aDExNi43bC0xOC42LDEyMi40aC05OC4xdjI5NmMyMDEuMi0zMS44LDM1NS4yLTIwNywzNTUuMi00MTguNFoiLz4KICA8L2c+Cjwvc3ZnPg==";
+            } else if (cell[1] === 3) {
+              icon =
+                "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMTAwMCAxMDAwIj4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjZmYzZDAwOwogICAgICB9CgogICAgICAuY2xzLTIgewogICAgICAgIGZpbGw6ICM0Y2FmNTA7CiAgICAgIH0KCiAgICAgIC5jbHMtMyB7CiAgICAgICAgY2xpcC1wYXRoOiB1cmwoI2NsaXBwYXRoKTsKICAgICAgfQoKICAgICAgLmNscy00IHsKICAgICAgICBmaWxsOiAjZmZjMTA3OwogICAgICB9CgogICAgICAuY2xzLTUgewogICAgICAgIGZpbGw6IG5vbmU7CiAgICAgIH0KCiAgICAgIC5jbHMtNiB7CiAgICAgICAgZmlsbDogIzE5NzZkMjsKICAgICAgfQogICAgPC9zdHlsZT4KICAgIDxjbGlwUGF0aCBpZD0iY2xpcHBhdGgiPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTUiIGQ9Im01MDAsMGgwYzI3Ni4xLDAsNTAwLDIyMy45LDUwMCw1MDBoMGMwLDI3Ni4xLTIyMy45LDUwMC01MDAsNTAwaDBDMjIzLjksMTAwMCwwLDc3Ni4xLDAsNTAwaDBDMCwyMjMuOSwyMjMuOSwwLDUwMCwwWiIvPgogICAgPC9jbGlwUGF0aD4KICA8L2RlZnM+CiAgPHJlY3QgY2xhc3M9ImNscy01IiB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwMCIgaGVpZ2h0PSIxMDAwIi8+CiAgPGcgY2xhc3M9ImNscy0zIj4KICAgIDxnPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTQiIGQ9Im05OTAuMyw0MDIuMWgtNDAuM3YtMi4xaC00NTB2MjAwaDI4Mi42Yy00MS4yLDExNi40LTE1MiwyMDAtMjgyLjYsMjAwcy0zMDAtMTM0LjMtMzAwLTMwMFMzMzQuMywyMDAsNTAwLDIwMHMxNDYsMjguOCwxOTksNzZsMTQxLjQtMTQxLjRDNzUxLjEsNTEuMyw2MzEuNywwLDUwMCwwLDIyMy45LDAsMCwyMjMuOSwwLDUwMHMyMjMuOSw1MDAsNTAwLDUwMCw1MDAtMjIzLjksNTAwLTUwMC0zLjQtNjYuMi05LjctOTcuOVoiLz4KICAgICAgPHBhdGggY2xhc3M9ImNscy0xIiBkPSJtNTcuNiwyNjcuM2wxNjQuMywxMjAuNWM0NC40LTExMCwxNTIuMS0xODcuNywyNzguMS0xODcuN3MxNDYsMjguOCwxOTksNzZsMTQxLjQtMTQxLjRDNzUxLjEsNTEuMyw2MzEuNywwLDUwMCwwLDMwNy45LDAsMTQxLjQsMTA4LjQsNTcuNiwyNjcuM1oiLz4KICAgICAgPHBhdGggY2xhc3M9ImNscy0yIiBkPSJtNTAwLDEwMDBjMTI5LjEsMCwyNDYuNS00OS40LDMzNS4yLTEyOS44bC0xNTQuNy0xMzAuOWMtNTEuOSwzOS41LTExNS4zLDYwLjgtMTgwLjUsNjAuNy0xMzAsMC0yNDAuNS04Mi45LTI4Mi4xLTE5OC42bC0xNjMsMTI1LjZjODIuNywxNjEuOSwyNTAuOCwyNzMsNDQ1LjEsMjczWiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTYiIGQ9Im05OTAuMyw0MDIuMWgtNDAuM3YtMi4xaC00NTB2MjAwaDI4Mi42Yy0xOS43LDU1LjQtNTUuMiwxMDMuOC0xMDIuMiwxMzkuM2gwczE1NC43LDEzMC45LDE1NC43LDEzMC45Yy0xMC45LDkuOSwxNjQuOC0xMjAuMiwxNjQuOC0zNzAuMnMtMy41LTY2LjItOS43LTk3LjlaIi8+CiAgICA8L2c+CiAgPC9nPgo8L3N2Zz4=";
+            } else if (cell[1] === 4) {
+              icon =
+                "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4NDEuOSA4NDEuOSI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5jbHMtMSB7CiAgICAgICAgZmlsbDogI2ZmZjsKICAgICAgfQoKICAgICAgLmNscy0yIHsKICAgICAgICBmaWxsOiAjZTIxYjFiOwogICAgICB9CgogICAgICAuY2xzLTMgewogICAgICAgIGZpbGw6ICNjY2M7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iMCIgd2lkdGg9Ijg0MS45IiBoZWlnaHQ9Ijg0MS45Ii8+CiAgPGc+CiAgICA8cGF0aCBjbGFzcz0iY2xzLTMiIGQ9Im0xMDQuOSwyNDcuM2gtNTAuOGMtMjkuOCwwLTU0LDI0LjMtNTQuMSw1NC4xdjE4MC4zYzAsMjkuOCwyNC4zLDU0LDU0LjEsNTQuMWg1MC44czIuMy0yOTAuOCwwLTI4OC41WiIvPgogICAgPHBhdGggY2xhc3M9ImNscy0yIiBkPSJtMTQ0LjMsMjQ0LjJ2Mjk1LjhsMTExLjYsMjEuOSw1MS43LDE3Mi4yaDcyLjF2LTE0Ny45bDM1NC44LDY5LjdWMTI4LjNMMTQ0LjMsMjQ0LjJaIi8+CiAgICA8cGF0aCBjbGFzcz0iY2xzLTMiIGQ9Im04MzkuNCwxMDcuN2wtNjUuNiwxMi45djU0My4xbDY1LjYsMTIuOVYxMDcuN1oiLz4KICA8L2c+Cjwvc3ZnPg==";
+            } else if (cell[1] === 5) {
+              icon =
+                "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDEwMDAiPgogIDxkZWZzPgogICAgPHN0eWxlPgogICAgICAuY2xzLTEgewogICAgICAgIGZpbGw6IG5vbmU7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxwYXRoIGQ9Im05MDMuNSw3NzkuM2MtMTUuMSwzNC45LTMzLDY3LjEtNTMuOCw5Ni43LTI4LjMsNDAuMy01MS40LDY4LjItNjkuMyw4My43LTI3LjcsMjUuNC01Ny4zLDM4LjUtODksMzkuMi0yMi44LDAtNTAuMi02LjUtODIuMi0xOS42LTMyLjEtMTMuMS02MS42LTE5LjYtODguNS0xOS42cy01OC42LDYuNS05MSwxOS42Yy0zMi41LDEzLjItNTguNiwyMC03OC43LDIwLjctMzAuNCwxLjMtNjAuOC0xMi4xLTkxLTQwLjItMTkuMy0xNi44LTQzLjUtNDUuNy03Mi40LTg2LjctMzEuMS00My43LTU2LjYtOTQuNC03Ni42LTE1Mi4yLTIxLjQtNjIuNC0zMi4yLTEyMi44LTMyLjItMTgxLjNzMTQuNS0xMjQuOCw0My41LTE3My4zYzIyLjgtMzguOSw1My4xLTY5LjYsOTEuMS05Mi4xLDM4LTIyLjUsNzktMzQsMTIzLjEtMzQuNywyNC4yLDAsNTUuOSw3LjUsOTUuMiwyMi4yLDM5LjMsMTQuNyw2NC41LDIyLjIsNzUuNSwyMi4yczM2LjMtOC43LDgzLjgtMjYuMmM0NC45LTE2LjIsODIuOC0yMi44LDExMy45LTIwLjIsODQuMSw2LjgsMTQ3LjMsNDAsMTg5LjQsOTkuNy03NS4yLDQ1LjYtMTEyLjUsMTA5LjQtMTExLjcsMTkxLjQuNyw2My44LDIzLjgsMTE2LjksNjkuMywxNTkuMSwyMC42LDE5LjYsNDMuNiwzNC43LDY5LjMsNDUuNC01LjYsMTYuMS0xMS40LDMxLjUtMTcuNiw0Ni40aDBaTTcxMC41LDIwYzAsNTAtMTguMyw5Ni43LTU0LjcsMTM5LjktNDMuOSw1MS40LTk3LjEsODEuMS0xNTQuOCw3Ni40LS43LTYtMS4yLTEyLjMtMS4yLTE4LjksMC00OCwyMC45LTk5LjQsNTgtMTQxLjQsMTguNS0yMS4zLDQyLjEtMzksNzAuNy01My4xLDI4LjUtMTMuOSw1NS41LTIxLjYsODAuOS0yMi45LjcsNi43LDEsMTMuNCwxLDIwaDBaIi8+CiAgPHJlY3QgY2xhc3M9ImNscy0xIiB5PSIwIiB3aWR0aD0iMTAwMCIgaGVpZ2h0PSIxMDAwIi8+Cjwvc3ZnPg==";
+            } else if (cell[1] === 6) {
+              icon =
+                "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgODUwLjkgODQ3Ij4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICB9CgogICAgICAuY2xzLTIgewogICAgICAgIGZpbGw6ICNjZGNjY2E7CiAgICAgIH0KCiAgICAgIC5jbHMtMyB7CiAgICAgICAgZmlsbDogI2ZjZDc1MTsKICAgICAgfQoKICAgICAgLmNscy00IHsKICAgICAgICBmaWxsOiAjMzMzZDQ3OwogICAgICB9CgogICAgICAuY2xzLTUgewogICAgICAgIGZpbGw6ICNmZmEyMjk7CiAgICAgIH0KCiAgICAgIC5jbHMtNiB7CiAgICAgICAgY2xpcC1wYXRoOiB1cmwoI2NsaXBwYXRoKTsKICAgICAgfQoKICAgICAgLmNscy03IHsKICAgICAgICBmaWxsOiBub25lOwogICAgICB9CgogICAgICAuY2xzLTggewogICAgICAgIGZpbGw6ICNmZWNhNWM7CiAgICAgIH0KCiAgICAgIC5jbHMtOSB7CiAgICAgICAgZmlsbDogI2YyZjJmMjsKICAgICAgfQogICAgPC9zdHlsZT4KICAgIDxjbGlwUGF0aCBpZD0iY2xpcHBhdGgiPgogICAgICA8cmVjdCBjbGFzcz0iY2xzLTciIHk9Ii45IiB3aWR0aD0iODUwLjkiIGhlaWdodD0iODQ2LjIiLz4KICAgIDwvY2xpcFBhdGg+CiAgPC9kZWZzPgogIDxyZWN0IGNsYXNzPSJjbHMtMSIgeD0iNC41IiB3aWR0aD0iODQxLjkiIGhlaWdodD0iODQxLjkiLz4KICA8ZyBjbGFzcz0iY2xzLTYiPgogICAgPGc+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMyIgZD0ibTQuNSw4NDEuMnYtNDcyLjhsNDIxLjYsMjQ3LjlMNC41LDg0MS4yWiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTMiIGQ9Im04NDUuOSw4NDEuMnYtNDcyLjhsLTQyMS42LDI0Ny45LDQyMS42LDIyNC45WiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTUiIGQ9Im00LjUsODQxLjJsNDE5LjgtMjI0LjksNDIxLjYsMjI0LjlINC41WiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTgiIGQ9Im00MjQuMyw0LjhMNC41LDM2OC40bDQxOS44LDI0Ny45LDQyMS42LTI0Ny45TDQyNC4zLDQuOFoiLz4KICAgICAgPHBhdGggY2xhc3M9ImNscy05IiBkPSJtNDI1LjEsNjE1LjhsMzI4LjYtMTkzLjJWMTE3LjJIMTAwLjJ2MzA3LjZsMzI0LjksMTkxWiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Im01MjcuNSwyNDYuNEgxOTcuOHYxNC4yaDMyOS43di0xNC4yWiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Im02MzAuNywyMjMuNmgtNjAuMnY1OS44aDYwLjJ2LTU5LjhaIi8+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMiIgZD0ibTUyNy41LDMzNi40SDE5Ny44djE0LjJoMzI5Ljd2LTE0LjJaIi8+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0ibTYzMC43LDMxMy41aC02MC4ydjU5LjhoNjAuMnYtNTkuOFoiLz4KICAgICAgPHBhdGggY2xhc3M9ImNscy0yIiBkPSJtNTI3LjUsNDE0SDE5Ny44djE0LjJoMzI5Ljd2LTE0LjJaIi8+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMiIgZD0ibTUyNy41LDQzOC4zSDE5Ny44djE0LjJoMzI5Ljd2LTE0LjJaIi8+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0ibTYzMC43LDQwMy4zaC02MC4ydjU5LjhoNjAuMnYtNTkuOFoiLz4KICAgICAgPHBhdGggY2xhc3M9ImNscy00IiBkPSJtNTk3LjQsMjc0LjVsLTIyLjYtMjEuMiw1LjYtNiwxNi4xLDE1LjIsMjIuNC0yNi45LDYuMiw1LjEtMjcuOCwzMy43WiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTQiIGQ9Im01OTgsMzYyLjhsLTIyLjQtMjEuMiw1LjUtNS44LDE2LjMsMTUuMiwyMi4zLTI3LjEsNi4zLDUuMy0yNy45LDMzLjVaIi8+CiAgICAgIDxwYXRoIGNsYXNzPSJjbHMtMSIgZD0ibTYzMC43LDQ5NC44di0xLjdoLTYwLjJ2MzdsNjAuMi0zNS40WiIvPgogICAgICA8cGF0aCBjbGFzcz0iY2xzLTIiIGQ9Im0yNTUuNCw1MTZsMjQuMywxNC4yaDI0Ny44di0xNC4ySDI1NS40WiIvPgogICAgPC9nPgogIDwvZz4KPC9zdmc+";
+            } else if (cell[1] === 0) {
+              icon =
+                "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2OTYuNyA4NDEuOSI+CiAgPGRlZnM+CiAgICA8c3R5bGU+CiAgICAgIC5jbHMtMSB7CiAgICAgICAgZmlsbDogIzQwYTgwMDsKICAgICAgfQogICAgPC9zdHlsZT4KICA8L2RlZnM+CiAgPHBhdGggY2xhc3M9ImNscy0xIiBkPSJtNjk2LjcsNzI1LjFjMC00NC4xLTI3LjItODQuNC03MC4yLTEwNC4xbC0xNTEuMy02OS4zYy0xOS41LTktMzEuOS0yNy4zLTMxLjktNDcuM3YtNTQuNGM0LjItNC40LDkuMS0xMC4xLDE0LjMtMTYuOSwyMC42LTI2LjcsMzYuMi01Niw0Ny04Ni45LDE5LjQtNS41LDMzLjctMjEuOSwzMy43LTQxLjR2LTU4LjFjMC0xMi44LTYuMi0yNC4yLTE1LjgtMzIuMnYtODMuOVM1NDEuMywwLDM0OC40LDBzLTE3NC4yLDEzMC42LTE3NC4yLDEzMC42djgzLjljLTkuNiw4LTE1LjgsMTkuNC0xNS44LDMyLjJ2NTguMWMwLDE1LjMsOC44LDI4LjgsMjEuOSwzNi41LDE1LjgsNjMuMiw1Ny4zLDEwOC42LDU3LjMsMTA4LjZ2NTMuMWMwLDE5LjMtMTEuNSwzNy4yLTMwLjEsNDYuNGwtMTQxLjMsNzAuNkMyNS40LDY0MC41LDAsNjc5LjcsMCw3MjIuM3Y0N2MwLDQwLjEsMTU2LDcyLjYsMzQ4LjQsNzIuNnMzNDguNC0zMi41LDM0OC40LTcyLjZ2LTQ0LjJaIi8+Cjwvc3ZnPg==";
+            }
+            return `<td style="display: flex; align-items: center; gap: 5px;"><img class="icon" src="${icon}" alt="${cell}"><span style="margin-left: 5px;">${cell[0]}</span></td> -->
+<!-- function generateListDB() {
+              const dropdownMenu = document.getElementById("dropdown-menu");
+      
+              databaseList.forEach((database) => {
+                const { DatabaseName, DBId, listTable } = database;
+      
+                // Create the dropdown container
+                const dropdownContainer = document.createElement("li");
+                dropdownContainer.classList.add("dropdown-table");
+      
+                // Create the item container
+                const itemContainer = document.createElement("div");
+                itemContainer.classList.add("itemContainer");
+                itemContainer.style.marginBottom = "10px";
+      
+                // Create the link
+                const link = document.createElement("a");
+                link.setAttribute("href", `database.html?dbId=${DBId}`);
+                link.textContent = DatabaseName;
+      
+                // Create the buttons container
+                const buttonsContainer = document.createElement("div");
+      
+                // Create the toggle button
+                const toggleButton = document.createElement("button");
+                toggleButton.textContent = "▼";
+                toggleButton.addEventListener("click", function () {
+                  toggleDropdown(dropdownContainer);
+                });
+      
+                // Create the settings button
+                const settingsButton = document.createElement("button");
+                settingsButton.textContent = "⚙️";
+      
+                // Create the nested dropdown menu
+                const nestedDropdownMenu = document.createElement("ul");
+                nestedDropdownMenu.classList.add("dropdown-menu");
+      
+                // Append elements to their respective containers
+                buttonsContainer.appendChild(toggleButton);
+                buttonsContainer.appendChild(settingsButton);
+                itemContainer.appendChild(link);
+                itemContainer.appendChild(buttonsContainer);
+                dropdownContainer.appendChild(itemContainer);
+                dropdownContainer.appendChild(nestedDropdownMenu);
+                nestedDropdownMenu.style.display = "none"; // Hide the nested dropdown menu initially
+      
+                // Append the dropdown container to the main dropdown menu
+                dropdownMenu.appendChild(dropdownContainer);
+      
+                // Generate the nested list of tables
+                generateListTables(listTable, nestedDropdownMenu);
+              });
+            }
+      
+            function generateListTables(listTable, parentElement) {
+              listTable.forEach((table) => {
+                const { TableId, TableName, Description } = table;
+      
+                // Create the table item
+                const tableItem = document.createElement("li");
+      
+                // Create the item container
+                const itemContainer = document.createElement("div");
+                itemContainer.classList.add("itemContainer");
+                itemContainer.style.marginBottom = "10px";
+      
+                // Create the link
+                const link = document.createElement("a");
+                link.setAttribute("href", "");
+                link.textContent = TableName;
+      
+                // Create the buttons container
+                const buttonsContainer = document.createElement("div");
+      
+                // Create the toggle button
+                const toggleButton = document.createElement("button");
+                toggleButton.textContent = "▼";
+                toggleButton.addEventListener("click", function () {
+                  toggleDropdown(tableItem);
+                });
+      
+                // Create the settings button
+                const settingsButton = document.createElement("button");
+                settingsButton.textContent = "⚙️";
+      
+                // Append elements to their respective containers
+                buttonsContainer.appendChild(toggleButton);
+                buttonsContainer.appendChild(settingsButton);
+                itemContainer.appendChild(link);
+                itemContainer.appendChild(buttonsContainer);
+                tableItem.appendChild(itemContainer);
+      
+                // Append the table item to the parent element
+                parentElement.appendChild(tableItem);
+              });
+            } -->

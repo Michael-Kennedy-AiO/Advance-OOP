@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Đua ngựa</title>
+	<script src="BGEngine.js"></script>
+</head>
+
+<body>
+	<canvas id="myCanvas" style="border:1px solid #000000;"></canvas>
+	<script>
+		const canvas = document.getElementById("myCanvas");
+		canvas.width  = window.innerWidth-22;
+		canvas.height = window.innerHeight-22;
+		gameEngine.initCanvas(canvas);
+		window.addEventListener('resize', function(){
+			canvas.width  = window.innerWidth-22;
+			canvas.height = window.innerHeight-22;
+			gameEngine.initCanvas(canvas);
+		});
+		
+		class sceneLogin extends GameScene{
+			constructor(){super("aaaaaa");}
+			onInit(){
+				this.img = new Image();
+				this.ctx.font = "48px serif";
+			}
+			onUpdate(){
+				//console.log("Đang ở trong Scene("+this.sceneName+") |||||| "+gameEngine.FPS);
+
+				gameEngine.ctx.strokeStyle = "yellow";
+				gameEngine.ctx.beginPath(); 
+				gameEngine.ctx.moveTo(10,45);
+				gameEngine.ctx.lineTo(window.innerWidth - 32 ,45);
+				// Make the line visible
+				gameEngine.ctx.stroke();
+				gameEngine.ctx.strokeStyle = "blue";
+				
+				gameEngine.ctx.fillStyle = "green";
+				gameEngine.ctx.fillRect(100, 100, 500, 350);
+				this.ctx.drawImage(this.img,150,150);
+				
+				this.ctx.fillStyle = "#FFA500";
+				this.ctx.fillText("👏 FPS : "+gameEngine.FPS, 200, 200);
+			}
+		}
+		
+		gameEngine.changeScene(new sceneLogin());
+
+	</script>
+</body>
+
+</html>

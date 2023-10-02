@@ -1,0 +1,161 @@
+.menu {
+  display: flex;
+  gap: 20px;
+  justify-content: right;
+}
+.sidebar {
+  background-color: #f1f1f1;
+  height: 100vh;
+  width: 250px;
+  /* padding: 10px; */
+  float: left;
+  overflow: auto;
+}
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.sidebar ul li {
+  margin-bottom: 10px;
+}
+
+.sidebar ul li a {
+  color: #333;
+  text-decoration: none;
+  display: block;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  padding: 0 20px;
+}
+.menu-item {
+  color: #fff;
+  text-decoration: none;
+  padding: 5px;
+  border-radius: 5px;
+}
+.active {
+  background-color: #333;
+  color: rgb(255, 255, 255) !important;
+  display: block;
+}
+.active a {
+  background-color: #333;
+  color: rgb(255, 255, 255) !important;
+  word-wrap: no;
+}
+
+/* Dropdown toggle button */
+.dropdown button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+  display: block;
+  /* position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1;
+  background-color: #f9f9f9;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); */
+}
+
+/* Show dropdown menu */
+.dropdown-menu.inactive {
+  display: none;
+}
+
+.itemContainer {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.itemContainer:hover,
+.itemContainer:hover a {
+  background-color: #333;
+  color: #fff;
+}
+/* .itemTableContainer:hover,
+.itemTableContainer:hover a {
+  background-color: #333;
+  color: #fff;
+} */
+
+.dropdown-menu-table {
+  list-style: none;
+  padding-left: 20px;
+  display: none;
+}
+.isactive {
+  display: block;
+}
+/* .dropdown-menu-table.active {
+  display: block;
+} */
+.create-table {
+  width: 70%;
+}
+.input-field1 {
+  padding: 5px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 150px;
+  margin: 5px 0;
+}
+.input-field2 {
+  padding: 5px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 50px;
+}
+.createTableBtn {
+  height: 40px;
+  background: linear-gradient(
+    270deg,
+    rgba(9, 107, 222, 1) 0%,
+    rgba(109, 185, 255, 1) 100%
+  ) !important;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 4px;
+}
+.activetable,
+.activetable > a {
+  background-color: #709983 !important;
+  color: #fff !important;
+}
+.tag {
+  /* background: linear-gradient(
+    270deg,
+    rgba(9, 107, 222, 1) 0%,
+    rgba(109, 185, 255, 1) 100%
+  ) !important; */
+  padding: 5px 10px;
+  margin-right: 5px;
+  text-align: center;
+  border-radius: 50px;
+}
+.buttonback {
+  background-color: rgba(109, 185, 255, 0);
+  border: none;
+  font-size: 30px;
+  width: fit-content;
+}
+.buttonback:hover {
+  scale: 1.2;
+}

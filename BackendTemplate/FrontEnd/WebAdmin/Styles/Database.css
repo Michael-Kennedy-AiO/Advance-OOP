@@ -1,0 +1,410 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  overflow: hidden;
+}
+
+header {
+  position: relative;
+  background: linear-gradient(
+    270deg,
+    rgba(9, 107, 222, 1) 0%,
+    rgba(109, 185, 255, 1) 100%
+  );
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  display: flex;
+  height: 30px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 30px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  font-family: Arial, sans-serif;
+}
+
+th {
+  padding: 3px 0;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  background-color: #333 !important;
+  color: #f1f1f1;
+}
+td {
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  padding: 0px !important;
+}
+
+/* th {
+        background-color: #f5f5f5;
+        font-weight: bold;
+        font-size: larger;
+      } */
+
+tr:hover {
+  background-color: #f9f9f9;
+}
+
+.tableData {
+  width: 100%;
+  overflow: scroll;
+  /* max-height: 99%;  */
+}
+.tableData thead {
+  position: sticky;
+  top: 0;
+  height: 20px !important;
+  padding: 5px;
+}
+.headerContent {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0px;
+  align-items: center;
+}
+.createBtn {
+  font-size: 20px;
+  padding: 4px 10px;
+  background: linear-gradient(
+    270deg,
+    rgba(9, 107, 222, 1) 0%,
+    rgba(109, 185, 255, 1) 100%
+  );
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 4px;
+}
+.searchBtn {
+  font-size: 20px;
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+.content {
+  height: 100%;
+}
+/* .headerContent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  } */
+
+.searchSelect {
+  font-size: 16px;
+  padding: 5px;
+  margin-right: 10px;
+  border: solid 3px;
+  border-image: linear-gradient(
+    270deg,
+    rgba(9, 107, 222, 1) 0%,
+    rgba(109, 185, 255, 1) 100%
+  );
+  border-image-slice: 1;
+}
+.limit {
+  width: 60px;
+  font-size: 16px;
+  padding: 5px;
+  margin-right: 10px;
+  border: solid 3px;
+  border-image: linear-gradient(
+    270deg,
+    rgba(9, 107, 222, 1) 0%,
+    rgba(109, 185, 255, 1) 100%
+  );
+  border-image-slice: 1;
+}
+.searchInput {
+  font-size: 16px;
+  padding: 5px;
+  flex-grow: 1;
+  width: 35vh;
+  border: solid 3px;
+  border-image: linear-gradient(
+    270deg,
+    rgba(9, 107, 222, 1) 0%,
+    rgba(109, 185, 255, 1) 100%
+  );
+  border-image-slice: 1;
+}
+
+/* .createBtn {
+    font-size: 16px;
+    padding: 5px 10px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  } */
+
+.createBtn:focus {
+  outline: none;
+}
+.icon {
+  height: 23px;
+  width: 23px;
+  padding: 2px;
+}
+.opendialog {
+  text-decoration: underline blue;
+  cursor: pointer;
+}
+.dialog {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.dialog-index {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.dialog-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 70%;
+  box-sizing: border-box;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.configBtn {
+  font-size: 30px;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+}
+.configBtn:hover {
+  scale: 1.2;
+}
+.copyBtn {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  font-size: larger;
+}
+.dialog-indexing {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px; /* Adjust the width as needed */
+  max-width: 90%;
+  height: auto;
+  background-color: #fefefe;
+  z-index: 9999;
+  /* padding: 0 20px; */
+}
+.form-container {
+  width: 100%;
+  margin-left: -100 !important;
+  padding: 20px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.form-container label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.form-container input[type="text"],
+.form-container input[type="password"] {
+  width: 100%;
+  padding: 8px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.form-container input[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.form-container input[type="submit"]:hover {
+  background-color: #45a049;
+}
+.optionStatus {
+  font-size: larger;
+  border: none;
+}
+dialog#updateKey {
+  width: 300px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles for the dialog content */
+dialog#updateKey p {
+  margin-bottom: 10px;
+}
+
+/* Styles for the input field */
+dialog#updateKey input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+dialog#updateKey button {
+  display: block;
+  width: 100%;
+  padding: 8px 16px;
+
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+dialog#describesetting button:hover {
+  background-color: #0069d9;
+}
+dialog#describesetting {
+  width: 300px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles for the dialog content */
+dialog#describesetting p {
+  margin-bottom: 10px;
+}
+
+/* Styles for the input field */
+dialog#describesetting input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  /* margin-bottom: 10px; */
+}
+
+dialog#describesetting button {
+  display: block;
+  width: 100%;
+  padding: 8px 16px;
+
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+dialog#describesetting button:hover {
+  background-color: #0069d9;
+}
+
+.dragTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.dragTable thead {
+  background-color: #f2f2f2 !important;
+}
+
+.dragTable tbody td {
+  padding: 10px !important;
+  border-top: 1px solid #ccc !important;
+  transition: background-color 0.3s ease;
+}
+
+.dragTable th {
+  text-align: left;
+}
+
+.dragTable tbody tr {
+  cursor: move;
+  background-color: #ffffff;
+  transition: background-color 0.3s ease;
+}
+
+.dragTable tbody tr.placeholder {
+  background-color: #9b3131 !important;
+}
+
+.dragTable tbody tr.hover {
+  background-color: #f9f9f9;
+}
+
+.dragTable .dragged {
+  opacity: 0.6;
+}
+
+.dragTable .dragged td {
+  border-style: double;
+}
+
+.dragTable tbody tr.placeholder td {
+  border-bottom: 2px solid #333;
+}
+.indexView {
+  display: flex;
+  align-items: center !important;
+  text-align: center;
+  gap: 10px;
+}
+.indexView div {
+  font-size: larger;
+  font-weight: bolder;
+  text-align: center;
+}

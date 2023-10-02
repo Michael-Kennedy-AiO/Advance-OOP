@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Backend</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            position: relative;
+            background: linear-gradient(270deg, rgba(9,107,222,1) 0%, rgba(109,185,255,1) 100%);
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            display: flex;
+            height: 30px;
+            justify-content: space-between;
+            align-items: center;
+            padding:  30px 30px;
+        }
+        .menu {
+            display: flex;
+            gap: 20px;
+            justify-content: right;
+        }
+        .sidebar {
+            background-color: #f1f1f1;
+            height: 100vh;
+            width: 200px;
+            padding: 10px;
+            float: left;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .sidebar ul li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar ul li a {
+            color: #333;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .sidebar ul li a:hover {
+            background-color: #333;
+            color: #fff;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            padding: 0 20px;
+        }
+        .menu-item {
+            color: #fff;
+            text-decoration: none;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        .active{
+            background-color: #333;
+            color: rgb(255, 255, 255) !important;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .tableData{
+            width: 100%;
+        }
+        .headerContent{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px  0px;
+            align-items: center;
+        }
+        .createBtn{
+            height: 40px;
+            background: linear-gradient(270deg, rgba(9,107,222,1) 0%, rgba(109,185,255,1) 100%);
+            color: white;
+            padding: 5px 10px;           
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <!-- <header>
+        <div class="logo">
+            <h2>BINARY BACKEND</h2>
+        </div>
+        <div class="menu">
+            <a href="#" class="menu-item">Pricing</a>
+            <a href="#" class="menu-item">Download</a>
+            <a href="#" class="menu-item">Document</a>
+            <a href="#" class="menu-item">Profile</a>
+        </div>
+    </header> -->
+    <nav class="sidebar">
+        <ul>
+            <li><a href="#" class="active">Home</a></li>
+            <li><a href="#" >Database</a></li>
+            <li><a href="#">Billing</a></li>
+            <li><a href="#">Referal Program</a></li>
+        </ul>
+    </nav>
+    <main>
+        <div class="headerContent">
+            <h2>
+                Database lists
+            </h2>
+            <button class="createBtn">
+                Create new database
+            </button>
+        </div>
+       <div class="tableData">
+        <table id="databaseTable">
+            <thead>
+                <tr>
+                    <th>Database Name</th>
+                    <th>Description</th>
+                    <th>DBId</th>
+                </tr>
+            </thead>
+            <tbody>
+              <!-- Table rows will be dynamically generated -->
+            </tbody>
+          </table>
+       </div>
+    </main>
+    <script>
+        const menuItems = document.querySelectorAll('.sidebar a');
+        menuItems.forEach(item => {
+        item.addEventListener('click', () => {
+            menuItems.forEach(item => item.classList.remove('active'));
+            item.classList.add('active');
+        });
+        });
+        document.addEventListener('DOMContentLoaded', loadData);
+
+    function loadData() {
+        const token = localStorage.getItem('token'); // Get the token from local storage
+
+        fetch('/admin/Lobby/Get-Database-Info', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                AdminToken: token // Include the token in the request body with the name "AdminToken"
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'Success') {
+                const databaseList = data.data.listDatabase;
+                const tableBody = document.querySelector('#databaseTable tbody');
+                tableBody.innerHTML = generateTableRows(databaseList);
+                addRowClickListeners(databaseList);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    function generateTableRows(databaseList) {
+        return databaseList.map(database => {
+            const { DatabaseName, Description, DBId, id } = database;
+            return `<tr data-dbId="${DBId}">
+                        <td>${DatabaseName}</td>
+                        <td>${Description}</td>
+                        <td>${DBId}</td>
+                    </tr>`;
+        }).join('');
+    }
+    function addRowClickListeners(databaseList) {
+        const tableRows = document.querySelectorAll('#databaseTable tbody tr');
+        tableRows.forEach(row => {
+            row.addEventListener('click', () => {
+                const dbId = row.getAttribute('data-dbId');
+                navigateToDatabasePage(dbId);
+            });
+        });
+    }
+    function navigateToDatabasePage(dbId) {
+        // Replace 'database.html' with the path to your database page
+        window.location.href = `database.html?dbId=${dbId}`;
+    }
+</script>
+</body>
+</html>
