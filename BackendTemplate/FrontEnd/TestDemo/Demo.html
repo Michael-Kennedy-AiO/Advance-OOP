@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        .horse-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid white;
+            background-color: #977e0d;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .horse {
+            position: absolute;
+            left: 0%;
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            border-radius: 50%;
+            animation: moveright linear infinite;
+        }
+
+        @keyframes moveright {
+            0% {
+                left: 0%;
+            }
+
+            100% {
+                left: calc(100% - 20px);
+            }
+        }
+
+        #horse1 {
+            animation-duration: 5s;
+        }
+
+        #horse2 {
+            animation-duration: 3s;
+        }
+
+        #horse3 {
+            animation-duration: 2s;
+        }
+
+        #horse4 {
+            animation-duration: 4s;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="horse-container">
+        <div id="horse1" class="horse"></div>
+    </div>
+    <div class="horse-container">
+        <div id="horse2" class="horse"></div>
+    </div>
+    <div class="horse-container">
+        <div id="horse3" class="horse"></div>
+    </div>
+    <div class="horse-container">
+        <div id="horse4" class="horse"></div>
+    </div>
+
+    <script src="demo.js"></script>
+</body>
+
+</html>
