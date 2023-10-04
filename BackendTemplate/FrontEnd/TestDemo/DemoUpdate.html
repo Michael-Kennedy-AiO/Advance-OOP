@@ -27,7 +27,7 @@
             width: 10%;
             height: 100%;
             left: 0%;
-            background: url('../UI/map/Untitled-1_0000_9.png');
+            background: url('../UI/map/Untitled-1_0000_9.png') no-repeat;
         }
 
         .end {
@@ -35,7 +35,7 @@
             width: 10%;
             height: 100%;
             right: 0%;
-            background: url('../UI/map/Untitled-1_0001_Layer-17.png');
+            background: url('../UI/map/Untitled-1_0001_Layer-17.png') no-repeat;
         }
 
         .background {
@@ -99,7 +99,7 @@
                 const horse = document.getElementById('horse' + i);
                 if (horse) {
                     horses.push(horse);
-                    horses[horses.length - 1].style.animationDuration = (5 + Math.random() * 3) + 's';
+                    horses[horses.length - 1].style.animationDuration = (0.6 * Math.random()) + 's';
                 } else {
                     console.error('Phần tử ngựa không tồn tại với id: horse' + i);
                 }
@@ -121,7 +121,7 @@
                         break;
                     }
                 }
-            }, 100);
+            }, 0);
         }
         function resetHorsesPosition() {
             for (let i = 1; i <= horseCount; i++) {
