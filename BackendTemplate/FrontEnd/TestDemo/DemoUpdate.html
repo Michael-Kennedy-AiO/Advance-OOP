@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Trò chơi đua ngựa</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+       
+        #track {
+            width: 100%;
+            height: 500px;
+            border: 1px solid #000;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .start {
+            position: absolute;
+            width: 10%;
+            height: 100%;
+            left: 0%;
+            background: url('../UI/map/Untitled-1_0000_9.png');
+        }
+
+        .end {
+            position: absolute;
+            width: 10%;
+            height: 100%;
+            right: 0%;
+            background: url('../UI/map/Untitled-1_0001_Layer-17.png');
+        }
+
+        .background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('../UI/map/range.png') repeat;
+        }
+
+        .horse {
+            width: 80px;
+            height: 60px;
+            background: url('../UI/ngua6.png') no-repeat;
+            background-size: cover;
+            position: absolute;
+            top: 0;
+        }
+
+        button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <button onclick="addHorse()">Thêm ngựa</button>
+    <button onclick="startRace()">Bắt đầu đua</button>
+    <div id="track">
+        <div class="background"></div>
+        <div class="start"></div>
+        <div class="end"></div>
+    </div>
+
+    <script>
+        let backgroundPosition = 0;
+        let horseCount = 0;
+        let horseStart = 0;
+
+        function addHorse() {
+            horseCount++;
+            console.log(horseCount);
+            const newHorse = document.createElement('div');
+            newHorse.className = 'horse';
+            newHorse.id = 'horse' + horseCount;
+            newHorse.style.left = '0';
+            newHorse.style.top = horseStart + 'px';
+            horseStart += 60;
+            const track = document.getElementById('track');
+            track.appendChild(newHorse);
+        }
+
+
+        function startRace() {
+            if (horseCount === 0) {
+                alert('Hãy thêm ít nhất một ngựa trước khi bắt đầu đua.');
+                return;
+            }
+
+            const horses = [];
+            for (let i = 1; i <= horseCount; i++) {
+                const horse = document.getElementById('horse' + i);
+                if (horse) {
+                    horses.push(horse);
+                    horses[horses.length - 1].style.animationDuration = (5 + Math.random() * 3) + 's';
+                } else {
+                    console.error('Phần tử ngựa không tồn tại với id: horse' + i);
+                }
+            }
+            const track = document.getElementById('track');
+            const trackWidth = track.offsetWidth;
+            console.log(trackWidth);
+
+            const raceInterval = setInterval(() => {
+                for (let i = 0; i < horseCount; i++) {
+                    let horsePosition = parseFloat(horses[i].style.left) || 0;
+                    horsePosition += Math.random() * 10;
+                    horses[i].style.left = horsePosition + 'px';
+
+                    if (horsePosition >= trackWidth) {
+                        clearInterval(raceInterval);
+                        alert("Ngựa " + (i + 1) + " kết thúc đua!");
+                        resetHorsesPosition();
+                        break;
+                    }
+                }
+            }, 100);
+        }
+        function resetHorsesPosition() {
+            for (let i = 1; i <= horseCount; i++) {
+                const horse = document.getElementById('horse' + (i));
+                horse.style.left = '0';
+            }
+        }
+    </script>
+</body>
+
+</html>
