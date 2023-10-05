@@ -179,7 +179,6 @@ class BGEngine{//Lớp cha chứa vòng lặp game
 		console.log("Change Scene "+_old.sceneName+" → "+_scene.sceneName);
 	}
 	tickGameLoop(){
-		//this.ctx this is the canvas buffer (double buffer)
 		this.ctx.fillStyle = "black";
 		this.ctx.fillRect(0, 0, this.WIDTH, this.HEIGHT);
 		this.gameloop.onUpdate();
