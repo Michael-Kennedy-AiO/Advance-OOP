@@ -62,7 +62,6 @@
 </head>
 
 <body>
-    <button onclick="addHorse()">Thêm ngựa</button>
     <button onclick="startRace()">Bắt đầu đua</button>
     <div id="track">
         <div class="background"></div>
@@ -71,6 +70,7 @@
     </div>
 
     <script>
+        
         const resultGame = {
             "horseId": 3
         }
@@ -82,7 +82,7 @@
         const horses = [];
             
         function addHorse() {
-            for (let i = 0; i < 8; i++){
+            for (let i = 0; i < 9; i++){
                 const newHorse = document.createElement('div');
                 newHorse.className = 'horse';
                 newHorse.id = 'horse' + horseCount;
@@ -108,9 +108,9 @@
                 currentFrame++;
             }, 100);
         }
+        addHorse();
         function startRace() {
             clearInterval(playIdle);
-            
             for (let i = 0; i < horseCount; i++) {
                 const horse = document.getElementById('horse' + i);
                 if (horse) {
@@ -136,11 +136,10 @@
                     currentFrame++;
                 }
             }, 100);
-            clearInterval(playIdle); //stop play idle animation
             const raceInterval = setInterval(() => {
                 for (let i = 0; i < horseCount; i++) {
-                    let horsePosition = parseFloat(horses[i].style.left);
-                    horsePosition += Math.random() * 10;
+                    let horsePosition = parseFloat(horses[i].style.left) || 0;
+                    horsePosition += Math.random() * 1.5;
                     horses[i].style.left = horsePosition + 'px';
 
                     if (horsePosition >= trackWidth) {
@@ -152,13 +151,25 @@
                     }
                 }
             }, 0);
-
         }
         function resetHorsesPosition() {
+            clearInterval(playIdle);
             for (let i = 0; i < horseCount; i++) {
                 const horse = document.getElementById('horse' + (i));
                 horse.style.left = '0';
             }
+            setInterval(() => {
+                if (currentFrame > 7) {
+                    currentFrame = 1;
+                }
+                const frameUrl = `../Animation/Idle/128x128/Idle_Frame${currentFrame}.png`;
+
+                for (let i = 0; i < horses.length; i++){
+                    horses[i].style.backgroundImage = `url(${frameUrl})`;
+                }
+                
+                currentFrame++;
+            }, 100);
         }
     </script>
 </body>
