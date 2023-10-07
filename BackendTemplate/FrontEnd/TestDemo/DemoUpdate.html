@@ -13,7 +13,7 @@
             justify-content: center;
             height: 100vh;
         }
-       
+
         #track {
             width: 100%;
             height: 500px;
@@ -45,10 +45,11 @@
             background: url('../UI/map/range.png') repeat;
         }
 
+
         .horse {
             width: 80px;
-            height: 60px;
-            background: url('../UI/ngua6.png') no-repeat;
+            height: 75px;
+            background: url('../Animation/Idle/128x128/Idle_Frame1.png') no-repeat;
             background-size: cover;
             position: absolute;
             top: 0;
@@ -71,7 +72,7 @@
 
     <script>
         const resultGame = {
-            "horseId" : 3
+            "horseId": 3
         }
         let backgroundPosition = 0;
         let horseCount = 0;
@@ -81,14 +82,25 @@
             newHorse.className = 'horse';
             newHorse.id = 'horse' + horseCount;
             newHorse.style.left = '0';
-            newHorse.style.top = horseCount*60 + 'px';
+            newHorse.style.top = horseCount * 60 + 'px';
             horseCount++;
             console.log(horseCount);
             const track = document.getElementById('track');
             track.appendChild(newHorse);
+
+            setInterval(() => {
+                console.log("aaaaa")
+                let currentFrame = 1;
+                if (currentFrame > 6) {
+                    currentFrame = 1;
+                }
+
+                const frameUrl = `../Animation/Idle/128x128/Idle_Frame${currentFrame}.png`;
+                newHorse.style.backgroundImage = `url(${frameUrl})`;
+                currentFrame++;
+                console.log("aaaaa" + currentFrame)
+            }, 100);
         }
-
-
         function startRace() {
             if (horseCount < 2) {
                 alert('Hãy thêm ít nhất hai ngựa trước khi bắt đầu đua.');
@@ -96,7 +108,7 @@
             }
 
             const horses = [];
-            for (let i = 0; i <= horseCount; i++) {
+            for (let i = 0; i < horseCount; i++) {
                 const horse = document.getElementById('horse' + i);
                 if (horse) {
                     horses.push(horse);
@@ -109,6 +121,20 @@
             const trackWidth = track.offsetWidth;
             console.log(trackWidth);
 
+            const frameCount = 11; // số frames 
+            let currentFrame = 1;
+            const updateAnimation = setInterval(() => {
+                for (let i = 0; i < horseCount; i++) {
+                    const horse = document.getElementById('horse' + i);
+                    if (currentFrame > frameCount) {
+                        currentFrame = 1;
+                    }
+                    const frameUrl = `../Animation/Run/128x128/Run_Frame${currentFrame}.png`;
+                    horse.style.backgroundImage = `url(${frameUrl})`;
+                    currentFrame++;
+                }
+            }, 100);
+
             const raceInterval = setInterval(() => {
                 for (let i = 0; i < horseCount; i++) {
                     let horsePosition = parseFloat(horses[i].style.left) || 0;
@@ -117,6 +143,7 @@
 
                     if (horsePosition >= trackWidth) {
                         clearInterval(raceInterval);
+                        clearInterval(updateAnimation);
                         alert("Ngựa " + (i + 1) + " kết thúc đua!");
                         resetHorsesPosition();
                         break;
@@ -125,7 +152,7 @@
             }, 0);
         }
         function resetHorsesPosition() {
-            for (let i = 1; i <= horseCount; i++) {
+            for (let i = 0; i < horseCount; i++) {
                 const horse = document.getElementById('horse' + (i));
                 horse.style.left = '0';
             }
