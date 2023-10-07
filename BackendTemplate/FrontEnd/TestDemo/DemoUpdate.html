@@ -75,7 +75,6 @@
         }
         let backgroundPosition = 0;
         let horseCount = 0;
-        let horseStart = 0;
 
         function addHorse() {
             horseCount++;
@@ -84,8 +83,7 @@
             newHorse.className = 'horse';
             newHorse.id = 'horse' + horseCount;
             newHorse.style.left = '0';
-            newHorse.style.top = horseStart + 'px';
-            horseStart += 60;
+            newHorse.style.top = horseCount*60 + 'px';
             const track = document.getElementById('track');
             track.appendChild(newHorse);
         }
