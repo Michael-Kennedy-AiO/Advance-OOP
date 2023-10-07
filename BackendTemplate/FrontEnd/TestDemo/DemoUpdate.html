@@ -76,7 +76,14 @@
         }
         let backgroundPosition = 0;
         let horseCount = 0;
-
+        let playIdle = setInterval(() => {
+                if (currentFrame > 7) {
+                    currentFrame = 1;
+                }
+                const frameUrl = `../Animation/Idle/128x128/Idle_Frame${currentFrame}.png`;
+                newHorse.style.backgroundImage = `url(${frameUrl})`;
+                currentFrame++;
+            }, 100);
         function addHorse() {
             const newHorse = document.createElement('div');
             newHorse.className = 'horse';
@@ -87,19 +94,8 @@
             console.log(horseCount);
             const track = document.getElementById('track');
             track.appendChild(newHorse);
-
-            setInterval(() => {
-                console.log("aaaaa")
-                let currentFrame = 1;
-                if (currentFrame > 6) {
-                    currentFrame = 1;
-                }
-
-                const frameUrl = `../Animation/Idle/128x128/Idle_Frame${currentFrame}.png`;
-                newHorse.style.backgroundImage = `url(${frameUrl})`;
-                currentFrame++;
-                console.log("aaaaa" + currentFrame)
-            }, 100);
+            let currentFrame = 1;
+            setInterval(playIdle);
         }
         function startRace() {
             if (horseCount < 2) {
@@ -134,10 +130,10 @@
                     currentFrame++;
                 }
             }, 100);
-
+            clearInterval(playIdle); //stop play idle animation
             const raceInterval = setInterval(() => {
                 for (let i = 0; i < horseCount; i++) {
-                    let horsePosition = parseFloat(horses[i].style.left) || 0;
+                    let horsePosition = parseFloat(horses[i].style.left);
                     horsePosition += Math.random() * 10;
                     horses[i].style.left = horsePosition + 'px';
 
@@ -150,6 +146,7 @@
                     }
                 }
             }, 0);
+
         }
         function resetHorsesPosition() {
             for (let i = 0; i < horseCount; i++) {
