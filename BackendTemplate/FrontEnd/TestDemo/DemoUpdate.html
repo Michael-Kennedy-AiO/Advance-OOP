@@ -77,26 +77,26 @@
         let horseCount = 0;
 
         function addHorse() {
-            horseCount++;
-            console.log(horseCount);
             const newHorse = document.createElement('div');
             newHorse.className = 'horse';
             newHorse.id = 'horse' + horseCount;
             newHorse.style.left = '0';
             newHorse.style.top = horseCount*60 + 'px';
+            horseCount++;
+            console.log(horseCount);
             const track = document.getElementById('track');
             track.appendChild(newHorse);
         }
 
 
         function startRace() {
-            if (horseCount === 0) {
-                alert('Hãy thêm ít nhất một ngựa trước khi bắt đầu đua.');
+            if (horseCount < 2) {
+                alert('Hãy thêm ít nhất hai ngựa trước khi bắt đầu đua.');
                 return;
             }
 
             const horses = [];
-            for (let i = 1; i <= horseCount; i++) {
+            for (let i = 0; i <= horseCount; i++) {
                 const horse = document.getElementById('horse' + i);
                 if (horse) {
                     horses.push(horse);
