@@ -6,11 +6,22 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Đua ngựa</title>
 	<script src="BGEngine.js"></script>
+	<style>
+		.horse {
+            width: 80px;
+            height: 60px;
+            background: url('../UI/ngua6.png') no-repeat;
+            background-size: cover;
+            position: absolute;
+            top: 0;
+        }
+	</style>
 </head>
 
 <body>
 	<canvas id="myCanvas" style="border:1px solid #000000;"></canvas>
 	<script>
+		const raceRoadPosistion = [-220, -150, -70, 0 , 70, 150, 220];
 		const canvas = document.getElementById("myCanvas");
 		canvas.width  = window.innerWidth-22;
 		canvas.height = window.innerHeight-22;
@@ -21,14 +32,41 @@
 			gameEngine.initCanvas(canvas);
 		});
 		
+
 		class sceneLogin extends GameScene{
 			constructor(){super("aaaaaa");}
 			onInit(){
-				this.img = new Image();
+				
+				this.horse1 = new Image();
+				this.horse1.src = '../UI/ngua6.png';
+				this.horse2 = new Image();
+				this.horse2.src = '../UI/ngua6.png';
+				this.horse3 = new Image();
+				this.horse3.src = '../UI/ngua6.png';
+				this.horse4 = new Image();
+				this.horse4.src = '../UI/ngua6.png';
+				this.horse5 = new Image();
+				this.horse5.src = '../UI/ngua6.png';
+				this.horse6 = new Image();
+				this.horse6.src = '../UI/ngua6.png';
+
 				this.ctx.font = "48px serif";
 			}
 			onUpdate(){
 				//console.log("Đang ở trong Scene("+this.sceneName+") |||||| "+gameEngine.FPS);
+				
+				//this.ctx.drawImage(this.img,150,150);
+				// this.ctx.drawImage(this.horse1, 0, 0, 80,60);
+				// this.ctx.drawImage(this.horse2, 0, 70, 80,60);
+				// this.ctx.drawImage(this.horse3, 0, 150, 80,60);
+				// this.ctx.drawImage(this.horse3, 0, 220, 80,60);
+
+				this.ctx.drawImage(this.horse1, 0, 512 + raceRoadPosistion[0], 80,60);
+				this.ctx.drawImage(this.horse2, 0, 512 + raceRoadPosistion[1], 80,60);
+				this.ctx.drawImage(this.horse3, 0, 512 + raceRoadPosistion[2], 80,60);
+				this.ctx.drawImage(this.horse4, 0, 512 + raceRoadPosistion[3], 80,60);
+				this.ctx.drawImage(this.horse5, 0, 512 + raceRoadPosistion[4], 80,60);
+				this.ctx.drawImage(this.horse6, 0, 512 + raceRoadPosistion[5], 80,60);
 
 				gameEngine.ctx.strokeStyle = "yellow";
 				gameEngine.ctx.beginPath(); 
@@ -40,10 +78,12 @@
 				
 				gameEngine.ctx.fillStyle = "green";
 				gameEngine.ctx.fillRect(100, 100, 500, 350);
-				//this.ctx.drawImage(this.img,150,150);
 				
 				this.ctx.fillStyle = "#FFA500";
 				this.ctx.fillText("👏 FPS : "+gameEngine.FPS, 200, 200);
+			}
+			onDraw(){
+				
 			}
 		}
 		

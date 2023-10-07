@@ -5,7 +5,12 @@ class MessageSending{
 		this.currentWriting=0;
 		this.writeShort(CMD);
 	}
-
+	writeBoolean(booleanValue){
+		if(booleanValue)
+			this.data[this.currentWriting++] = 1;
+		else
+			this.data[this.currentWriting++] = 0;
+	}
 	writeByte(byteValue){this.data[this.currentWriting++] = byteValue & 0xFF;}
 	writeShort(shortValue){
 		this.data[this.currentWriting++] = (shortValue>>>8) & 0xFF;
@@ -61,6 +66,7 @@ class MessageReceiving{
 		this.bufferDataview = new DataView(dataReceiving);
 		this.cmd = this.bufferDataview.getInt16(0);
 	}
+	readBoolean(){return this.bufferDataview.getInt8(this.currentreading++)!=0;}
 	readByte(){return this.bufferDataview.getInt8(this.currentreading++);}
 	readShort(){
 		let shortResult = this.bufferDataview.getInt16(this.currentreading);
@@ -89,6 +95,16 @@ class MessageReceiving{
 		let _buffStr = new DataView(this.arrBuffer, this.currentreading, strLength);
 		this.currentreading+=strLength;
 		return new TextDecoder("utf-8").decode(_buffStr);
+	}
+	readFloat(){
+		let _floatValue = this.bufferDataview.getFloat32(this.currentreading);
+		this.currentreading+=4;
+		return _floatValue;
+	}
+	readDouble(){
+		let _doubleValue = this.bufferDataview.getFloat64(this.currentreading);
+		this.currentreading+=8;
+		return _doubleValue;
 	}
 }
 
@@ -155,7 +171,15 @@ class BGWebsocket{
 
 
 /*tạo ra sự chuyển đổi giữa các màn hình*/
-class GameScene {constructor(_sceneName){this.sceneName = _sceneName;}onInit(){}onUpdate(){}onRelease(){}}
+class GameScene {
+	constructor(_sceneName){
+		this.sceneName = _sceneName;
+	}
+	onInit(){}
+	onUpdate(){}
+	onDraw(){}
+	onRelease(){}
+}
 
 class BGEngine{//Lớp cha chứa vòng lặp game
 	#ctxMain;
@@ -182,6 +206,7 @@ class BGEngine{//Lớp cha chứa vòng lặp game
 		this.ctx.fillStyle = "black";
 		this.ctx.fillRect(0, 0, this.WIDTH, this.HEIGHT);
 		this.gameloop.onUpdate();
+		this.gameloop.onDraw();
 		this.#ctxMain.drawImage(this.#canvasBuffer, 0, 0);//draw buffer to Main Canvas
 		
 		if(Date.now()-this.#timeFPS>1000){
@@ -226,4 +251,4 @@ class BGEngine{//Lớp cha chứa vòng lặp game
 
 const gameEngine = new BGEngine();
 const loopId = setInterval(function(){gameEngine.tickGameLoop();}, 1);//Vòng lặp game gọi mỗi 1ms
-//clearInterval(loopId);
+//clearInterval(gameLoop);
