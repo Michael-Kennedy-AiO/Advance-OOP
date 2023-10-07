@@ -76,38 +76,44 @@
         }
         let backgroundPosition = 0;
         let horseCount = 0;
-        let playIdle = setInterval(() => {
+
+        let currentFrame = 1;
+        let playIdle;
+        const horses = [];
+            
+        function addHorse() {
+            for (let i = 0; i < 8; i++){
+                const newHorse = document.createElement('div');
+                newHorse.className = 'horse';
+                newHorse.id = 'horse' + horseCount;
+                newHorse.style.left = '0';
+                newHorse.style.top = horseCount * 60 + 'px';
+                horseCount++;
+                console.log(horseCount);
+                const track = document.getElementById('track');
+                track.appendChild(newHorse);
+                horses.push(newHorse);
+            }
+
+            playIdle = setInterval(() => {
                 if (currentFrame > 7) {
                     currentFrame = 1;
                 }
                 const frameUrl = `../Animation/Idle/128x128/Idle_Frame${currentFrame}.png`;
-                newHorse.style.backgroundImage = `url(${frameUrl})`;
+
+                for (let i = 0; i < horses.length; i++){
+                    horses[i].style.backgroundImage = `url(${frameUrl})`;
+                }
+                
                 currentFrame++;
             }, 100);
-        function addHorse() {
-            const newHorse = document.createElement('div');
-            newHorse.className = 'horse';
-            newHorse.id = 'horse' + horseCount;
-            newHorse.style.left = '0';
-            newHorse.style.top = horseCount * 60 + 'px';
-            horseCount++;
-            console.log(horseCount);
-            const track = document.getElementById('track');
-            track.appendChild(newHorse);
-            let currentFrame = 1;
-            setInterval(playIdle);
         }
         function startRace() {
-            if (horseCount < 2) {
-                alert('Hãy thêm ít nhất hai ngựa trước khi bắt đầu đua.');
-                return;
-            }
-
-            const horses = [];
+            clearInterval(playIdle);
+            
             for (let i = 0; i < horseCount; i++) {
                 const horse = document.getElementById('horse' + i);
                 if (horse) {
-                    horses.push(horse);
                     horses[horses.length - 1].style.animationDuration = (0.6 * Math.random()) + 's';
                 } else {
                     console.error('Phần tử ngựa không tồn tại với id: horse' + i);
