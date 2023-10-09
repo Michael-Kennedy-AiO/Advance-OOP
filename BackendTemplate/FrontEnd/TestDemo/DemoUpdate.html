@@ -42,20 +42,10 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background: url('../UI/map/range.png');
-            /* animation: none; moveBackground 5s linear infinite */
+            background: url('../UI/map/range.png') repeat;
         }
-    
-         
-        @keyframes moveBackground {
-            0% {
-                background-position: 100% 0;
-            }
-            100% {
-                background-position: 0 0;
-            }
-        }
-    
+
+
         .horse {
             width: 80px;
             height: 75px;
@@ -74,28 +64,33 @@
 <body>
     <button onclick="startRace()">Bắt đầu đua</button>
     <div id="track">
-        <div class="background" id="BGA"></div>
+        <div class="background"></div>
         <div class="start"></div>
         <div class="end"></div>
     </div>
 
     <script>
-        
+
         const resultGame = {
             "horseId": 3
         }
         let backgroundPosition = 0;
+        let startPosition = 0;
+        let horseCount = 0;
+
         let currentFrame = 1;
         let playIdle;
         const horses = [];
-            
+
         function addHorse() {
-            for (let i = 0; i < 9; i++){
+            for (let i = 0; i < 9; i++) {
                 const newHorse = document.createElement('div');
                 newHorse.className = 'horse';
-                newHorse.id = 'horse' + horses.length;
+                newHorse.id = 'horse' + horseCount;
                 newHorse.style.left = '0';
-                newHorse.style.top = horses.length * 60 + 'px';
+                newHorse.style.top = horseCount * 60 + 'px';
+                horseCount++;
+                console.log(horseCount);
                 const track = document.getElementById('track');
                 track.appendChild(newHorse);
                 horses.push(newHorse);
@@ -107,23 +102,17 @@
                 }
                 const frameUrl = `../Animation/Idle/128x128/Idle_Frame${currentFrame}.png`;
 
-                for (let i = 0; i < horses.length; i++){
+                for (let i = 0; i < horses.length; i++) {
                     horses[i].style.backgroundImage = `url(${frameUrl})`;
                 }
+
                 currentFrame++;
             }, 100);
         }
         addHorse();
-
-        // STAR RACE
         function startRace() {
-
-            // Loop Background
-            const backGround = document.getElementById('BGA');
-            backGround.style.animation = 'moveBackground 5s linear infinite';
-            
             clearInterval(playIdle);
-            for (let i = 0; i < horses.length; i++) {
+            for (let i = 0; i < horseCount; i++) {
                 const horse = document.getElementById('horse' + i);
                 if (horse) {
                     horses[horses.length - 1].style.animationDuration = (0.6 * Math.random()) + 's';
@@ -131,15 +120,26 @@
                     console.error('Phần tử ngựa không tồn tại với id: horse' + i);
                 }
             }
-
             const track = document.getElementById('track');
+            const background = document.querySelector('.background');
             const trackWidth = track.offsetWidth;
-            console.log(trackWidth);
+            const start = document.querySelector('.start')
+
+            const moveBackground = setInterval(() => {
+                backgroundPosition -= 0.5;
+                startPosition -= 0.5;
+                background.style.backgroundPositionX = `${backgroundPosition}px`;
+                start.style.left = `${startPosition}px`
+                if (backgroundPosition >= trackWidth) {
+                    clearInterval(moveBackground);
+                }
+            }, 2);
+
 
             const frameCount = 11; // số frames 
             let currentFrame = 1;
             const updateAnimation = setInterval(() => {
-                for (let i = 0; i < horses.length; i++) {
+                for (let i = 0; i < horseCount; i++) {
                     const horse = document.getElementById('horse' + i);
                     if (currentFrame > frameCount) {
                         currentFrame = 1;
@@ -149,12 +149,10 @@
                     currentFrame++;
                 }
             }, 100);
-            
-
             const raceInterval = setInterval(() => {
-                for (let i = 0; i < horses.length; i++) {
+                for (let i = 0; i < horseCount; i++) {
                     let horsePosition = parseFloat(horses[i].style.left) || 0;
-                    horsePosition += Math.random() * 10;
+                    horsePosition += Math.random() * 1.5;
                     horses[i].style.left = horsePosition + 'px';
 
                     if (horsePosition >= trackWidth) {
@@ -166,29 +164,26 @@
                     }
                 }
             }, 0);
-        }
 
-        //RS HOURSE POSSITION
+        }
         function resetHorsesPosition() {
-            for (let i = 0; i < horses.length; i++) {
+            clearInterval(playIdle);
+            for (let i = 0; i < horseCount; i++) {
                 const horse = document.getElementById('horse' + (i));
                 horse.style.left = '0';
             }
-
-            playIdle = setInterval(() => {
-                const backGround = document.getElementById('BGA');
-                backGround.style.animation = 'none';
+            setInterval(() => {
                 if (currentFrame > 7) {
                     currentFrame = 1;
                 }
                 const frameUrl = `../Animation/Idle/128x128/Idle_Frame${currentFrame}.png`;
 
-                for (let i = 0; i < horses.length; i++){
+                for (let i = 0; i < horses.length; i++) {
                     horses[i].style.backgroundImage = `url(${frameUrl})`;
                 }
+
                 currentFrame++;
             }, 100);
-            
         }
     </script>
 </body>
