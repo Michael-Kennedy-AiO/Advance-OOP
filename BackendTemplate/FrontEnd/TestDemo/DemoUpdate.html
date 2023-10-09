@@ -63,10 +63,11 @@
 
 <body>
     <button onclick="startRace()">Bắt đầu đua</button>
+    <button onclick="pauseGame()">aaa</button>
     <div id="track">
         <div class="background"></div>
         <div class="start"></div>
-        <div class="end"></div>
+        <!-- <div class="end"></div> -->
     </div>
 
     <script>
@@ -77,13 +78,35 @@
         let backgroundPosition = 0;
         let startPosition = 0;
         let horseCount = 0;
-
+        const horseSpeed = 0.005;
         let currentFrame = 1;
         let playIdle;
         const horses = [];
+        const rankPosition = [];
+        const horeseRank = [];
+
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+
+
+        function lerp(start, end, t) {
+            return (1 - t) * start + t * end;
+        }
 
         function addHorse() {
-            for (let i = 0; i < 9; i++) {
+            rankPosition[0] = 50;
+            rankPosition[1] = 100;
+            rankPosition[2] = 150;
+            rankPosition[3] = 200;
+            rankPosition[4] = 250;
+            rankPosition[5] = 300;
+            rankPosition[6] = 350;
+            rankPosition[7] = 400;
+            for (let i = 0; i < 8; i++) {
                 const newHorse = document.createElement('div');
                 newHorse.className = 'horse';
                 newHorse.id = 'horse' + horseCount;
@@ -94,6 +117,7 @@
                 const track = document.getElementById('track');
                 track.appendChild(newHorse);
                 horses.push(newHorse);
+                horeseRank.push(getRandomInt(1, 8));
             }
 
             playIdle = setInterval(() => {
@@ -151,21 +175,20 @@
             }, 100);
             const raceInterval = setInterval(() => {
                 for (let i = 0; i < horseCount; i++) {
-                    let horsePosition = parseFloat(horses[i].style.left) || 0;
-                    horsePosition += Math.random() * 1.5;
-                    horses[i].style.left = horsePosition + 'px';
-
-                    if (horsePosition >= trackWidth) {
-                        clearInterval(raceInterval);
-                        clearInterval(updateAnimation);
-                        alert("Ngựa " + (i + 1) + " kết thúc đua!");
-                        resetHorsesPosition();
-                        break;
-                    }
+                    let horsePosition = parseFloat(horses[i].style.left);
+                    let lerpPos = lerp(horsePosition, rankPosition[horeseRank[i]], horseSpeed)
+                    horses[i].style.left = lerpPos + 'px';
                 }
-            }, 0);
+            }, 1);
+
+            const randomRank = setInterval(() => {
+                for (let i = 0; i < horeseRank.length; i++) {
+                    horeseRank[i] = getRandomInt(1, 8);
+                }
+            }, 5000);
 
         }
+
         function resetHorsesPosition() {
             clearInterval(playIdle);
             for (let i = 0; i < horseCount; i++) {
@@ -184,6 +207,14 @@
 
                 currentFrame++;
             }, 100);
+        }
+
+        function pauseGame(){
+            clearInterval(playIdle);
+            clearInterval(raceInterval);
+            clearInterval(randomRank);
+            clearInterval(updateAnimation);
+            clearInterval(moveBackground);
         }
     </script>
 </body>
