@@ -21,6 +21,7 @@
 <body>
 	<canvas id="myCanvas" style="border:1px solid #000000;"></canvas>
 	<script>
+		// Add player Data store here
 		const raceRoadPosistion = [-220, -150, -70, 0 , 70, 150, 220];
 		const canvas = document.getElementById("myCanvas");
 		canvas.width  = window.innerWidth-22;
@@ -32,6 +33,9 @@
 			gameEngine.initCanvas(canvas);
 		});
 		
+		// Join game scene have a button to join to a bet room
+		// create another scenes named Bet Scene
+		// GamePlay scene
 
 		class sceneLogin extends GameScene{
 			constructor(){super("aaaaaa");}
@@ -88,6 +92,59 @@
 		}
 		
 		gameEngine.changeScene(new sceneLogin());
+
+		class betScene extends GameScene{
+			constructor(){super("BetScene");}
+			onInit(){
+				// Load player data to scene
+				this.ctx.font = "48px serif";
+			}
+			onUpdate(){
+				gameEngine.ctx.strokeStyle = "yellow";
+				gameEngine.ctx.beginPath(); 
+				gameEngine.ctx.moveTo(10,45);
+				gameEngine.ctx.lineTo(window.innerWidth - 32 ,45);
+				// Make the line visible
+				gameEngine.ctx.stroke();
+				gameEngine.ctx.strokeStyle = "blue";
+				
+				gameEngine.ctx.fillStyle = "green";
+				gameEngine.ctx.fillRect(100, 100, 500, 350);
+				
+				this.ctx.fillStyle = "#FFA500";
+				this.ctx.fillText("👏 FPS : "+gameEngine.FPS, 200, 200);
+			}
+			onDraw(){
+				
+			}
+		}
+
+		class resultScene extends GameScene{
+			constructor(){super("BetScene");}
+			onInit(){
+				// Load player data to scene
+				this.ctx.font = "48px serif";
+			}
+			onUpdate(){
+				gameEngine.ctx.strokeStyle = "yellow";
+				gameEngine.ctx.beginPath(); 
+				gameEngine.ctx.moveTo(10,45);
+				gameEngine.ctx.lineTo(window.innerWidth - 32 ,45);
+				// Make the line visible
+				gameEngine.ctx.stroke();
+				gameEngine.ctx.strokeStyle = "blue";
+				
+				gameEngine.ctx.fillStyle = "green";
+				gameEngine.ctx.fillRect(100, 100, 500, 350);
+				
+				this.ctx.fillStyle = "#FFA500";
+				this.ctx.fillText("👏 FPS : "+gameEngine.FPS, 200, 200);
+			}
+			onDraw(){
+				
+			}
+		}
+
 
 	</script>
 </body>
