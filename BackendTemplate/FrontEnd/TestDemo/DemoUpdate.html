@@ -52,8 +52,8 @@
 
 
         .horse {
-            width: 5%;
-            height: 12.5%;
+            width: 78px;
+            height: 78px;
             background: url('../Animation/Idle/128x128/Idle_Frame1.png') no-repeat;
             background-size: cover;
             position: absolute;
@@ -125,7 +125,7 @@
                 if (currentFrame > 7) {
                     currentFrame = 1;
                 }
-                const frameUrl = `../Animation/Idle/128x128/Idle_Frame${currentFrame}.png`;
+                const frameUrl = `../UI/Animation/Idle/128x128/Idle_Frame${currentFrame}.png`;
 
                 for (let i = 0; i < horses.length; i++) {
                     horses[i].style.backgroundImage = `url(${frameUrl})`;
@@ -166,7 +166,7 @@
                     if (currentFrame > frameCount) {
                         currentFrame = 1;
                     }
-                    const frameUrl = `../Animation/Run/128x128/Run_Frame${currentFrame}.png`;
+                    const frameUrl = `../UI/Animation/Run/128x128/Run_Frame${currentFrame}.png`;
                     horse.style.backgroundImage = `url(${frameUrl})`;
                     currentFrame++;
                 }
