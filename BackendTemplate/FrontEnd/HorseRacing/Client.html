@@ -20,6 +20,7 @@
 			canvas.height = window.innerHeight-22;
 			gameEngine.initCanvas(canvas);
 		});
+
 		class Ultilities{
 			static createBtn = (text = 'Button', _event = null, _top = 0, _left = 0, _position = '') => {
                 const btn = document.createElement('button');
@@ -37,8 +38,6 @@
                 return btn;
             }
 		}
-
-		
 		class F {
 			static CMD = "cmd";
 			static OLD_STATE = "oS";
@@ -428,13 +427,40 @@
 		class BetScene extends GameScene{
 			constructor(){super("BetScene");}
 			onInit(){
+				this.img = [];
+				for (let i = 1; i <= 8; i++){
+					this.img[i-1] = new Image();
+					this.img[i-1].src = `../UI/BetScene/HorseAvatar/Background/BG_${i}.png`;
+				}
+
+				this.parentStartDraw = {
+					x : 50,
+					y : 50,
+					width: 950,
+					height: 460,
+				};
+
+				this.horseOffset = 10;
 
 			}
 			onUpdate(){
 
 			}
 			onDraw(){
-				
+				gameEngine.ctx.fillStyle = "red";
+				gameEngine.ctx.fillRect(
+					this.parentStartDraw.x,
+					this.parentStartDraw.y,
+					this.parentStartDraw.width,
+					this.parentStartDraw.height);
+
+				for (let i = 0; i < 3; i++){
+					gameEngine.ctx.drawImage(
+					this.img[i],
+					this.parentStartDraw.x + this.horseOffset,
+					this.parentStartDraw.y + this.img[i].width*i + this.horseOffset,
+					315, 150);
+				}
 			}
 		}
 		
