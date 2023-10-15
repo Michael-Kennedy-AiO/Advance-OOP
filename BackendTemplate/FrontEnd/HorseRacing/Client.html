@@ -505,8 +505,21 @@
 					y: 50,
 					width: 874,
 					height: 460,
-					bet: "0"
+					betPoint: [],
 				};
+				this.horseContainerBG = {
+					width : 265,
+					height : 125,
+				}
+				this.betTableOffset.betPoint.push("1")
+				this.betTableOffset.betPoint.push("1")
+				this.betTableOffset.betPoint.push("1")
+				this.betTableOffset.betPoint.push("1")
+				this.betTableOffset.betPoint.push("1")
+				this.betTableOffset.betPoint.push("1")
+				this.betTableOffset.betPoint.push("1")
+				this.betTableOffset.betPoint.push("1")
+
 
 				this.historyTableOffset = {
 					x: 1150,
@@ -606,13 +619,13 @@
 							break;
 						gameEngine.ctx.drawImage(
 							this.img[spriteValue],
-							this.betTableOffset.x + 265 * i + this.horseOffset + + this.horseOffset * i,
-							this.betTableOffset.y + 125 * k + this.horseOffset + this.horseOffset * k,
-							265, 125);
+							this.betTableOffset.x + this.horseContainerBG.width * i + this.horseOffset + + this.horseOffset * i,
+							this.betTableOffset.y + this.horseContainerBG.height * k + this.horseOffset + this.horseOffset * k,
+							this.horseContainerBG.width, this.horseContainerBG.height);
 						spriteValue++;
 					}
 				}
-
+				// DrawHorseAva
 				let HorseAvatar = 0;
 
 				for (let i = 0; i < 3; i++) {
@@ -621,19 +634,46 @@
 							break;
 						gameEngine.ctx.drawImage(
 							this.imgHorse[HorseAvatar],
-							this.betTableOffset.x + 265 * i + this.horseOffset + 3 + this.horseOffset * i,
-							this.betTableOffset.y + 125 * k + this.horseOffset + 14 + this.horseOffset * k,
+							this.betTableOffset.x + this.horseContainerBG.width * i + this.horseOffset + 3 + this.horseOffset * i,
+							this.betTableOffset.y + this.horseContainerBG.height * k + this.horseOffset + 14 + this.horseOffset * k,
 							116, 110);
 						HorseAvatar++;
 					}
 				}
-				gameEngine.ctx.font = "40px Time New Romen";
-				gameEngine.ctx.fillStyle = "yellow";
-				gameEngine.ctx.fillText(
-					this.betTableOffset.bet,
-					this.betTableOffset.x + this.horseOffset,
-					this.betTableOffset.y + 125 * i + this.horseOffset + 15 + this.horseOffset * i,
-				)
+
+				//betPoint
+				for (let i = 0; i < 3; i++) {
+					for (let k = 0; k < 3; k++) {
+						if (i == 2 && k == 2)
+							break;
+						// gameEngine.ctx.moveTo(
+						// 	this.betTableOffset.x + this.horseOffset * i + this.horseContainerBG.width * i + this.horseContainerBG.width/2,
+						// 	this.betTableOffset.y + this.horseOffset * k + this.horseContainerBG.height * k - this.horseContainerBG.height/2,
+						// );
+						// gameEngine.ctx.lineTo(
+						// 	this.betTableOffset.x + this.horseOffset * i + this.horseContainerBG.width * i + this.horseContainerBG.width,
+						// 	this.betTableOffset.y + this.horseOffset * k + this.horseContainerBG.height * k - this.horseContainerBG.height/2,
+						// );
+						// gameEngine.ctx.stroke();
+						// gameEngine.ctx.fillStyle = "black";
+						// gameEngine.ctx.fillRect(
+						// 	this.betTableOffset.x + this.horseOffset * (i+1) + this.horseContainerBG.width * i + this.horseContainerBG.width/2,
+						// 	this.betTableOffset.y + this.horseOffset * k + this.horseContainerBG.height * k - this.horseContainerBG.height/2,
+						// 	this.horseContainerBG.height/4,
+						// 	1
+						// );
+						
+						// console.log(`i: ${i}, k: ${k}`)
+
+						gameEngine.ctx.fillStyle = "white";
+						gameEngine.ctx.font = "40px Ariel";
+						gameEngine.ctx.fillText(
+							this.betTableOffset.betPoint[i + k],
+							this.betTableOffset.x + this.horseContainerBG.width * i + this.horseOffset + 190 + this.horseOffset * i,
+							this.betTableOffset.y + this.horseContainerBG.height * k + this.horseOffset + 50 + this.horseOffset * k,
+						);
+					}
+				}
 
 				//historyBG
 				gameEngine.ctx.fillStyle = "red";
