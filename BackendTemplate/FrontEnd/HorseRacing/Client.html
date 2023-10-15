@@ -12,34 +12,34 @@
 	<canvas id="myCanvas" style="border:1px solid #000000;"></canvas>
 	<script>
 		const canvas = document.getElementById("myCanvas");
-		canvas.width  = window.innerWidth-22;
-		canvas.height = window.innerHeight-22;
+		canvas.width = window.innerWidth - 22;
+		canvas.height = window.innerHeight - 22;
 		gameEngine.initCanvas(canvas);
-		window.addEventListener('resize', function(){
-			canvas.width  = window.innerWidth-22;
-			canvas.height = window.innerHeight-22;
+		window.addEventListener('resize', function () {
+			canvas.width = window.innerWidth - 22;
+			canvas.height = window.innerHeight - 22;
 			gameEngine.initCanvas(canvas);
 		});
 
-		class Ultilities{
+		class Ultilities {
 			static createBtn = (text = 'Button', _event = null, _top = 0, _left = 0, _position = '') => {
-                const btn = document.createElement('button');
-                btn.innerText = text;
-                if (_position == '')
-                    btn.style.position = 'absolute';
-                else
-                    btn.style.position = _position;
-                btn.style.top = `${_top}px`;
-                btn.style.left = `${_left}px`;
-                // btn.addEventListener('click', _event != null ? _event : () => {
+				const btn = document.createElement('button');
+				btn.innerText = text;
+				if (_position == '')
+					btn.style.position = 'absolute';
+				else
+					btn.style.position = _position;
+				btn.style.top = `${_top}px`;
+				btn.style.left = `${_left}px`;
+				// btn.addEventListener('click', _event != null ? _event : () => {
 				btn.addEventListener('click', _event != null ? _event : () => {
-                    if (_event != null)
-					_event();
+					if (_event != null)
+						_event();
 					btn.remove();
-                })
-                document.body.appendChild(btn);
-                return btn;
-            }
+				})
+				document.body.appendChild(btn);
+				return btn;
+			}
 		}
 		class F {
 			static CMD = "cmd";
@@ -180,28 +180,28 @@
 			static SKIP_LOGOUT_MESSAGE = "slom";
 			static BRAND = "br";
 		}
-		class CMD{
-			static C_JOIN_GAME			= 10001;
-			static S_JOIN_GAME			= 10002;
-			static S_PLAYER_JOIN_GAME	= 10003;
-			
-			static C_LEFT_GAME			= 10011;
-			static S_LEFT_GAME			= 10012;
-			static S_PLAYER_LEFT_GAME	= 10013;
-			
-			
-			static C_ADD_BET			= 20001;
-			static S_ADD_BET			= 20002;
-			static S_ADD_BET_Invalid	= 20003;
-			static S_PLAYER_ADD_BET	    = 20009;
+		class CMD {
+			static C_JOIN_GAME = 10001;
+			static S_JOIN_GAME = 10002;
+			static S_PLAYER_JOIN_GAME = 10003;
 
-			static S_FINISH_GAME		= 20900;
+			static C_LEFT_GAME = 10011;
+			static S_LEFT_GAME = 10012;
+			static S_PLAYER_LEFT_GAME = 10013;
+
+
+			static C_ADD_BET = 20001;
+			static S_ADD_BET = 20002;
+			static S_ADD_BET_Invalid = 20003;
+			static S_PLAYER_ADD_BET = 20009;
+
+			static S_FINISH_GAME = 20900;
 		}
 
 
-		class sceneLogin extends GameScene{
-			constructor(){super("aaaaaa");}
-			onInit(){
+		class sceneLogin extends GameScene {
+			constructor() { super("aaaaaa"); }
+			onInit() {
 				Ultilities.createBtn('Scene Bet', () => {
 					gameEngine.changeScene(new BetScene());
 					console.log("aaaaaa");
@@ -217,7 +217,7 @@
 				this.backgroundPosition = 0;
 				this.finishLinePos = 0;
 				this.startPosition = 0;
-				this.startDraw = (canvas.height/2) - 129*2;
+				this.startDraw = (canvas.height / 2) - 129 * 2;
 				this.backgroundSpeed = 1;
 				this.currentBGPos = 0;
 				this.isRace = false;
@@ -232,44 +232,44 @@
 				this.horeseRank = [0, 0, 0, 0, 0, 0, 0, 0];
 				this.currentHorsePos = [0, 0, 0, 0, 0, 0, 0, 0];
 				this.idleAnim = new GameSprite(75);
-				this.runAnim =  new GameSprite(40);
+				this.runAnim = new GameSprite(40);
 
-				this.backgroundCountX = canvas.width/194 + 1;
+				this.backgroundCountX = canvas.width / 194 + 1;
 				this.backgroundCountY = 4;
 
 				// Time count down to race
 				this.timeCountDown = Date.now();
-				for (let i = 1; i <= 6; i++){
-					this.idleAnim.addAnimation(`../UI/Animation/Idle/128x128/Idle_Frame${i}.png`, i-1);
+				for (let i = 1; i <= 6; i++) {
+					this.idleAnim.addAnimation(`../UI/Animation/Idle/128x128/Idle_Frame${i}.png`, i - 1);
 				}
-				for (let i = 1; i <= 11; i++){
-					this.runAnim.addAnimation(`../UI/Animation/Run/128x128/Run_Frame${i}.png`, i-1);
+				for (let i = 1; i <= 11; i++) {
+					this.runAnim.addAnimation(`../UI/Animation/Run/128x128/Run_Frame${i}.png`, i - 1);
 				}
 			}
-			onUpdate(){
+			onUpdate() {
 				//console.log("Đang ở trong Scene("+this.sceneName+") |||||| "+gameEngine.FPS);
 				gameEngine.ctx.strokeStyle = "yellow";
-				gameEngine.ctx.beginPath(); 
-				gameEngine.ctx.moveTo(10,45);
-				gameEngine.ctx.lineTo(window.innerWidth - 32 ,45);
+				gameEngine.ctx.beginPath();
+				gameEngine.ctx.moveTo(10, 45);
+				gameEngine.ctx.lineTo(window.innerWidth - 32, 45);
 				// Make the line visible
 				gameEngine.ctx.stroke();
 				gameEngine.ctx.strokeStyle = "blue";
 
 				gameEngine.ctx.fillStyle = "red";
 				gameEngine.ctx.fillRect(0, 540, 1080, 1);
-				
-				if (this.isWaitToFinish == false){
-					if (this.isRace == false){
+
+				if (this.isWaitToFinish == false) {
+					if (this.isRace == false) {
 						// 3000 3S count down before race
-						if (Date.now() - this.timeCountDown >= 3000){
+						if (Date.now() - this.timeCountDown >= 3000) {
 							this.isRace = true;
 							this.timeCountDown = Date.now();
 							// TODO force add horse rank here
 						}
-					}else{
+					} else {
 						const arr = this.runAnim.randomRank(this.horeseRank);
-						if (arr != null){
+						if (arr != null) {
 							this.horeseRank = arr;
 						}
 					}
@@ -278,21 +278,21 @@
 				// this.ctx.fillStyle = "#FFA500";
 				// this.ctx.fillText("👏 FPS : "+gameEngine.FPS, 200, 200);
 			}
-			onDraw(){
-				for (let k = 0; k < this.backgroundCountY; k++){
-					for (let i = 0; i < 150; i++){
-						const position = this.background.width*i + this.currentBGPos;
-						if ((-194) <= position && position <= canvas.width){
+			onDraw() {
+				for (let k = 0; k < this.backgroundCountY; k++) {
+					for (let i = 0; i < 150; i++) {
+						const position = this.background.width * i + this.currentBGPos;
+						if ((-194) <= position && position <= canvas.width) {
 							gameEngine.ctx.drawImage(
 								this.background,
 								position,
-								this.startDraw + this.background.height*k);
+								this.startDraw + this.background.height * k);
 						}
 					}
 				}
 
 				// 214x517 is size X of the background
-				if ((-this.startBackground.width) <= this.currentBGPos && this.currentBGPos <= canvas.width){
+				if ((-this.startBackground.width) <= this.currentBGPos && this.currentBGPos <= canvas.width) {
 					// Draw startline
 					gameEngine.ctx.drawImage(
 						this.startBackground,
@@ -300,40 +300,36 @@
 						this.startDraw);
 				}
 
-				if (this.isWaitToFinish){
+				if (this.isWaitToFinish) {
 					gameEngine.ctx.drawImage(
 						this.endBackground,
 						canvas.width + this.finishLinePos,
 						this.startDraw);
 				}
 
-				if (this.isFinishGame){
-					// Quang ve o day
-				}
 
-
-				if (this.isRace){
-					for (let i = 0; i < 8; i++){
+				if (this.isRace) {
+					for (let i = 0; i < 8; i++) {
 						const horsePos = this.runAnim.lerp(this.currentHorsePos[i], this.rankPosition[this.horeseRank[i]], this.horseSpeed);
 						this.currentHorsePos[i] = horsePos;
-						this.runAnim.draw(horsePos, this.startDraw - 64 + 64*i, this.isFinishGame);
+						this.runAnim.draw(horsePos, this.startDraw - 64 + 64 * i, this.isFinishGame);
 					}
 
-					if (this.isWaitToFinish == false){
-						if (Date.now() - this.timeCountDown >= 5000){
+					if (this.isWaitToFinish == false) {
+						if (Date.now() - this.timeCountDown >= 5000) {
 							this.timeCountDown = Date.now();
 							this.isWaitToFinish = true;
 
 							console.log("Force horse position here");
-							
+
 							this.secondHorseId = 2;
 
 							const arr = this.runAnim.randomRank(this.horeseRank, 1, 2, true);
 							this.horeseRank = arr;
 						}
-					}else{
+					} else {
 						// Finish game -> stop bg and horse move foward
-						if (Date.now() - this.timeCountDown >= 2000){
+						if (Date.now() - this.timeCountDown >= 2000) {
 							this.backgroundSpeed = 0;
 							this.isRace = false;
 							this.horseSpeed = 1;
@@ -342,31 +338,55 @@
 						this.finishLinePos -= this.backgroundSpeed;
 					}
 					this.currentBGPos -= this.backgroundSpeed;
-				}else{
+				} else {
 
-					if (this.isWaitToFinish){
-						for (let i = 0; i < 8; i++){
+					if (this.isWaitToFinish) {
+						for (let i = 0; i < 8; i++) {
 							this.currentHorsePos[i] += this.horseSpeed;
-							this.runAnim.draw(this.currentHorsePos[i], this.startDraw - 64 + 64*i, this.isFinishGame);
+							this.runAnim.draw(this.currentHorsePos[i], this.startDraw - 64 + 64 * i, this.isFinishGame);
 						}
 
-						if (this.isFinishGame == false){
-							if (this.currentHorsePos[this.secondHorseId] + this.runAnim.img[this.runAnim.currentFrame].width >= (canvas.width + this.finishLinePos)){
+						if (this.isFinishGame == false) {
+							if (this.currentHorsePos[this.secondHorseId] + this.runAnim.img[this.runAnim.currentFrame].width >= (canvas.width + this.finishLinePos)) {
 								this.isFinishGame = true;
 								this.horseSpeed = 0;
 							}
 						}
-					}else{
-						for (let i = 0; i < 8; i++){
-							this.idleAnim.draw(0, this.startDraw - 64 + 64*i, this.isFinishGame);
+					} else {
+						for (let i = 0; i < 8; i++) {
+							this.idleAnim.draw(0, this.startDraw - 64 + 64 * i, this.isFinishGame);
 						}
 					}
+				}
+				if (this.isFinishGame) {
+					const popupWidth = window.innerWidth - 22;
+					const popupHeight = window.innerHeight - 22;
+					gameEngine.ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
+					gameEngine.ctx.fillRect(0, 0, popupWidth, popupHeight);
+
+
+					// Vẽ ngựa thắng
+					const winnerHorseImage = new Image();
+					winnerHorseImage.src = `../UI/BetScene/HorseAvatar/Avatar/Horse_${this.horeseRank[0]}.png`;
+					gameEngine.ctx.drawImage(winnerHorseImage, 0, 0, 300, 300);
+
+					const goldMedal = new Image();
+					goldMedal.src = `../UI/BetScene/HorseAvatar/Avatar/1st.png`;
+					gameEngine.ctx.drawImage(goldMedal, 500, 0, 193, 300);
+
+					// Vẽ ngựa nhì
+					const secondHorseImage = new Image();
+					secondHorseImage.src = `../UI/BetScene/HorseAvatar/Avatar/Horse_${this.horeseRank[1]}.png`;
+					gameEngine.ctx.drawImage(secondHorseImage, 0, 320, 300, 300);
+					const silvelMedal = new Image();
+					silvelMedal.src = `../UI/BetScene/HorseAvatar/Avatar/2nd.png`;
+					gameEngine.ctx.drawImage(silvelMedal, 500, 320, 193, 300);
 				}
 			}
 		}
 
-		class GameSprite{
-			constructor(_animationRate){
+		class GameSprite {
+			constructor(_animationRate) {
 				this.img = [];
 				this.timeAnimation = Date.now();
 				this.currentFrame = 1;
@@ -374,19 +394,19 @@
 				this.ramdonRankRate = Date.now();
 			}
 
-			addAnimation(url, index){
+			addAnimation(url, index) {
 				this.img[index] = new Image();
 				this.img[index].src = url;
 			}
 
-			draw(_x, _y, _isStopGame){
-				if (_isStopGame == false){
-					if (Date.now() - this.timeAnimation > this.animationRate){
+			draw(_x, _y, _isStopGame) {
+				if (_isStopGame == false) {
+					if (Date.now() - this.timeAnimation > this.animationRate) {
 						this.timeAnimation = Date.now();
 						if (this.currentFrame == this.img.length - 1)
 							this.currentFrame = 1;
 						else
-							this.currentFrame ++;
+							this.currentFrame++;
 					}
 				}
 
@@ -397,8 +417,8 @@
 					128, 128);
 			}
 
-			randomRank(_horseRank, first = -1, second = -1, force = false){
-				if (Date.now() - this.ramdonRankRate > 3000 || force){
+			randomRank(_horseRank, first = -1, second = -1, force = false) {
+				if (Date.now() - this.ramdonRankRate > 3000 || force) {
 					const arr = [];
 					this.ramdonRankRate = Date.now();
 					for (let i = 0; i < _horseRank.length; i++) {
@@ -406,21 +426,21 @@
 						// _horseRank[i] = val;
 						arr[i] = val;
 
-						if (force){
+						if (force) {
 							if (arr[i] == 7)
 								arr[i] -= 1;
 							else if (arr[i] == 8)
 								arr[i] -= 2;
 						}
 					}
-					if (force){
+					if (force) {
 						arr[first] = 8;
 						arr[second] = 7;
 					}
 
 					let db = "";
 					for (let i = 0; i < arr.length; i++)
-						db += arr[i]+", ";
+						db += arr[i] + ", ";
 					console.log(db);
 					return arr;
 				}
@@ -429,8 +449,8 @@
 
 			lerp(start, end, t) {
 				const val = (1 - t) * start + t * end;
-            	return val;
-        	}
+				return val;
+			}
 
 			getRandomInt(min, max) {
 				min = Math.ceil(min);
@@ -440,25 +460,25 @@
 				return val;
 			}
 		}
-		
+
 		gameEngine.changeScene(new sceneLogin());
 
-		class BetScene extends GameScene{
-			constructor(){super("BetScene");}
-			onInit(){
+		class BetScene extends GameScene {
+			constructor() { super("BetScene"); }
+			onInit() {
 				this.btn = Ultilities.createBtn('GameScene', () => {
 					gameEngine.changeScene(new sceneLogin());
 					console.log("bbbbb");
 				});
 				this.img = [];
-				for (let i = 1; i <= 8; i++){
-					this.img[i-1] = new Image();
-					this.img[i-1].src = `../UI/BetScene/HorseAvatar/Background/BG_${i}.png`;
+				for (let i = 1; i <= 8; i++) {
+					this.img[i - 1] = new Image();
+					this.img[i - 1].src = `../UI/BetScene/HorseAvatar/Background/BG_${i}.png`;
 				}
 
 				this.parentStartDraw = {
-					x : 50,
-					y : 50,
+					x: 50,
+					y: 50,
 					width: 950,
 					height: 460,
 				};
@@ -466,10 +486,10 @@
 				this.horseOffset = 10;
 
 			}
-			onUpdate(){
+			onUpdate() {
 
 			}
-			onDraw(){
+			onDraw() {
 				gameEngine.ctx.fillStyle = "red";
 				gameEngine.ctx.fillRect(
 					this.parentStartDraw.x,
@@ -477,115 +497,115 @@
 					this.parentStartDraw.width,
 					this.parentStartDraw.height);
 
-				for (let i = 0; i < 3; i++){
+				for (let i = 0; i < 3; i++) {
 					gameEngine.ctx.drawImage(
-					this.img[i],
-					this.parentStartDraw.x + this.horseOffset,
-					this.parentStartDraw.y + this.img[i].width*i + this.horseOffset,
-					315, 150);
+						this.img[i],
+						this.parentStartDraw.x + this.horseOffset,
+						this.parentStartDraw.y + this.img[i].width * i + this.horseOffset,
+						315, 150);
 				}
 			}
 		}
-		
-		class BasicWebsocket{
+
+		class BasicWebsocket {
 			#websocket;
-			constructor(){
+			constructor() {
 				this.idCMD = 0;
 			}
-			start(_ip,_port){
+			start(_ip, _port) {
 				console.log("*********************************************************************************");
-				this.#websocket = new WebSocket("ws://"+_ip+":"+_port+"/websocket");
+				this.#websocket = new WebSocket("ws://" + _ip + ":" + _port + "/websocket");
 				let _currentBasicWebsocket = this;
-				this.#websocket.onopen = function(e) {
-					console.log("BasicWebsocket kết nối đến ["+_ip+":"+_port+"] thành công");
-					_currentBasicWebsocket.send([1,"Ri",Math.random().toString(36).slice(2),"password",null]);
+				this.#websocket.onopen = function (e) {
+					console.log("BasicWebsocket kết nối đến [" + _ip + ":" + _port + "] thành công");
+					_currentBasicWebsocket.send([1, "Ri", Math.random().toString(36).slice(2), "password", null]);
 				};
-				this.#websocket.onclose = function(event) {
+				this.#websocket.onclose = function (event) {
 					console.log("Đóng kết nối BasicWebsocket");
 				};
-				
-				this.#websocket.onmessage = function(event) {//
+
+				this.#websocket.onmessage = function (event) {//
 					gameEngine.lastTimeWebsocket = Date.now();
 					let _data = event.data;
 					if (_data instanceof ArrayBuffer) {// binary frame
-						console.log("BasicWebsocket receive bytearray : "+_data);
-					}else{// text frame
-						console.log("BasicWebsocket receive string : "+_data);
+						console.log("BasicWebsocket receive bytearray : " + _data);
+					} else {// text frame
+						console.log("BasicWebsocket receive string : " + _data);
 						let jsonReceive = JSON.parse(_data);
-						if(jsonReceive[0]==1){
+						if (jsonReceive[0] == 1) {
 							const USERNAME = jsonReceive[3];
-							console.log("Login vào zone thành công với username : "+USERNAME);
-							if(_currentBasicWebsocket.onSuccess)
+							console.log("Login vào zone thành công với username : " + USERNAME);
+							if (_currentBasicWebsocket.onSuccess)
 								_currentBasicWebsocket.onSuccess();
-						}else if(jsonReceive[0]==5){
-							console.log("Nhận message trong plugin CMD : "+jsonReceive[1].cmd);
-							switch(jsonReceive[1].cmd) {
+						} else if (jsonReceive[0] == 5) {
+							console.log("Nhận message trong plugin CMD : " + jsonReceive[1].cmd);
+							switch (jsonReceive[1].cmd) {
 								case CMD.S_ADD_BET:
 									console.log("Lỗi bet");
 									let mgBetError = jsonReceive[1];
-									_currentBasicWebsocket.onBetError(mgBetError[F.ID],mgBetError[F.CODE]);
+									_currentBasicWebsocket.onBetError(mgBetError[F.ID], mgBetError[F.CODE]);
 									break;
 								case CMD.S_PLAYER_ADD_BET:
 									let _mg = jsonReceive[1];
-									_currentBasicWebsocket.onPlayerBet(_mg[F.USERNAME],_mg[F.ID],_mg[F.LOST_MONEY],_mg[F.MONEY],_mg[F.BETTING]);
+									_currentBasicWebsocket.onPlayerBet(_mg[F.USERNAME], _mg[F.ID], _mg[F.LOST_MONEY], _mg[F.MONEY], _mg[F.BETTING]);
 									break;
 								case CMD.S_FINISH_GAME:
 									let _mgF = jsonReceive[1];
 									//if(_mgF[F.MONEY])
-										_currentBasicWebsocket.onFinishGame(_mgF[F.ID],_mgF[F.WINNERS],_mgF[F.MONEY],_mgF[F.NEW_ANNOUNCE]);
+									_currentBasicWebsocket.onFinishGame(_mgF[F.ID], _mgF[F.WINNERS], _mgF[F.MONEY], _mgF[F.NEW_ANNOUNCE]);
 									//else
-										//_currentBasicWebsocket.onFinishGame(_mgF[F.ID],0,0,_mgF[F.NEW_ANNOUNCE]);
+									//_currentBasicWebsocket.onFinishGame(_mgF[F.ID],0,0,_mgF[F.NEW_ANNOUNCE]);
 									break;
 								default:
-									console.log("Chưa xử lý CMD : "+jsonReceive[1].cmd);
+									console.log("Chưa xử lý CMD : " + jsonReceive[1].cmd);
 							}
-						}else{
+						} else {
 
 						}
 					}
 				};
-				
-				this.#websocket.onerror = function(error) {
-					console.log("BasicWebsocket get error "+error);
+
+				this.#websocket.onerror = function (error) {
+					console.log("BasicWebsocket get error " + error);
 				};
 
 				console.log("*********************************************************************************");
 			}
 
-			isRunning(){return this.#websocket && (this.#websocket.readyState==WebSocket.OPEN || this.#websocket.readyState==WebSocket.CONNECTING);}/*CONNECTING(0) - OPEN(1) - CLOSING(2) - CLOSED(3)*/
-			send(_message){
-				console.log("=====>BasicWebsocket send : "+JSON.stringify(_message));
+			isRunning() { return this.#websocket && (this.#websocket.readyState == WebSocket.OPEN || this.#websocket.readyState == WebSocket.CONNECTING); }/*CONNECTING(0) - OPEN(1) - CLOSING(2) - CLOSED(3)*/
+			send(_message) {
+				console.log("=====>BasicWebsocket send : " + JSON.stringify(_message));
 				this.#websocket.send(JSON.stringify(_message));
 			}
-			doBet(_index,_money){
+			doBet(_index, _money) {
 				let messageSending = {};
 				messageSending["cmd"] = CMD.C_ADD_BET;
-				messageSending[F.ENTRY_ID]=this.idCMD++;
-				messageSending[F.ID]=_index;
-				messageSending[F.BETTING]=_money;
-				this.send([6,"Ri","duanguaPlugin",messageSending]);
+				messageSending[F.ENTRY_ID] = this.idCMD++;
+				messageSending[F.ID] = _index;
+				messageSending[F.BETTING] = _money;
+				this.send([6, "Ri", "duanguaPlugin", messageSending]);
 			}
 
-			release(){this.#websocket.close();}
+			release() { this.#websocket.close(); }
 		}
 
-		var basicWS = new BasicWebsocket();		
-		basicWS.start("localhost",8892);
-		basicWS.onSuccess = ()=>{
-			for(let i=0;i<15;i++)
-				basicWS.doBet(i,i+1);
+		var basicWS = new BasicWebsocket();
+		basicWS.start("localhost", 8892);
+		basicWS.onSuccess = () => {
+			for (let i = 0; i < 15; i++)
+				basicWS.doBet(i, i + 1);
 		};
 
-		
-		basicWS.onPlayerBet = (_username,_indexBet,_lostmoney,_currentMoney,_listDesk)=>{
-			console.log("username("+_username+") + index("+_indexBet+") + bet("+_lostmoney+") money("+_currentMoney+") listDesk("+_listDesk+")");
+
+		basicWS.onPlayerBet = (_username, _indexBet, _lostmoney, _currentMoney, _listDesk) => {
+			console.log("username(" + _username + ") + index(" + _indexBet + ") + bet(" + _lostmoney + ") money(" + _currentMoney + ") listDesk(" + _listDesk + ")");
 		};
-		basicWS.onBetError = (_idCMD,strError)=>{
-			console.log("_idCMD("+_idCMD+") : "+strError);
+		basicWS.onBetError = (_idCMD, strError) => {
+			console.log("_idCMD(" + _idCMD + ") : " + strError);
 		};
-		basicWS.onFinishGame = (resultIndex,winMoney,lastMoney,newScore)=>{
-			console.log("Kết quả : "+resultIndex+"	("+winMoney+","+lastMoney+") ---> "+newScore);
-		};		
+		basicWS.onFinishGame = (resultIndex, winMoney, lastMoney, newScore) => {
+			console.log("Kết quả : " + resultIndex + "	(" + winMoney + "," + lastMoney + ") ---> " + newScore);
+		};
 
 	</script>
 </body>
