@@ -6,23 +6,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Đua ngựa</title>
 	<script src="BGEngine.js"></script>
-	<style>
-		.horse {
-            width: 80px;
-            height: 60px;
-            background: url('../UI/ngua6.png') no-repeat;
-            background-size: cover;
-            position: absolute;
-            top: 0;
-        }
-	</style>
 </head>
 
 <body>
 	<canvas id="myCanvas" style="border:1px solid #000000;"></canvas>
 	<script>
-		// Add player Data store here
-		const raceRoadPosistion = [-220, -150, -70, 0 , 70, 150, 220];
 		const canvas = document.getElementById("myCanvas");
 		canvas.width  = window.innerWidth-22;
 		canvas.height = window.innerHeight-22;
@@ -32,46 +20,210 @@
 			canvas.height = window.innerHeight-22;
 			gameEngine.initCanvas(canvas);
 		});
-		
-		// Join game scene have a button to join to a bet room
-		// create another scenes named Bet Scene
-		// GamePlay scene
+		class F {
+			static CMD = "cmd";
+			static OLD_STATE = "oS";
+			static NEW_STATE = "nS";
+			static GAME_DETAILS = "gDs";
+			static USER_ID = "uid";
+			static USERNAME = "u";
+			static MONEY = "m";
+			static AVATAR = "a";
+			static GENDER = "g";
+			static PLAYER = "p";
+			static TYPE = "t";
+			static CODE = "c";
+			static BETTING = "b";
+			static CARDS = "cs";
+			static FROM_PLAYER = "fP";
+			static TO_PLAYER = "tP";
+			static PLAYER_STATE = "pS";
+			static MONEY_EXCHANGE = "mX";
+			static PLAYERS = "ps";
+			static GROUP_NAME = "G";
+			static ROOM_ID = "rid";
+			static ROOM_NAME = "rn";
+			static MIN_MONEY = "mM";
+			static ROOMS = "rs";
+			static GAME_TYPE = "gT";
+			static USER_COUNT = "uC";
+			static MAX_USER = "Mu";
+			static TOTAL_USER_COUNT = "tUC";
+			static GAME_STATE = "gS";
+			static IS_ROOM_MASTER = "C"; // captain
+			static REASON = "rea";
+			static POSITION = "sit"; // vi tri
+			static REMAINING_TIME = "rmT";
+			static USER_ASSETS = "As";
+			static BROADCAST_MESSAGE = "bcm";
+			static ACCESS_TOKEN = "accessToken";
+			static MERCURY_ACCESS_TOKEN = "mercury:accessToken";
+			static USERS = "us";
+			static DATA = "d";
+			static DISPLAY_NAME = "dn";
+			static NEXT_CMD = "nCmd";
+			static LOST_MONEY = "lm";
+			static LAST_ROOM = "lr";
+			static READY = "r";
+			static TIME = "T";
+			static PLAYING = "pi";
+			static RECONNECT = "re";
+			static GAME_ID = "gid";
+			static SERVER_ID = "sid";
+			static ZONE_NAME = "zn";
+			static ID = "id";
+			static HAZELCAST = "hazelcast";
+			static LAST_DISCARDS = "ldc";
+			static ASSET_ID = "aid";
+			static _ID = "_id";
+			static SEQ = "seq";
+			static MUST_UPDATE_USERNAME = "muu";
+			static ID_PRODUCER = "idProducer";
+			static FROM_USER = "fu";
+			static ROOM_INFO = "ri";
+			static SUBSCRIBLE_INVITE = "subi";
+			static PLATFORM_ID = "pid";
+			static LIST_PLAYING = "lpi";
+			static PHONE = "ph";
+			static PHONE_VERIFIED = "pvr";
+			static CURRENT_PLAYER = "cP";
+			static PREV_USER_ID = "puid";
+			static TIME_FOR_TURN = "tft";
+			static MIN_MONEY_BUY_IN = "mMBI";
+			static MAX_MONEY_BUY_IN = "MMBI";
+			static REAL_MONEY = "rM";
+			static POTS = "pots";
+			static WINNERS = "wns";
+			static IS_WINNER = "iw";
+			static MESSAGE = "mgs";
+			static SUCCESS = "scc";
+			static MAX_MONEY_CREATE_ROOM = "Mmcr";
+			static MIN_MONEY_CREATE_ROOM = "mmcr";
+			static MAX_BETTING = "mB";
+			static NAME = "name";
+			static UNREAD = "ur";
+			static NEW_ANNOUNCE = "na";
+			static ACTIVE_MESSAGE = "am";
+			static TIME_FOR_END_GAME = "tfeg";
+			static VALUE = "v";
+			static BALANCE = "ba";
+			static JAR = "jar";
+			static JAR_ID = "jid";
+			static ENABLE_JAR_OF_THREE_CARDS = "ejotc";
+			static JARS = "js";
+			static BETTINGS = "bs";
+			static IS_JOIN = "iJ";
+			static URL = "url";
+			static VERIFY_MESSAGE = "vm";
+			static GROUP_ID = "grI";
+			static DEFAULT_BETTING = "dfB";
+			static TIME_FOR_READY = "tFR";
+			static TIME_FOR_START = "tFS";
+			static TIME_FOR_DEAL_CARD = "tFDC";
+			static TURN_REMAINING_TIME = "tRMT";
+			static IS_READY = "isR";
+			static ENTRY_ID = "eid";
+			static IS_BOT = "ib";
+			static GAME_MODE = "gM";
+			static METADATA = "rMt";
+			static LOAN_MONEY = "loan";
+			static MAX_LOAN = "mL";
+			static IS_SHOW = "is";
+			static IS_FRIEND = "iF";
+			static TO_USER = "tu";
+			static FRIENDS = "fris";
+			static CHANNELS = "chs";
+			static CHANNEL = "ch";
+			static TIMESTAMP = "tst";
+			static TOURNAMENT_INFO = "tournamentInfo";
+			static IS_TOURNAMENT = "iTmt";
+			static CHAT_HISTORY = "cH";
+			static FROM_USERNAME = "fun";
+			static TO_USERNAME = "tun";
+			static TIME_FOR_BETTING = "tfb";
+			static ROOM_BETTINGS = "rbs";
+			static TIME_FOR_BOOKING = "tfb";
+			static INCOGNITO = "inc";
+			static PASSWORD = "pwd";
+			static HAS_PASSWORD = "hpwd";
+			static MAX_BET = "MB";
+			static JACKPOTS = "Js";
+			static HUGE = "hg";
+			static DRAW_ID = "d";
+			static COUNT_DOWN = "c";
+			static CCU_GAMES = "cgs";
+			static CCU = "ccu";
+			static VERIFIED_BANK_ACCOUNT = "vba";
+			static LIMIT = "L";
+			static SKIP = "S";
+			static SKIP_LOGOUT_MESSAGE = "slom";
+			static BRAND = "br";
+		}
+		class CMD{
+			static C_JOIN_GAME			= 10001;
+			static S_JOIN_GAME			= 10002;
+			static S_PLAYER_JOIN_GAME	= 10003;
+			
+			static C_LEFT_GAME			= 10011;
+			static S_LEFT_GAME			= 10012;
+			static S_PLAYER_LEFT_GAME	= 10013;
+			
+			
+			static C_ADD_BET			= 20001;
+			static S_ADD_BET			= 20002;
+			static S_ADD_BET_Invalid	= 20003;
+			static S_PLAYER_ADD_BET	    = 20009;
+
+			static S_FINISH_GAME		= 20900;
+		}
+
 
 		class sceneLogin extends GameScene{
 			constructor(){super("aaaaaa");}
 			onInit(){
-				
-				this.horse1 = new Image();
-				this.horse1.src = '../UI/ngua6.png';
-				this.horse2 = new Image();
-				this.horse2.src = '../UI/ngua6.png';
-				this.horse3 = new Image();
-				this.horse3.src = '../UI/ngua6.png';
-				this.horse4 = new Image();
-				this.horse4.src = '../UI/ngua6.png';
-				this.horse5 = new Image();
-				this.horse5.src = '../UI/ngua6.png';
-				this.horse6 = new Image();
-				this.horse6.src = '../UI/ngua6.png';
+				this.img = new Image();
+				this.background = new Image();
+				this.background.src = '../UI/map/range.png';
+				this.startBackground = new Image();
+				this.startBackground.src = '../UI/map/Untitled-1_0000_9.png';
+				this.endBackground = new Image();
+				this.endBackground.src = '../UI/map/Untitled-1_0001_Layer-17.png';
 
-				this.ctx.font = "48px serif";
+				this.backgroundPosition = 0;
+				this.finishLinePos = 0;
+				this.startPosition = 0;
+				this.startDraw = (canvas.height/2) - 129*2;
+				this.backgroundSpeed = 1;
+				this.currentBGPos = 0;
+				this.isRace = false;
+				this.isWaitToFinish = false;
+				this.isFinishGame = false;
+				this.secondHorseId = -1;
+
+				// Horse Data
+				// this.horseSpeed = 0.005;
+				this.horseSpeed = 0.001;
+				this.rankPosition = [50, 100, 150, 200, 250, 300, 350, 400, 450];
+				this.horeseRank = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+				this.currentHorsePos = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+				this.idleAnim = new GameSprite(75);
+				this.runAnim =  new GameSprite(40);
+
+				this.backgroundCountX = canvas.width/194 + 1;
+				this.backgroundCountY = 4;
+
+				// Time count down to race
+				this.timeCountDown = Date.now();
+
+				for (let i = 1; i <= 6; i++){
+					this.idleAnim.addAnimation(`../UI/Animation/Idle/128x128/Idle_Frame${i}.png`, i);
+				}
+				for (let i = 1; i <= 11; i++){
+					this.runAnim.addAnimation(`../UI/Animation/Run/128x128/Run_Frame${i}.png`, i);
+				}
 			}
 			onUpdate(){
 				//console.log("Đang ở trong Scene("+this.sceneName+") |||||| "+gameEngine.FPS);
-				
-				//this.ctx.drawImage(this.img,150,150);
-				// this.ctx.drawImage(this.horse1, 0, 0, 80,60);
-				// this.ctx.drawImage(this.horse2, 0, 70, 80,60);
-				// this.ctx.drawImage(this.horse3, 0, 150, 80,60);
-				// this.ctx.drawImage(this.horse3, 0, 220, 80,60);
-
-				this.ctx.drawImage(this.horse1, 0, 512 + raceRoadPosistion[0], 80,60);
-				this.ctx.drawImage(this.horse2, 0, 512 + raceRoadPosistion[1], 80,60);
-				this.ctx.drawImage(this.horse3, 0, 512 + raceRoadPosistion[2], 80,60);
-				this.ctx.drawImage(this.horse4, 0, 512 + raceRoadPosistion[3], 80,60);
-				this.ctx.drawImage(this.horse5, 0, 512 + raceRoadPosistion[4], 80,60);
-				this.ctx.drawImage(this.horse6, 0, 512 + raceRoadPosistion[5], 80,60);
-
 				gameEngine.ctx.strokeStyle = "yellow";
 				gameEngine.ctx.beginPath(); 
 				gameEngine.ctx.moveTo(10,45);
@@ -79,72 +231,293 @@
 				// Make the line visible
 				gameEngine.ctx.stroke();
 				gameEngine.ctx.strokeStyle = "blue";
+
+				gameEngine.ctx.fillStyle = "red";
+				gameEngine.ctx.fillRect(0, 540, 1080, 1);
 				
-				gameEngine.ctx.fillStyle = "green";
-				gameEngine.ctx.fillRect(100, 100, 500, 350);
-				
-				this.ctx.fillStyle = "#FFA500";
-				this.ctx.fillText("👏 FPS : "+gameEngine.FPS, 200, 200);
+				if (this.isWaitToFinish == false){
+					if (this.isRace == false){
+						// 3000 3S count down before race
+						if (Date.now() - this.timeCountDown >= 3000){
+							this.isRace = true;
+							this.timeCountDown = Date.now();
+						}
+					}else{
+						const arr = this.runAnim.randomRank(this.horeseRank);
+						if (arr != null){
+							this.horeseRank = arr;
+						}
+					}
+				}
+
+				// this.ctx.fillStyle = "#FFA500";
+				// this.ctx.fillText("👏 FPS : "+gameEngine.FPS, 200, 200);
 			}
 			onDraw(){
-				
+				for (let k = 0; k < this.backgroundCountY; k++){
+					for (let i = 0; i < 150; i++){
+						const position = this.background.width*i + this.currentBGPos;
+						if ((-194) <= position && position <= canvas.width){
+							gameEngine.ctx.drawImage(
+								this.background,
+								position,
+								this.startDraw + this.background.height*k);
+						}
+					}
+				}
+
+				// 214x517 is size X of the background
+				if ((-this.startBackground.width) <= this.currentBGPos && this.currentBGPos <= canvas.width){
+					// Draw startline
+					gameEngine.ctx.drawImage(
+						this.startBackground,
+						this.currentBGPos,
+						this.startDraw);
+				}
+
+				if (this.isWaitToFinish){
+					gameEngine.ctx.drawImage(
+						this.endBackground,
+						canvas.width + this.finishLinePos,
+						this.startDraw);
+				}
+
+				if (this.isRace){
+					for (let i = 0; i < 8; i++){
+						const horsePos = this.runAnim.lerp(this.currentHorsePos[i+1], this.rankPosition[this.horeseRank[i+1]], this.horseSpeed);
+						this.currentHorsePos[i+1] = horsePos;
+						this.runAnim.draw(horsePos, this.startDraw - 64 + 64*i, this.isFinishGame);
+					}
+
+					if (this.isWaitToFinish == false){
+						if (Date.now() - this.timeCountDown >= 5000){
+							this.timeCountDown = Date.now();
+							this.isWaitToFinish = true;
+						}
+					}else{
+						// Finish game -> stop bg and horse move foward
+						if (Date.now() - this.timeCountDown >= 2000){
+							this.backgroundSpeed = 0;
+							this.isRace = false;
+							let firstHorse = 1;
+							this.secondHorseId = 1;
+							this.horseSpeed = 1;
+							console.log("Finish game, STOP race: this.isRace = false");
+							for (let i = 2; i < this.currentHorsePos.length; i++){
+								if (this.currentHorsePos[i] > this.currentHorsePos[firstHorse]){
+									firstHorse = i;
+								}
+							}
+
+							for (let i = 1; i < this.currentHorsePos.length; i++){
+								if (i == firstHorse)
+									continue;
+								if (this.currentHorsePos[i] > this.currentHorsePos[this.secondHorseId]){
+									this.secondHorseId = i;
+								}
+							}
+						}
+						this.finishLinePos -= this.backgroundSpeed;
+					}
+					this.currentBGPos -= this.backgroundSpeed;
+				}else{
+
+					if (this.isWaitToFinish){
+						for (let i = 0; i < 8; i++){
+							this.currentHorsePos[i+1] += this.horseSpeed;
+							this.runAnim.draw(this.currentHorsePos[i+1], this.startDraw - 64 + 64*i, this.isFinishGame);
+						}
+
+						if (this.isFinishGame == false){
+							if (this.currentHorsePos[this.secondHorseId] + this.runAnim.img[this.runAnim.currentFrame].width >= (canvas.width + this.finishLinePos)){
+								this.isFinishGame = true;
+								this.horseSpeed = 0;
+								alert("Finish game");
+							}
+						}
+					}else{
+						for (let i = 0; i < 8; i++){
+							this.idleAnim.draw(0, this.startDraw - 64 + 64*i, this.isFinishGame);
+						}
+					}
+				}
+			}
+		}
+
+		class GameSprite{
+			constructor(_animationRate){
+				this.img = [];
+				this.timeAnimation = Date.now();
+				this.currentFrame = 1;
+				this.animationRate = _animationRate;
+				this.ramdonRankRate = Date.now();
+			}
+
+			addAnimation(url, index){
+				this.img[index] = new Image();
+				this.img[index].src = url;
+			}
+
+			draw(_x, _y, _isStopGame){
+				if (_isStopGame == false){
+					if (Date.now() - this.timeAnimation > this.animationRate){
+						this.timeAnimation = Date.now();
+						if (this.currentFrame == this.img.length - 1)
+							this.currentFrame = 1;
+						else
+							this.currentFrame ++;
+					}
+				}
+
+				gameEngine.ctx.drawImage(
+					this.img[this.currentFrame],
+					_x,
+					_y,
+					128, 128);
+			}
+
+			randomRank(_horseRank){
+				if (Date.now() - this.ramdonRankRate > 3000){
+					const arr = [];
+					this.ramdonRankRate = Date.now();
+					for (let i = 1; i < _horseRank.length; i++) {
+						const val = this.getRandomInt(1, 8);
+						// _horseRank[i] = val;
+						arr[i] = val;
+					}
+					return arr;
+				}
+				return null;
+			}
+
+			lerp(start, end, t) {
+				const val = (1 - t) * start + t * end;
+            	return val;
+        	}
+
+			getRandomInt(min, max) {
+				min = Math.ceil(min);
+				max = Math.floor(max);
+				const val = Math.floor(Math.random() * (max - min + 1)) + min;
+				// console.log("Value: "+ val);
+				return val;
 			}
 		}
 		
 		gameEngine.changeScene(new sceneLogin());
 
-		class betScene extends GameScene{
+		class BetScene extends GameScene{
 			constructor(){super("BetScene");}
 			onInit(){
-				// Load player data to scene
-				this.ctx.font = "48px serif";
+
 			}
 			onUpdate(){
-				gameEngine.ctx.strokeStyle = "yellow";
-				gameEngine.ctx.beginPath(); 
-				gameEngine.ctx.moveTo(10,45);
-				gameEngine.ctx.lineTo(window.innerWidth - 32 ,45);
-				// Make the line visible
-				gameEngine.ctx.stroke();
-				gameEngine.ctx.strokeStyle = "blue";
-				
-				gameEngine.ctx.fillStyle = "green";
-				gameEngine.ctx.fillRect(100, 100, 500, 350);
-				
-				this.ctx.fillStyle = "#FFA500";
-				this.ctx.fillText("👏 FPS : "+gameEngine.FPS, 200, 200);
+
 			}
 			onDraw(){
 				
 			}
 		}
 
-		class resultScene extends GameScene{
-			constructor(){super("BetScene");}
-			onInit(){
-				// Load player data to scene
-				this.ctx.font = "48px serif";
+		class BasicWebsocket{
+			#websocket;
+			constructor(){
+				this.idCMD = 0;
 			}
-			onUpdate(){
-				gameEngine.ctx.strokeStyle = "yellow";
-				gameEngine.ctx.beginPath(); 
-				gameEngine.ctx.moveTo(10,45);
-				gameEngine.ctx.lineTo(window.innerWidth - 32 ,45);
-				// Make the line visible
-				gameEngine.ctx.stroke();
-				gameEngine.ctx.strokeStyle = "blue";
+			start(_ip,_port){
+				console.log("*********************************************************************************");
+				this.#websocket = new WebSocket("ws://"+_ip+":"+_port+"/websocket");
+				let _currentBasicWebsocket = this;
+				this.#websocket.onopen = function(e) {
+					console.log("BasicWebsocket kết nối đến ["+_ip+":"+_port+"] thành công");
+					_currentBasicWebsocket.send([1,"Ri",Math.random().toString(36).slice(2),"password",null]);
+				};
+				this.#websocket.onclose = function(event) {
+					console.log("Đóng kết nối BasicWebsocket");
+				};
 				
-				gameEngine.ctx.fillStyle = "green";
-				gameEngine.ctx.fillRect(100, 100, 500, 350);
+				this.#websocket.onmessage = function(event) {//
+					gameEngine.lastTimeWebsocket = Date.now();
+					let _data = event.data;
+					if (_data instanceof ArrayBuffer) {// binary frame
+						console.log("BasicWebsocket receive bytearray : "+_data);
+					}else{// text frame
+						console.log("BasicWebsocket receive string : "+_data);
+						let jsonReceive = JSON.parse(_data);
+						if(jsonReceive[0]==1){
+							const USERNAME = jsonReceive[3];
+							console.log("Login vào zone thành công với username : "+USERNAME);
+							if(_currentBasicWebsocket.onSuccess)
+								_currentBasicWebsocket.onSuccess();
+						}else if(jsonReceive[0]==5){
+							console.log("Nhận message trong plugin CMD : "+jsonReceive[1].cmd);
+							switch(jsonReceive[1].cmd) {
+								case CMD.S_ADD_BET:
+									console.log("Lỗi bet");
+									let mgBetError = jsonReceive[1];
+									_currentBasicWebsocket.onBetError(mgBetError[F.ID],mgBetError[F.CODE]);
+									break;
+								case CMD.S_PLAYER_ADD_BET:
+									let _mg = jsonReceive[1];
+									_currentBasicWebsocket.onPlayerBet(_mg[F.USERNAME],_mg[F.ID],_mg[F.LOST_MONEY],_mg[F.MONEY],_mg[F.BETTING]);
+									break;
+								case CMD.S_FINISH_GAME:
+									let _mgF = jsonReceive[1];
+									//if(_mgF[F.MONEY])
+										_currentBasicWebsocket.onFinishGame(_mgF[F.ID],_mgF[F.WINNERS],_mgF[F.MONEY],_mgF[F.NEW_ANNOUNCE]);
+									//else
+										//_currentBasicWebsocket.onFinishGame(_mgF[F.ID],0,0,_mgF[F.NEW_ANNOUNCE]);
+									break;
+								default:
+									console.log("Chưa xử lý CMD : "+jsonReceive[1].cmd);
+							}
+						}else{
+
+						}
+					}
+				};
 				
-				this.ctx.fillStyle = "#FFA500";
-				this.ctx.fillText("👏 FPS : "+gameEngine.FPS, 200, 200);
+				this.#websocket.onerror = function(error) {
+					console.log("BasicWebsocket get error "+error);
+				};
+
+				console.log("*********************************************************************************");
 			}
-			onDraw(){
-				
+
+			isRunning(){return this.#websocket && (this.#websocket.readyState==WebSocket.OPEN || this.#websocket.readyState==WebSocket.CONNECTING);}/*CONNECTING(0) - OPEN(1) - CLOSING(2) - CLOSED(3)*/
+			send(_message){
+				console.log("=====>BasicWebsocket send : "+JSON.stringify(_message));
+				this.#websocket.send(JSON.stringify(_message));
 			}
+			doBet(_index,_money){
+				let messageSending = {};
+				messageSending["cmd"] = CMD.C_ADD_BET;
+				messageSending[F.ENTRY_ID]=this.idCMD++;
+				messageSending[F.ID]=_index;
+				messageSending[F.BETTING]=_money;
+				this.send([6,"Ri","duanguaPlugin",messageSending]);
+			}
+
+			release(){this.#websocket.close();}
 		}
 
+		var basicWS = new BasicWebsocket();		
+		basicWS.start("localhost",8892);
+		basicWS.onSuccess = ()=>{
+			for(let i=0;i<15;i++)
+				basicWS.doBet(i,i+1);
+		};
+
+		
+		basicWS.onPlayerBet = (_username,_indexBet,_lostmoney,_currentMoney,_listDesk)=>{
+			console.log("username("+_username+") + index("+_indexBet+") + bet("+_lostmoney+") money("+_currentMoney+") listDesk("+_listDesk+")");
+		};
+		basicWS.onBetError = (_idCMD,strError)=>{
+			console.log("_idCMD("+_idCMD+") : "+strError);
+		};
+		basicWS.onFinishGame = (resultIndex,winMoney,lastMoney,newScore)=>{
+			console.log("Kết quả : "+resultIndex+"	("+winMoney+","+lastMoney+") ---> "+newScore);
+		};		
 
 	</script>
 </body>

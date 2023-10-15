@@ -205,6 +205,7 @@ class BGEngine{//Lớp cha chứa vòng lặp game
 	tickGameLoop(){
 		this.ctx.fillStyle = "black";
 		this.ctx.fillRect(0, 0, this.WIDTH, this.HEIGHT);
+		this.gameloop.currentTimeMillis = Date.now();
 		this.gameloop.onUpdate();
 		this.gameloop.onDraw();
 		this.#ctxMain.drawImage(this.#canvasBuffer, 0, 0);//draw buffer to Main Canvas
