@@ -230,6 +230,7 @@
 				this.isFinishGame = false;
 				this.isHaveResult = false;
 				this.secondHorseId = -1;
+				this.firstHorseId = -1;
 
 				// Horse Data
 				// this.horseSpeed = 0.005;
@@ -318,7 +319,7 @@
 
 				if (this.isRace) {
 					for (let i = 0; i < 8; i++) {
-						const horsePos = this.runAnim.lerp(this.currentHorsePos[i], this.rankPosition[this.horeseRank[i]], this.horseSpeed);
+						const horsePos = Ultilities.lerp(this.currentHorsePos[i], this.rankPosition[this.horeseRank[i]], this.horseSpeed);
 						this.currentHorsePos[i] = horsePos;
 						this.runAnim.draw(horsePos, this.startDraw - 64 + 64 * i, this.isFinishGame);
 					}
@@ -330,8 +331,9 @@
 							if (this.isHaveResult) {
 								this.isWaitToFinish = true;
 							} else {
-								this.secondHorseId = 2;
-								const arr = this.runAnim.randomRank(this.horeseRank, 1, 2, true);
+								this.secondHorseId = 0;
+								this.firstHorseId = 7;
+								const arr = this.runAnim.randomRank(this.horeseRank, this.firstHorseId, this.secondHorseId, true);
 								this.horeseRank = arr;
 								this.isHaveResult = true;
 							}
@@ -376,7 +378,7 @@
 
 					// Vẽ ngựa thắng
 					const winnerHorseImage = new Image();
-					winnerHorseImage.src = `../UI/BetScene/HorseAvatar/Avatar/Horse_${this.horeseRank[0]}.png`;
+					winnerHorseImage.src = `../UI/BetScene/HorseAvatar/Avatar/Horse_${this.firstHorseId + 1}.png`;
 					gameEngine.ctx.drawImage(winnerHorseImage, 0, 0, 300, 300);
 
 					const goldMedal = new Image();
@@ -385,7 +387,7 @@
 
 					// Vẽ ngựa nhì
 					const secondHorseImage = new Image();
-					secondHorseImage.src = `../UI/BetScene/HorseAvatar/Avatar/Horse_${this.horeseRank[1]}.png`;
+					secondHorseImage.src = `../UI/BetScene/HorseAvatar/Avatar/Horse_${this.secondHorseId + 1}.png`;
 					gameEngine.ctx.drawImage(secondHorseImage, 0, 320, 300, 300);
 					const silvelMedal = new Image();
 					silvelMedal.src = `../UI/BetScene/HorseAvatar/Avatar/2nd.png`;
