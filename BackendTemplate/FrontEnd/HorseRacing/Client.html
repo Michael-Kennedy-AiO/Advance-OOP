@@ -238,20 +238,30 @@
 				this.rankPosition = [50, 100, 150, 200, 250, 300, 350, 400, 450];
 				this.horeseRank = [0, 0, 0, 0, 0, 0, 0, 0];
 				this.currentHorsePos = [0, 0, 0, 0, 0, 0, 0, 0];
-				this.idleAnim = new GameSprite(75);
-				this.runAnim = new GameSprite(40);
+				this.idleAnim = [];
+				this.runAnim = [];
 
+				for (let i = 0; i < 8; i++){
+					this.idleAnim.push(new GameSprite(75));
+					this.runAnim.push(new GameSprite(40));
+				}
+
+
+				for (let i = 0; i < 8; i++){
+					for (let k = 0; k < 7; k++){
+						this.idleAnim[i].addAnimation(`../UI/Animation/Idle/128x128/Horse_${i+1}/Idle_Frame${k+1}.png`, k);
+					}
+
+					for (let g = 0; g < 11; g++){
+						this.runAnim[i].addAnimation(`../UI/Animation/Run/128x128/Horse_${i+1}/Run_Frame${g+1}.png`, g);
+					}
+				}
+				
 				this.backgroundCountX = canvas.width / 194 + 1;
 				this.backgroundCountY = 4;
 
 				// Time count down to race
 				this.timeCountDown = Date.now();
-				for (let i = 1; i <= 6; i++) {
-					this.idleAnim.addAnimation(`../UI/Animation/Idle/128x128/Idle_Frame${i}.png`, i - 1);
-				}
-				for (let i = 1; i <= 11; i++) {
-					this.runAnim.addAnimation(`../UI/Animation/Run/128x128/Run_Frame${i}.png`, i - 1);
-				}
 			}
 			onUpdate() {
 				//console.log("Đang ở trong Scene("+this.sceneName+") |||||| "+gameEngine.FPS);
@@ -276,7 +286,7 @@
 						}
 					} else {
 						if (this.isHaveResult == false) {
-							const arr = this.runAnim.randomRank(this.horeseRank);
+							const arr = this.runAnim[0].randomRank(this.horeseRank);
 							if (arr != null) {
 								this.horeseRank = arr;
 							}
@@ -321,7 +331,7 @@
 					for (let i = 0; i < 8; i++) {
 						const horsePos = Ultilities.lerp(this.currentHorsePos[i], this.rankPosition[this.horeseRank[i]], this.horseSpeed);
 						this.currentHorsePos[i] = horsePos;
-						this.runAnim.draw(horsePos, this.startDraw - 64 + 64 * i, this.isFinishGame);
+						this.runAnim[i].draw(horsePos, this.startDraw - 64 + 64 * i, this.isFinishGame);
 					}
 
 					if (this.isWaitToFinish == false) {
@@ -333,7 +343,7 @@
 							} else {
 								this.secondHorseId = 0;
 								this.firstHorseId = 7;
-								const arr = this.runAnim.randomRank(this.horeseRank, this.firstHorseId, this.secondHorseId, true);
+								const arr = this.runAnim[1].randomRank(this.horeseRank, this.firstHorseId, this.secondHorseId, true);
 								this.horeseRank = arr;
 								this.isHaveResult = true;
 							}
@@ -354,18 +364,18 @@
 					if (this.isWaitToFinish) {
 						for (let i = 0; i < 8; i++) {
 							this.currentHorsePos[i] += this.horseSpeed;
-							this.runAnim.draw(this.currentHorsePos[i], this.startDraw - 64 + 64 * i, this.isFinishGame);
+							this.runAnim[i].draw(this.currentHorsePos[i], this.startDraw - 64 + 64 * i, this.isFinishGame);
 						}
 
 						if (this.isFinishGame == false) {
-							if (this.currentHorsePos[this.secondHorseId] + this.runAnim.img[this.runAnim.currentFrame].width >= (canvas.width + this.finishLinePos)) {
+							if (this.currentHorsePos[this.secondHorseId] + this.runAnim[this.firstHorseId].img[this.runAnim[this.firstHorseId].currentFrame].width >= (canvas.width + this.finishLinePos)) {
 								this.isFinishGame = true;
 								this.horseSpeed = 0;
 							}
 						}
 					} else {
 						for (let i = 0; i < 8; i++) {
-							this.idleAnim.draw(0, this.startDraw - 64 + 64 * i, this.isFinishGame);
+							this.idleAnim[i].draw(0, this.startDraw - 64 + 64 * i, this.isFinishGame);
 						}
 					}
 				}
@@ -457,8 +467,6 @@
 				}
 				return null;
 			}
-
-
 
 			getRandomInt(min, max) {
 				min = Math.ceil(min);
@@ -572,7 +580,11 @@
 					chips: [] // chip have currentX and currentY to lerp, target X and target Y
 				}
 				this.slidePage = 0;
-				this.valueEachPage = this.holderOffset.chipStart + this.chipOffset * 6 + this.holderOffset.chipSize * 7;
+				this.pageValue = {
+					maxPage : parseInt(27/7 + (27%7 >= 1 ? 1 : 0)),
+					currentPageNumber: 1,
+					valueEachPage: this.chipOffset * 7 + this.holderOffset.chipSize * 7
+				}
 			}
 			onUpdate() {
 
@@ -699,10 +711,11 @@
 				let scaleUpValue = 1;
 				let moveValue = 0;
 				// Draw chips
-
 				for (let i = 0; i < 27; i++) {
 					// Scale and move chip
 					let chipX = this.holderOffset.chipStart + this.chipOffset * i + this.holderOffset.chipSize * i + this.slidePage;
+					if (this.holderOffset.chipStart > chipX || chipX > (this.holderOffset.x + this.holderOffset.width - 120))
+						continue;
 					let chipY = this.holderOffset.y + this.holderOffset.height / 5.5;
 					let chipSize = this.holderOffset.chipSize;
 					if (i == this.chipHoldingId) {
@@ -723,17 +736,12 @@
 							this.chipAnimation.scale.isScaleUp = true
 					}
 
-					console.log(`${this.holderOffset.chipStart}, Pos: ${chipX}, End: ${this.holderOffset.x - 120}`)
-					if (this.holderOffset.chipStart <= chipX && chipX >= this.holderOffset.x + this.holderOffset.width - 120) {
-
-					} else {
-						gameEngine.ctx.drawImage(
+					gameEngine.ctx.drawImage(
 							this.imgChips[i],
 							chipX,
 							chipY,
 							chipSize, chipSize
 						)
-					}
 				}
 
 				// Move chip to target 
@@ -741,11 +749,11 @@
 					const chipX = Ultilities.lerp(
 						this.moveChipToBet.chips[i].currentPosX,
 						this.moveChipToBet.chips[i].targetPosX,
-						this.moveChipToBet.speed);
+						this.moveChipToBet.speed, this.holderOffset.chipSize/2, this.holderOffset.chipSize/2);
 					const chipY = Ultilities.lerp(
 						this.moveChipToBet.chips[i].currentPosY,
 						this.moveChipToBet.chips[i].targetPosY,
-						this.moveChipToBet.speed);
+						this.moveChipToBet.speed, this.holderOffset.chipSize/2, this.holderOffset.chipSize/2);
 
 					gameEngine.ctx.drawImage(
 						this.imgChips[this.moveChipToBet.chips[i].id],
@@ -756,10 +764,8 @@
 
 					this.moveChipToBet.chips[i].currentPosX = chipX;
 					this.moveChipToBet.chips[i].currentPosY = chipY;
-
-					if (this.moveChipToBet.chips[i].currentPosY <= this.moveChipToBet.chips[i].targetPosY - 10) {
+					if (this.moveChipToBet.chips[i].currentPosY <= this.moveChipToBet.chips[i].targetPosY + 45) {
 						this.moveChipToBet.chips.splice(i, 1);
-						console.log("remove");
 					}
 				}
 				gameEngine.ctx.drawImage(
@@ -779,19 +785,46 @@
 				);
 			}
 			onClick() {
-				let foundObject = false;
 				// Mouse on chip board
 				if (this.holderOffset.x <= this.mouseX && this.mouseX <= (this.holderOffset.x + this.holderOffset.width) &&
 					this.holderOffset.y <= this.mouseY && this.mouseY <= (this.holderOffset.y + this.holderOffset.height)) {
-					for (let i = 0; i < 7; i++) {
-						const chipX = this.holderOffset.chipStart + this.chipOffset * i + this.holderOffset.chipSize * i;
-						const chipY = this.holderOffset.y + this.holderOffset.height / 5.5;
-						if (chipX <= this.mouseX && this.mouseX <= chipX + this.holderOffset.chipSize &&
-							chipY <= this.mouseY && this.mouseY <= chipY + this.holderOffset.chipSize) {
-							if (this.chipHoldingId != i) {
-								this.chipHoldingId = i;
-								this.chipAnimation.move.currentPosX = chipX;
-								this.chipAnimation.move.currentPosY = chipY;
+
+					if (this.mouseX >= this.holderOffset.arrow &&
+						this.mouseX <= this.holderOffset.arrow + this.imgArrows.width &&
+						this.mouseY >= this.holderOffset.y + this.holderOffset.height / 5.5 &&
+						this.mouseY <= this.holderOffset.y + this.holderOffset.height / 5.5 + this.imgArrows.height) {
+							// Left arrow
+							if (this.pageValue.currentPageNumber > 1){
+								this.slidePage += this.pageValue.valueEachPage;
+								this.pageValue.currentPageNumber--;
+								this.chipHoldingId = 7*(this.pageValue.currentPageNumber - 1);
+
+								this.chipAnimation.move.currentPosX = this.holderOffset.chipStart;
+								this.chipAnimation.move.currentPosY = this.holderOffset.y + this.holderOffset.height / 5.5;
+							}
+					} else if (this.mouseX >= this.holderOffset.x + this.holderOffset.width - (this.imgArrows.width - 30) &&
+						this.mouseX <= this.holderOffset.x + this.holderOffset.width - 30 &&
+						this.mouseY >= this.holderOffset.y + this.holderOffset.height / 5.5 &&
+						this.mouseY <= this.holderOffset.y + this.holderOffset.height / 5.5 + this.imgArrows.height) {
+							if (this.pageValue.currentPageNumber < this.pageValue.maxPage){
+								this.slidePage -= this.pageValue.valueEachPage;
+								this.pageValue.currentPageNumber++;
+								this.chipHoldingId = 7*(this.pageValue.currentPageNumber - 1);
+
+								this.chipAnimation.move.currentPosX = this.holderOffset.chipStart;
+								this.chipAnimation.move.currentPosY = this.holderOffset.y + this.holderOffset.height / 5.5;
+							}
+					} else {
+						for (let i = 0; i < 7; i++) {
+							const chipX = this.holderOffset.chipStart + this.chipOffset * i + this.holderOffset.chipSize * i;
+							const chipY = this.holderOffset.y + this.holderOffset.height / 5.5;
+							if (chipX <= this.mouseX && this.mouseX <= chipX + this.holderOffset.chipSize &&
+								chipY <= this.mouseY && this.mouseY <= chipY + this.holderOffset.chipSize) {
+								if (this.chipHoldingId != i) {
+									this.chipHoldingId = i + 7 * (this.pageValue.currentPageNumber - 1);
+									this.chipAnimation.move.currentPosX = chipX;
+									this.chipAnimation.move.currentPosY = chipY;
+								}
 							}
 						}
 					}
@@ -810,41 +843,19 @@
 								horseY <= this.mouseY && this.mouseY <= horseY + 125) {
 								this.moveChipToBet.chips.push({
 									id: this.chipHoldingId,
-									currentPosX: this.holderOffset.chipStart + this.chipOffset * this.chipHoldingId + this.holderOffset.chipSize * this.chipHoldingId,
+									currentPosX: this.holderOffset.chipStart + this.chipOffset * (this.chipHoldingId - 7 * (this.pageValue.currentPageNumber - 1)) + this.holderOffset.chipSize * (this.chipHoldingId - 7 * (this.pageValue.currentPageNumber - 1)),
 									currentPosY: this.holderOffset.y + this.holderOffset.height / 5.5,
 									targetPosX: this.randomPosition(horseX + 50, horseX + 215) - this.holderOffset.chipSize / 2,
 									targetPosY: this.randomPosition(horseY + 20, horseY + 100) - this.holderOffset.chipSize / 2
 								});
-								console.log(this.moveChipToBet.chips);
+								// console.log(this.moveChipToBet.chips);
 								break;
 							}
 						}
 					}
 				}
-				// Kiểm tra nút mũi tên trái
-				if (this.mouseX >= this.holderOffset.arrow &&
-					this.mouseX <= this.holderOffset.arrow + this.imgArrows.width &&
-					this.mouseY >= this.holderOffset.y + this.holderOffset.height / 5.5 &&
-					this.mouseY <= this.holderOffset.y + this.holderOffset.height / 5.5 + this.imgArrows.height) {
-						this.slidePage -= this.valueEachPage;
-					if (this.slidePage < -this.valueEachPage) {
-						this.slidePage = - this.valueEachPage ;
-					}
-				}
-
-				// right
-				if (this.mouseX >= this.holderOffset.x + this.holderOffset.width - this.imgArrows.width - this.horseOffset &&
-					this.mouseX <= this.holderOffset.x + this.holderOffset.width - this.horseOffset &&
-					this.mouseY >= this.holderOffset.y + this.holderOffset.height / 5.5 &&
-					this.mouseY <= this.holderOffset.y + this.holderOffset.height / 5.5 + this.imgArrows.height) {					
-					this.slidePage += this.valueEachPage;
-					if (this.slidePage > 0) {
-						this.slidePage = 0;
-					}
-				}
 			}
 			randomPosition(min, max) {
-				console.log(`Min: ${min}, Max: ${max}`);
 				return Math.random() * (max - min) + min;
 			}
 		}
