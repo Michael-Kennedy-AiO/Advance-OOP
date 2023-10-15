@@ -20,6 +20,25 @@
 			canvas.height = window.innerHeight-22;
 			gameEngine.initCanvas(canvas);
 		});
+		class Ultilities{
+			static createBtn = (text = 'Button', _event = null, _top = 0, _left = 0, _position = '') => {
+                const btn = document.createElement('button');
+                btn.innerText = text;
+                if (_position == '')
+                    btn.style.position = 'absolute';
+                else
+                    btn.style.position = _position;
+                btn.style.top = `${_top}px`;
+                btn.style.left = `${_left}px`;
+                btn.addEventListener('click', _event != null ? _event : () => {
+                    
+                })
+                document.body.appendChild(btn);
+                return btn;
+            }
+		}
+
+		
 		class F {
 			static CMD = "cmd";
 			static OLD_STATE = "oS";
@@ -418,6 +437,8 @@
 				
 			}
 		}
+		
+		Ultilities.createBtn('Scene Bet', () => gameEngine.changeScene(new BetScene()));
 
 		class BasicWebsocket{
 			#websocket;
