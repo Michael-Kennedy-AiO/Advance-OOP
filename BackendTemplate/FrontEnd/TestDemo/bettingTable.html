@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>betting table</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background-color: tomato;
+            margin: 20px 20px 20px 20px;
+            width: 99%;
+            height: 800px;
+            display: flex;
+            flex-direction: row;
+            position: relative;
+        }
+
+        .table {
+            background-color: blueviolet;
+            margin: 150px 200px;
+            display: flex;
+            width: 900px;
+            height: 400px;
+            border-radius: 25px;
+            padding: 10px;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .table img {
+            width: 110px;
+            height: 115px;
+            margin-top: 10px;
+        }
+
+        .content1 {
+            background-image: url('../UI/BetScene/HorseAvatar/Background/BG_1.png');
+            background-size: 100%;
+            width: 230px;
+            height: 120px;
+            overflow: hidden;
+        }
+
+        .content2 {
+            background-image: url('../UI/BetScene/HorseAvatar/Background/BG_2.png');
+            background-size: 100%;
+            width: 230px;
+            height: 120px;
+            overflow: hidden;
+        }
+
+        .content3 {
+            background-image: url('../UI/BetScene/HorseAvatar/Background/BG_3.png');
+            background-size: 100%;
+            width: 230px;
+            height: 120px;
+            overflow: hidden;
+        }
+
+        .content4 {
+            background-image: url('../UI/BetScene/HorseAvatar/Background/BG_4.png');
+            background-size: 100%;
+            width: 230px;
+            height: 120px;
+            overflow: hidden;
+        }
+
+        .content5 {
+            background-image: url('../UI/BetScene/HorseAvatar/Background/BG_5.png');
+            background-size: 100%;
+            width: 230px;
+            height: 120px;
+            overflow: hidden;
+        }
+
+        .content6 {
+            background-image: url('../UI/BetScene/HorseAvatar/Background/BG_6.png');
+            background-size: 100%;
+            width: 230px;
+            height: 120px;
+            overflow: hidden;
+        }
+
+        .content7 {
+            background-image: url('../UI/BetScene/HorseAvatar/Background/BG_7.png');
+            background-size: 100%;
+            width: 230px;
+            height: 120px;
+            overflow: hidden;
+        }
+
+        .content8 {
+            background-image: url('../UI/BetScene/HorseAvatar/Background/BG_8.png');
+            background-size: 100%;
+            width: 230px;
+            height: 120px;
+            overflow: hidden;
+        }
+
+        .content9 {
+            background-image: url('../UI/BetScene/HorseAvatar/Background/BG_5.png');
+            background-size: 100%;
+            width: 230px;
+            height: 120px;
+            overflow: hidden;
+        }
+
+        .Chip {
+            display: flex;
+            margin: 10px 20px;
+            background-image: url('../UI/BetScene/ChipHolder.png');
+            background-size: 100%;
+            width: 1000px;
+            height: 150px;
+            border-radius: 100px;
+            /* transform: scaleY(0.95); */
+            position: absolute;
+            bottom: 0;
+            right: 10px;
+        }
+
+        .LeftArrow {
+            position: absolute;
+            bottom: 40px;
+            left: 15px;
+            transition: transform 0.3s;
+        }
+
+        .LeftArrow:hover {
+            transform: scale(1.6);
+        }
+
+        .RightArrow {
+            position: absolute;
+            bottom: 40px;
+            right: 15px;
+            transition: transform 0.3s;
+        }
+
+        .RightArrow:hover {
+            transform: scale(1.6);
+        }
+
+        .ChipList-Container {
+            width: 90px;
+            height: 90px;
+            display: flex;
+            position: absolute;
+            bottom: 27px;
+            right: 830px;
+        }
+
+        .ChipList-Container img {
+            margin: 10px 10px 8px 10px;
+            transition: transform 0.3s;
+        }
+
+        .ChipList-Container img:hover {
+            transform: scale(1.6);
+        }
+
+        
+        .ChipList1 {
+            display: flex;
+        }
+
+        .ChipList2 {
+            display: none;
+        }
+
+        .ChipList3 {
+            display: none;
+        }
+
+        .UserBox {
+            width: 382px;
+            height: 120px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 25px;
+            padding: 20px;
+            /* opacity: 0.7;  */
+            position: absolute;
+            bottom: 0;
+            left: 50px;
+        }
+        .UserCoin{
+            width: 206px;
+            height: 45px;
+            background-color: rgba(255, 255, 255, 0);
+            border: 1px solid #000;
+            border-radius: 50px;
+            box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.6);
+            position: absolute;
+            right: 10px;
+            top: 20px;
+        }
+
+        .UserCoin img {
+            width: 60px;
+            height: 60px;
+            position: absolute;
+            left:-10px;
+            top: -12px;
+        }
+
+        .UnKnown{
+            width: 206px;
+            height: 45px;
+            background-color: rgba(255, 255, 255, 0);
+            border: 1px solid #000;
+            border-radius: 50px;
+            box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.6);
+            position: absolute;
+            right: 10px;
+            bottom: 20px;
+        }
+        .HistoryBG {
+            background-image: url('../UI/BetScene/HorseAvatar/Background/HistoryBG.png');
+            background-repeat: no-repeat;
+            background-size: 100%;
+            margin: 150px 50px;
+            width: 288px;
+            height: 425px;
+            position: relative;
+        }
+
+        .IcoinCup {
+            position: absolute;
+            top: -35px;
+            right: -35px;
+            transform: rotate(20deg)
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="table">
+            <div class="content1"><img src="../UI/BetScene/HorseAvatar/Avatar/Horse_1.png" alt=""></div>
+            <div class="content2"><img src="../UI/BetScene/HorseAvatar/Avatar/Horse_2.png" alt=""></div>
+            <div class="content3"><img src="../UI/BetScene/HorseAvatar/Avatar/Horse_3.png" alt=""></div>
+            <div class="content4"><img src="../UI/BetScene/HorseAvatar/Avatar/Horse_4.png" alt=""></div>
+            <div class="content5"><img src="../UI/BetScene/HorseAvatar/Avatar/Horse_5.png" alt=""></div>
+            <div class="content6"><img src="../UI/BetScene/HorseAvatar/Avatar/Horse_6.png" alt=""></div>
+            <div class="content7"><img src="../UI/BetScene/HorseAvatar/Avatar/Horse_7.png" alt=""></div>
+            <div class="content8"><img src="../UI/BetScene/HorseAvatar/Avatar/Horse_8.png" alt=""></div>
+            <div class="content9"><img src="../UI/BetScene/HorseAvatar/Avatar/Horse_5.png" alt=""></div>
+        </div>
+        <div class="HistoryBG">
+            <div class="IcoinCup">
+                <img src="../UI/BetScene/Cup.png" alt="">
+            </div>
+        </div>
+        <div class="Chip">
+            <div class="LeftArrow"><img src="../UI/BetScene/ArrowHolder.png" alt="" onclick="Arrow(-1)"></div>
+            <div class="RightArrow"><img src="../UI/BetScene/ArrowHolderRight.png" alt="" onclick="Arrow(1)"></div>
+            <div class="ChipList-Container">
+                <div class="ChipList ChipList1">
+                <img src="../UI/BetScene/Chips/Chip_1.png" alt="">
+                <img src="../UI/BetScene/Chips/Chip_2.png" alt="">
+                <img src="../UI/BetScene/Chips/Chip_5.png" alt="">
+                <img src="../UI/BetScene/Chips/Chip_10.png" alt="">
+                <img src="../UI/BetScene/Chips/Chip_20.png" alt="">
+                <img src="../UI/BetScene/Chips/Chip_50.png" alt="">
+                <img src="../UI/BetScene/Chips/Chip_100.png" alt="">
+                <img src="../UI/BetScene/Chips/Chip_200.png" alt="">
+                <img src="../UI/BetScene/Chips/Chip_500.png" alt="">
+                </div>
+                <div class="ChipList ChipList2">
+                    <img src="../UI/BetScene/Chips/Chip_1K.png" alt="">
+                    <img src="../UI/BetScene/Chips/Chip_2K.png" alt="">
+                    <img src="../UI/BetScene/Chips/Chip_5K.png" alt="">
+                    <img src="../UI/BetScene/Chips/Chip_10K.png" alt="">
+                    <img src="../UI/BetScene/Chips/Chip_20K.png" alt="">
+                    <img src="../UI/BetScene/Chips/Chip_50K.png" alt="">
+                    <img src="../UI/BetScene/Chips/Chip_100K.png" alt="">
+                    <img src="../UI/BetScene/Chips/Chip_200K.png" alt="">
+                    <img src="../UI/BetScene/Chips/Chip_500K.png" alt="">
+                </div>
+                <div class="ChipList ChipList3">
+                    <img src="../UI/BetScene/Chips/Chip_1M.png" alt="">
+                    <img src="../UI/BetScene/Chips/Chip_2M.png" alt="">
+                    <img src="../UI/BetScene/Chips/Chip_5M.png" alt="">
+                    <img src="../UI/BetScene/Chips/Chip_10M.png" alt="">
+                    <img src="../UI/BetScene/Chips/Chip_20M.png" alt="">
+                    <img src="../UI/BetScene/Chips/Chip_50M.png" alt="">
+                    <img src="../UI/BetScene/Chips/Chip_100M.png" alt="">
+                    <img src="../UI/BetScene/Chips/Chip_200M.png" alt="">
+                    <img src="../UI/BetScene/Chips/Chip_500M.png" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="UserBox">
+            <div class="UserCoin"><img src="../UI/BetScene/UserCoin.png" alt=""></div>
+            <div class="UnKnown"></div>
+        </div>
+    </div>
+    <script>
+        const chiplistContainer = document.querySelector('.ChipList-Container');
+        const chiplists = document.querySelectorAll('.ChipList');
+        let currentChiplistIndex = 0;
+
+        function Arrow(offset) {
+            currentChiplistIndex = (currentChiplistIndex + offset + chiplists.length) % chiplists.length;
+
+            chiplists.forEach((chiplist, i) => {
+                if (i === currentChiplistIndex) {
+                    chiplist.style.display = 'flex';
+                } else {
+                    chiplist.style.display = 'none';
+                }
+            });
+        }
+    </script>
+    </script>
+</body>
+
+</html>
