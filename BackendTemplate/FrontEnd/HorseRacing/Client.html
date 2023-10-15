@@ -571,6 +571,8 @@
 					speed: 0.01,
 					chips: [] // chip have currentX and currentY to lerp, target X and target Y
 				}
+				this.slidePage = 0;
+				this.valueEachPage = this.holderOffset.chipStart + this.chipOffset * 6 + this.holderOffset.chipSize * 7;
 			}
 			onUpdate() {
 				
@@ -696,9 +698,11 @@
 
 				let scaleUpValue = 1;
 				let moveValue = 0;
-				for (let i = 0; i < 7; i++) {
+				// Draw chips
+				
+				for (let i = 0; i < 27; i++) {
 					// Scale and move chip
-					let chipX = this.holderOffset.chipStart + this.chipOffset * i + this.holderOffset.chipSize * i;
+					let chipX = this.holderOffset.chipStart + this.chipOffset * i + this.holderOffset.chipSize * i + this.slidePage;
 					let chipY = this.holderOffset.y + this.holderOffset.height / 5.5;
 					let chipSize = this.holderOffset.chipSize;
 					if (i == this.chipHoldingId) {
@@ -719,12 +723,17 @@
 							this.chipAnimation.scale.isScaleUp = true
 					}
 
-					gameEngine.ctx.drawImage(
-						this.imgChips[i],
-						chipX,
-						chipY,
-						chipSize, chipSize
-					)
+					console.log(`${this.holderOffset.chipStart}, Pos: ${chipX}, End: ${this.holderOffset.x - 120}`)
+					if (this.holderOffset.chipStart <= chipX && chipX >= this.holderOffset.x + this.holderOffset.width - 120){
+						
+					}else{
+						gameEngine.ctx.drawImage(
+							this.imgChips[i],
+							chipX,
+							chipY,
+							chipSize, chipSize
+						)
+					}
 				}
 
 				// Move chip to target 
@@ -774,6 +783,7 @@
 					}
 				} else if (this.betTableOffset.x <= this.mouseX && this.mouseX <= this.betTableOffset.x + this.betTableOffset.width &&
 					this.betTableOffset.y <= this.mouseY && this.mouseY <= this.betTableOffset.y + this.betTableOffset.height) {
+					// Check bet table
 					for (let i = 0; i < 3; i++) {
 						for (let k = 0; k < 3; k++) {
 							if (i == 2 && k == 2)
