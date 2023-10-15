@@ -178,6 +178,9 @@ class GameScene {
 	onInit(){}
 	onUpdate(){}
 	onDraw(){}
+
+	onClick(){}
+	onDoubleClick(){}
 	onRelease(){}
 }
 
@@ -229,6 +232,15 @@ class BGEngine{//Lớp cha chứa vòng lặp game
 		///////////////////////////////Sử dụng context để vẽ
 		this.#ctxMain = canvasMain.getContext('2d');
 		this.ctx = this.#canvasBuffer.getContext('2d');
+
+		canvasMain.addEventListener("contextmenu", (e) => {e.preventDefault()});
+		canvasMain.onclick = (event)=>{this.gameloop.onClick();};
+		canvasMain.ondblclick = (event)=>{this.gameloop.onDoubleClick();};
+		canvasMain.onmousemove = (event)=>{
+			this._rectBoundCanvas = canvasMain.getBoundingClientRect();
+			gameEngine.gameloop.mouseX = event.clientX - this._rectBoundCanvas.left;
+			gameEngine.gameloop.mouseY = event.clientY - this._rectBoundCanvas.top;
+		};
 	}
 
 

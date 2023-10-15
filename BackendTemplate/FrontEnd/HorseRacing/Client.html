@@ -40,6 +40,11 @@
 				document.body.appendChild(btn);
 				return btn;
 			}
+
+			static lerp(start, end, t) {
+				const val = (1 - t) * start + t * end;
+				return val;
+			}
 		}
 		class F {
 			static CMD = "cmd";
@@ -210,9 +215,9 @@
 				this.background = new Image();
 				this.background.src = '../UI/map/range.png';
 				this.startBackground = new Image();
-				this.startBackground.src = '../UI/map/Untitled-1_0000_9.png';
+				this.startBackground.src = '../UI/map/line-start.png';
 				this.endBackground = new Image();
-				this.endBackground.src = '../UI/map/Untitled-1_0001_Layer-17.png';
+				this.endBackground.src = '../UI/map/line-finish.png';
 
 				this.backgroundPosition = 0;
 				this.finishLinePos = 0;
@@ -223,6 +228,7 @@
 				this.isRace = false;
 				this.isWaitToFinish = false;
 				this.isFinishGame = false;
+				this.isHaveResult = false;
 				this.secondHorseId = -1;
 
 				// Horse Data
@@ -268,9 +274,11 @@
 							// TODO force add horse rank here
 						}
 					} else {
-						const arr = this.runAnim.randomRank(this.horeseRank);
-						if (arr != null) {
-							this.horeseRank = arr;
+						if (this.isHaveResult == false) {
+							const arr = this.runAnim.randomRank(this.horeseRank);
+							if (arr != null) {
+								this.horeseRank = arr;
+							}
 						}
 					}
 				}
@@ -300,7 +308,7 @@
 						this.startDraw);
 				}
 
-				if (this.isWaitToFinish) {
+				if (this.isHaveResult) {
 					gameEngine.ctx.drawImage(
 						this.endBackground,
 						canvas.width + this.finishLinePos,
@@ -318,14 +326,15 @@
 					if (this.isWaitToFinish == false) {
 						if (Date.now() - this.timeCountDown >= 5000) {
 							this.timeCountDown = Date.now();
-							this.isWaitToFinish = true;
 
-							console.log("Force horse position here");
-
-							this.secondHorseId = 2;
-
-							const arr = this.runAnim.randomRank(this.horeseRank, 1, 2, true);
-							this.horeseRank = arr;
+							if (this.isHaveResult) {
+								this.isWaitToFinish = true;
+							} else {
+								this.secondHorseId = 2;
+								const arr = this.runAnim.randomRank(this.horeseRank, 1, 2, true);
+								this.horeseRank = arr;
+								this.isHaveResult = true;
+							}
 						}
 					} else {
 						// Finish game -> stop bg and horse move foward
@@ -447,10 +456,7 @@
 				return null;
 			}
 
-			lerp(start, end, t) {
-				const val = (1 - t) * start + t * end;
-				return val;
-			}
+
 
 			getRandomInt(min, max) {
 				min = Math.ceil(min);
@@ -466,44 +472,333 @@
 		class BetScene extends GameScene {
 			constructor() { super("BetScene"); }
 			onInit() {
-				this.btn = Ultilities.createBtn('GameScene', () => {
-					gameEngine.changeScene(new sceneLogin());
-					console.log("bbbbb");
-				});
 				this.img = [];
 				for (let i = 1; i <= 8; i++) {
 					this.img[i - 1] = new Image();
 					this.img[i - 1].src = `../UI/BetScene/HorseAvatar/Background/BG_${i}.png`;
 				}
 
-				this.parentStartDraw = {
+				this.imgHorse = [];
+				for (let i = 1; i <= 8; i++) {
+					this.imgHorse[i - 1] = new Image();
+					this.imgHorse[i - 1].src = `../UI/BetScene/HorseAvatar/Avatar/Horse_${i}.png`;
+				}
+
+				this.imgCup = new Image();
+				this.imgCup.src = '../UI/BetScene/Cup.png';
+
+				this.imgCoin = new Image();
+				this.imgCoin.src = '../UI/BetScene/UserCoin.png';
+
+				this.betTableOffset = {
 					x: 50,
 					y: 50,
-					width: 950,
+					width: 874,
 					height: 460,
+					bet: "0"
 				};
 
-				this.horseOffset = 10;
+				this.historyTableOffset = {
+					x: 1150,
+					y: 50,
+					width: 259,
+					height: 460,
+					tiltle: 'HISTORY',
+					content: [],
+				};
+				this.historyTableOffset.content.push("2 - 3")
+				this.historyTableOffset.content.push("3 - 2")
+				this.historyTableOffset.content.push("4 - 2")
+				this.historyTableOffset.content.push("1 - 3")
 
+				this.userInfoOffset = {
+					x: 50,
+					y: 580,
+					width: 400,
+					height: 140,
+				};
+
+				this.horseOffset = 20;
+
+				// Chips and holder
+				// Holder size with 16:9: 1025, 165
+				this.chipHoldingId = 1;
+				this.imgChips = [];
+				for (let i = 0; i < 27; i++) {
+					this.imgChips[i] = new Image();
+					this.imgChips[i].src = `../UI/BetScene/ChipsID/Chip_${i + 1}.png`;
+				}
+				this.imgArrows = {
+					left: new Image(),
+					right: new Image(),
+					width: 90,
+					height: 90
+				}
+				this.imgArrows.left.src = `../UI/BetScene/ArrowHolder.png`;
+				this.imgArrows.right.src = `../UI/BetScene/ArrowHolderRight.png`;
+
+				this.imgChipHolder = new Image();
+				this.imgChipHolder.src = `../UI/BetScene/ChipHolder.png`;
+				this.chipOffset = 20;
+				this.holderOffset = {
+					x: canvas.width * 0.3,
+					y: canvas.height - 165 - 10,
+					arrow: canvas.width * 0.3 + 30,
+					chipStart: canvas.width * 0.3 + 120,
+					chipEnd: 96 * 7 + this.chipOffset * 7,
+					width: 1025,
+					height: 165,
+					chipSize: 96
+				}
+				this.chipAnimation = {
+					scale: {
+						speed: 0.01,
+						value: 1.28,
+						currentSize: this.holderOffset.chipSize,
+						isScaleUp: true
+					},
+					move: {
+						speed: 0.005,
+						currentPosX: this.holderOffset.chipStart + this.chipOffset * this.chipHoldingId + this.holderOffset.chipSize * this.chipHoldingId,
+						currentPosY: this.holderOffset.y + this.holderOffset.height / 5.5,
+					},
+					speedMove: 0.001,
+				}
+				this.moveChipToBet = {
+					id: 1,
+					speed: 0.01,
+					chips: [] // chip have currentX and currentY to lerp, target X and target Y
+				}
 			}
 			onUpdate() {
-
+				
 			}
 			onDraw() {
+				// betTable
 				gameEngine.ctx.fillStyle = "red";
 				gameEngine.ctx.fillRect(
-					this.parentStartDraw.x,
-					this.parentStartDraw.y,
-					this.parentStartDraw.width,
-					this.parentStartDraw.height);
+					this.betTableOffset.x,
+					this.betTableOffset.y,
+					this.betTableOffset.width,
+					this.betTableOffset.height);
+
+				let spriteValue = 0;
 
 				for (let i = 0; i < 3; i++) {
-					gameEngine.ctx.drawImage(
-						this.img[i],
-						this.parentStartDraw.x + this.horseOffset,
-						this.parentStartDraw.y + this.img[i].width * i + this.horseOffset,
-						315, 150);
+					for (let k = 0; k < 3; k++) {
+						if (i == 2 && k == 2)
+							break;
+						gameEngine.ctx.drawImage(
+							this.img[spriteValue],
+							this.betTableOffset.x + 265 * i + this.horseOffset + + this.horseOffset * i,
+							this.betTableOffset.y + 125 * k + this.horseOffset + this.horseOffset * k,
+							265, 125);
+						spriteValue++;
+					}
 				}
+
+				let HorseAvatar = 0;
+
+				for (let i = 0; i < 3; i++) {
+					for (let k = 0; k < 3; k++) {
+						if (i == 2 && k == 2)
+							break;
+						gameEngine.ctx.drawImage(
+							this.imgHorse[HorseAvatar],
+							this.betTableOffset.x + 265 * i + this.horseOffset + 3 + this.horseOffset * i,
+							this.betTableOffset.y + 125 * k + this.horseOffset + 14 + this.horseOffset * k,
+							116, 110);
+						HorseAvatar++;
+					}
+				}
+				gameEngine.ctx.font = "40px Time New Romen";
+				gameEngine.ctx.fillStyle = "yellow";
+				gameEngine.ctx.fillText(
+					this.betTableOffset.bet,
+					this.betTableOffset.x + this.horseOffset,
+					this.betTableOffset.y + 125 * i + this.horseOffset + 15 + this.horseOffset * i,
+				)
+
+				//historyBG
+				gameEngine.ctx.fillStyle = "red";
+				gameEngine.ctx.fillRect(
+					this.historyTableOffset.x,
+					this.historyTableOffset.y,
+					this.historyTableOffset.width,
+					this.historyTableOffset.height);
+
+				gameEngine.ctx.drawImage(
+					this.imgCup,
+					this.historyTableOffset.x + this.historyTableOffset.width - this.imgCup.width / 2,
+					this.historyTableOffset.y - this.imgCup.height / 2,
+				);
+
+				gameEngine.ctx.font = "50px Time New Romen";
+
+				gameEngine.ctx.fillStyle = "white";
+
+				gameEngine.ctx.fillText(
+					this.historyTableOffset.tiltle,
+					this.historyTableOffset.x + 33,
+					this.historyTableOffset.y + 65,
+				);
+
+				for (var i = 0; i < this.historyTableOffset.content.length; i++) {
+					gameEngine.ctx.font = "80px Time New Romen";
+
+					gameEngine.ctx.fillText(
+						this.historyTableOffset.content[i],
+						this.historyTableOffset.x + 60,
+						this.historyTableOffset.y + this.historyTableOffset.height / 3 + i * 90,
+					);
+				}
+
+
+				//userBG
+				gameEngine.ctx.fillStyle = "red";
+				gameEngine.ctx.fillRect(
+					this.userInfoOffset.x,
+					this.userInfoOffset.y,
+					this.userInfoOffset.width,
+					this.userInfoOffset.height
+				);
+
+				gameEngine.ctx.fillStyle = "white";
+				gameEngine.ctx.fillRect(
+					this.userInfoOffset.x + this.userInfoOffset.width / 2.7,
+					this.userInfoOffset.y + 10,
+					220, 50,
+				);
+
+				gameEngine.ctx.drawImage(
+					this.imgCoin,
+					this.userInfoOffset.x + this.userInfoOffset.width / 2.7 - this.imgCoin.width / 4,
+					this.userInfoOffset.y + 4,
+					65, 65,
+				);
+
+				gameEngine.ctx.fillStyle = "white";
+				gameEngine.ctx.fillRect(
+					this.userInfoOffset.x + this.userInfoOffset.width / 2.7,
+					this.userInfoOffset.y + this.userInfoOffset.height / 2 + 13,
+					220, 50,
+				);
+
+				// Draw holder
+				gameEngine.ctx.drawImage(
+					this.imgChipHolder,
+					this.holderOffset.x,
+					this.holderOffset.y,
+					this.holderOffset.width, this.holderOffset.height
+				)
+
+				let scaleUpValue = 1;
+				let moveValue = 0;
+				for (let i = 0; i < 7; i++) {
+					// Scale and move chip
+					let chipX = this.holderOffset.chipStart + this.chipOffset * i + this.holderOffset.chipSize * i;
+					let chipY = this.holderOffset.y + this.holderOffset.height / 5.5;
+					let chipSize = this.holderOffset.chipSize;
+					if (i == this.chipHoldingId) {
+						if (this.chipAnimation.scale.isScaleUp) {
+							scaleUpValue = this.chipAnimation.scale.value;
+							moveValue = this.chipOffset;
+						}
+						chipX = Ultilities.lerp(this.chipAnimation.move.currentPosX, chipX - moveValue, this.chipAnimation.move.speed);
+						chipY = Ultilities.lerp(this.chipAnimation.move.currentPosY, chipY - moveValue + 5, this.chipAnimation.move.speed);
+						chipSize = Ultilities.lerp(this.chipAnimation.scale.currentSize, this.holderOffset.chipSize * scaleUpValue, this.chipAnimation.scale.speed);
+						this.chipAnimation.scale.currentSize = chipSize;
+						this.chipAnimation.move.currentPosX = chipX;
+						this.chipAnimation.move.currentPosY = chipY;
+
+						if (this.chipAnimation.scale.currentSize >= (this.holderOffset.chipSize * scaleUpValue - 5))
+							this.chipAnimation.scale.isScaleUp = false
+						if (this.chipAnimation.scale.currentSize <= (this.holderOffset.chipSize + 5))
+							this.chipAnimation.scale.isScaleUp = true
+					}
+
+					gameEngine.ctx.drawImage(
+						this.imgChips[i],
+						chipX,
+						chipY,
+						chipSize, chipSize
+					)
+				}
+
+				// Move chip to target 
+				for (let i = 0; i < this.moveChipToBet.chips.length; i++) {
+					const chipX = Ultilities.lerp(
+						this.moveChipToBet.chips[i].currentPosX,
+						this.moveChipToBet.chips[i].targetPosX,
+						this.moveChipToBet.speed);
+					const chipY = Ultilities.lerp(
+						this.moveChipToBet.chips[i].currentPosY,
+						this.moveChipToBet.chips[i].targetPosY,
+						this.moveChipToBet.speed);
+
+					gameEngine.ctx.drawImage(
+						this.imgChips[this.moveChipToBet.chips[i].id],
+						chipX,
+						chipY,
+						this.holderOffset.chipSize,
+						this.holderOffset.chipSize);
+
+					this.moveChipToBet.chips[i].currentPosX = chipX;
+					this.moveChipToBet.chips[i].currentPosY = chipY;
+
+					if (this.moveChipToBet.chips[i].currentPosY <= this.moveChipToBet.chips[i].targetPosY - 10){
+						this.moveChipToBet.chips.splice(i, 1);
+						console.log("remove");
+					}
+				}
+
+			}
+			onClick() {
+				let foundObject = false;
+				// Mouse on chip board
+				if (this.holderOffset.x <= this.mouseX && this.mouseX <= (this.holderOffset.x + this.holderOffset.width) &&
+					this.holderOffset.y <= this.mouseY && this.mouseY <= (this.holderOffset.y + this.holderOffset.height)) {
+					for (let i = 0; i < 7; i++) {
+						const chipX = this.holderOffset.chipStart + this.chipOffset * i + this.holderOffset.chipSize * i;
+						const chipY = this.holderOffset.y + this.holderOffset.height / 5.5;
+						if (chipX <= this.mouseX && this.mouseX <= chipX + this.holderOffset.chipSize &&
+							chipY <= this.mouseY && this.mouseY <= chipY + this.holderOffset.chipSize) {
+							if (this.chipHoldingId != i) {
+								this.chipHoldingId = i;
+								this.chipAnimation.move.currentPosX = chipX;
+								this.chipAnimation.move.currentPosY = chipY;
+							}
+						}
+					}
+				} else if (this.betTableOffset.x <= this.mouseX && this.mouseX <= this.betTableOffset.x + this.betTableOffset.width &&
+					this.betTableOffset.y <= this.mouseY && this.mouseY <= this.betTableOffset.y + this.betTableOffset.height) {
+					for (let i = 0; i < 3; i++) {
+						for (let k = 0; k < 3; k++) {
+							if (i == 2 && k == 2)
+								break;
+							// Size: 265x125
+							let horseX = this.betTableOffset.x + 265 * i + this.horseOffset + + this.horseOffset * i;
+							let horseY = this.betTableOffset.y + 125 * k + this.horseOffset + this.horseOffset * k;
+
+							if (horseX <= this.mouseX && this.mouseX <= horseX + 265 &&
+								horseY <= this.mouseY && this.mouseY <= horseY + 125) {
+								this.moveChipToBet.chips.push({
+									id : this.chipHoldingId,
+									currentPosX: this.holderOffset.chipStart + this.chipOffset * this.chipHoldingId + this.holderOffset.chipSize * this.chipHoldingId,
+									currentPosY: this.holderOffset.y + this.holderOffset.height / 5.5,
+									targetPosX: this.randomPosition(horseX+50, horseX + 215) - this.holderOffset.chipSize/2,
+									targetPosY: this.randomPosition(horseY+20, horseY + 100) - this.holderOffset.chipSize/2
+								});
+								console.log(this.moveChipToBet.chips);
+								break;
+							}
+						}
+					}
+				}
+			}
+			randomPosition(min, max) {
+				console.log(`Min: ${min}, Max: ${max}`);
+				return Math.random() * (max - min) + min;
 			}
 		}
 
