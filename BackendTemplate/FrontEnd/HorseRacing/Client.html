@@ -22,24 +22,24 @@
 		});
 
 		class Ultilities {
-			// static createBtn = (text = 'Button', _event = null, _top = 0, _left = 0, _position = '') => {
-			// 	const btn = document.createElement('button');
-			// 	btn.innerText = text;
-			// 	if (_position == '')
-			// 		btn.style.position = 'absolute';
-			// 	else
-			// 		btn.style.position = _position;
-			// 	btn.style.top = `${_top}px`;
-			// 	btn.style.left = `${_left}px`;
-			// 	// btn.addEventListener('click', _event != null ? _event : () => {
-			// 	btn.addEventListener('click', _event != null ? _event : () => {
-			// 		if (_event != null)
-			// 			_event();
-			// 		btn.remove();
-			// 	})
-			// 	document.body.appendChild(btn);
-			// 	return btn;
-			// }
+			static createBtn = (text = 'Button', _event = null, _top = 0, _left = 0, _position = '') => {
+				const btn = document.createElement('button');
+				btn.innerText = text;
+				if (_position == '')
+					btn.style.position = 'absolute';
+				else
+					btn.style.position = _position;
+				btn.style.top = `${_top}px`;
+				btn.style.left = `${_left}px`;
+				// btn.addEventListener('click', _event != null ? _event : () => {
+				btn.addEventListener('click', _event != null ? _event : () => {
+					if (_event != null)
+						_event();
+					btn.remove();
+				})
+				document.body.appendChild(btn);
+				return btn;
+			}
 
 			static lerp(start, end, t) {
 				const val = (1 - t) * start + t * end;
@@ -207,10 +207,10 @@
 		class sceneLogin extends GameScene {
 			constructor() { super("aaaaaa"); }
 			onInit() {
-				// Ultilities.createBtn('Scene Bet', () => {
-				// 	gameEngine.changeScene(new BetScene());
-				// 	console.log("aaaaaa");
-				// });
+				Ultilities.createBtn('Scene Bet', () => {
+					gameEngine.changeScene(new BetScene());
+					console.log("aaaaaa");
+				});
 				this.img = new Image();
 				this.background = new Image();
 				this.background.src = '../UI/map/range.png';
@@ -501,6 +501,10 @@
 					this.imgHorse[i - 1] = new Image();
 					this.imgHorse[i - 1].src = `../UI/BetScene/HorseAvatar/Avatar/Horse_${i}.png`;
 				}
+				this.imgHorseValue = {
+					width: 74,
+					height: 70
+				}
 
 				this.imgCup = new Image();
 				this.imgCup.src = '../UI/BetScene/Cup.png';
@@ -511,13 +515,18 @@
 				this.betTableOffset = {
 					x: 50,
 					y: 50,
-					width: 874,
-					height: 460,
+					width: 940,
+					height: 470,
 					betPoint: [],
 				};
+				// this.horseContainerBG = {
+				// 	width : 265,
+				// 	height : 125,
+				// }
+
 				this.horseContainerBG = {
-					width : 265,
-					height : 125,
+					width : 150,
+					height : 75,
 				}
 
 				this.betTableOffset.betPoint.push(0);
@@ -629,12 +638,12 @@
 				}
 			}
 			onUpdate() {
-				if (Date.now() - this.countDownBet >= 5000){
-					gameEngine.changeScene(new sceneLogin());
-				}
+				// if (Date.now() - this.countDownBet >= 5000){
+				// 	gameEngine.changeScene(new sceneLogin());
+				// }
 			}
 			onDraw() {
-				// betTable
+				// betTable 874x460
 				gameEngine.ctx.fillStyle = "red";
 				gameEngine.ctx.fillRect(
 					this.betTableOffset.x,
@@ -642,67 +651,85 @@
 					this.betTableOffset.width,
 					this.betTableOffset.height);
 
-				let spriteValue = 0;
 
-				for (let i = 0; i < 3; i++) {
-					for (let k = 0; k < 3; k++) {
-						if (i == 2 && k == 2)
-							break;
-						gameEngine.ctx.drawImage(
-							this.img[spriteValue],
-							this.betTableOffset.x + this.horseContainerBG.width * i + this.horseOffset + + this.horseOffset * i,
-							this.betTableOffset.y + this.horseContainerBG.height * k + this.horseOffset + this.horseOffset * k,
-							this.horseContainerBG.width, this.horseContainerBG.height);
-						spriteValue++;
+				// Draw background avatar and avatar horse
+				let currentHorseId = 0;
+				// 167x83 chưa offset
+				for (let i = 0; i < 6; i++){
+					currentHorseId = i;
+					if (i == 0)
+						continue;
+
+					gameEngine.ctx.drawImage(
+						this.img[0],
+						this.betTableOffset.x + this.horseOffset,
+						this.betTableOffset.y + this.horseContainerBG.height * i + this.horseOffset/2,
+						this.horseContainerBG.width, this.horseContainerBG.height); //265x125
+
+					gameEngine.ctx.drawImage(
+						this.imgHorse[currentHorseId],
+						this.betTableOffset.x + this.horseOffset,
+						this.betTableOffset.y + this.horseContainerBG.height * i + this.horseOffset/2,
+						this.imgHorseValue.width, this.imgHorseValue.height);
+
+					gameEngine.ctx.fillStyle = "white";
+					gameEngine.ctx.font = "40px Ariel";
+					gameEngine.ctx.fillText(
+						`${currentHorseId}`,
+						this.betTableOffset.x + this.horseOffset + this.horseContainerBG.width*0.65,
+						this.betTableOffset.y + this.horseContainerBG.height * i + this.horseOffset/2 + this.horseContainerBG.height * 0.7,
+					);
+				}
+
+				
+
+				currentHorseId = 1;
+				for (let i = 6; i > 1; i--){
+					gameEngine.ctx.drawImage(
+						this.img[0],
+						this.betTableOffset.x + this.horseOffset + this.horseContainerBG.width*currentHorseId,
+						this.betTableOffset.y + this.horseOffset/2,
+						this.horseContainerBG.width, this.horseContainerBG.height); //265x125
+
+					gameEngine.ctx.drawImage(
+						this.imgHorse[i],
+						this.betTableOffset.x + this.horseOffset + this.horseContainerBG.width*currentHorseId,
+						this.betTableOffset.y + this.horseOffset/2,
+						this.imgHorseValue.width, this.imgHorseValue.height);
+
+					gameEngine.ctx.fillStyle = "white";
+					gameEngine.ctx.font = "40px Ariel";
+					gameEngine.ctx.fillText(
+						`${i}`,
+						this.betTableOffset.x + this.horseOffset + this.horseContainerBG.width*currentHorseId + this.horseContainerBG.width*0.65,
+						this.betTableOffset.y + this.horseOffset/2 + this.horseContainerBG.height * 0.7,
+					);
+
+					currentHorseId ++;
+				}
+
+				gameEngine.ctx.fillStyle = "green";
+				const startX = this.betTableOffset.x + this.horseOffset + this.horseContainerBG.width
+				const startY = this.betTableOffset.y + this.horseOffset/2 + this.horseContainerBG.height
+				// Bet table
+				for (let i = 0; i < 5; i++){
+					for (let k = 0; k < 5-i; k++){
+						gameEngine.ctx.fillRect(
+							startX + this.horseContainerBG.width * i,
+							startY + this.horseContainerBG.height * k,
+							this.horseContainerBG.width,
+							this.horseContainerBG.height);
 					}
 				}
-				// DrawHorseAva
-				let HorseAvatar = 0;
 
-				for (let i = 0; i < 3; i++) {
-					for (let k = 0; k < 3; k++) {
-						if (i == 2 && k == 2)
-							break;
-						gameEngine.ctx.drawImage(
-							this.imgHorse[HorseAvatar],
-							this.betTableOffset.x + this.horseContainerBG.width * i + this.horseOffset + 3 + this.horseOffset * i,
-							this.betTableOffset.y + this.horseContainerBG.height * k + this.horseOffset + 14 + this.horseOffset * k,
-							116, 110);
-						HorseAvatar++;
-					}
-				}
-
-				//betPoint
-				for (let i = 0; i < 3; i++) {
-					for (let k = 0; k < 3; k++) {
-						if (i == 2 && k == 2)
-							break;
-						// gameEngine.ctx.moveTo(
-						// 	this.betTableOffset.x + this.horseOffset * i + this.horseContainerBG.width * i + this.horseContainerBG.width/2,
-						// 	this.betTableOffset.y + this.horseOffset * k + this.horseContainerBG.height * k - this.horseContainerBG.height/2,
-						// );
-						// gameEngine.ctx.lineTo(
-						// 	this.betTableOffset.x + this.horseOffset * i + this.horseContainerBG.width * i + this.horseContainerBG.width,
-						// 	this.betTableOffset.y + this.horseOffset * k + this.horseContainerBG.height * k - this.horseContainerBG.height/2,
-						// );
-						// gameEngine.ctx.stroke();
-						// gameEngine.ctx.fillStyle = "black";
-						// gameEngine.ctx.fillRect(
-						// 	this.betTableOffset.x + this.horseOffset * (i+1) + this.horseContainerBG.width * i + this.horseContainerBG.width/2,
-						// 	this.betTableOffset.y + this.horseOffset * k + this.horseContainerBG.height * k - this.horseContainerBG.height/2,
-						// 	this.horseContainerBG.height/4,
-						// 	1
-						// );
-						
-						// console.log(`i: ${i}, k: ${k}`)
-
-						gameEngine.ctx.fillStyle = "white";
-						gameEngine.ctx.font = "40px Ariel";
-						gameEngine.ctx.fillText(
-							this.betTableOffset.betPoint[3*i + k],
-							this.betTableOffset.x + this.horseContainerBG.width * i + this.horseOffset + this.horseContainerBG.width*0.65 + this.horseOffset * i,
-							this.betTableOffset.y + this.horseContainerBG.height * k + this.horseOffset + 50 + this.horseOffset * k,
-						);
+				gameEngine.ctx.fillStyle = "black";
+				for (let i = 0; i < 5; i++){
+					for (let k = 0; k < 5-i; k++){
+						gameEngine.ctx.fillRect(
+							startX + (this.horseContainerBG.width - 3) * i + 2 * i + 2,
+							startY + (this.horseContainerBG.height - 3) * k + (k*2) + 2,
+							this.horseContainerBG.width - 2,
+							this.horseContainerBG.height - 2);
 					}
 				}
 
@@ -835,7 +862,7 @@
 
 					this.moveChipToBet.chips[i].currentPosX = chipX;
 					this.moveChipToBet.chips[i].currentPosY = chipY;
-					if (this.moveChipToBet.chips[i].currentPosY <= this.moveChipToBet.chips[i].targetPosY + 45) {
+					if (this.moveChipToBet.chips[i].currentPosY <= this.moveChipToBet.chips[i].targetPosY + 25) {
 						this.moveChipToBet.chips.splice(i, 1);
 					}
 				}
@@ -901,26 +928,25 @@
 					}
 				} else if (this.betTableOffset.x <= this.mouseX && this.mouseX <= this.betTableOffset.x + this.betTableOffset.width &&
 					this.betTableOffset.y <= this.mouseY && this.mouseY <= this.betTableOffset.y + this.betTableOffset.height) {
-					// Check bet table
-					for (let i = 0; i < 3; i++) {
-						for (let k = 0; k < 3; k++) {
-							if (i == 2 && k == 2)
-								break;
-							// Size: 265x125
-							let horseX = this.betTableOffset.x + 265 * i + this.horseOffset + + this.horseOffset * i;
-							let horseY = this.betTableOffset.y + 125 * k + this.horseOffset + this.horseOffset * k;
-
-							if (horseX <= this.mouseX && this.mouseX <= horseX + 265 &&
-								horseY <= this.mouseY && this.mouseY <= horseY + 125) {
+					const offSetStartX = this.betTableOffset.x + this.horseOffset + this.horseContainerBG.width + 1;
+					const offSetEndX = offSetStartX + this.horseContainerBG.width - 2;
+					const offSetStartY = this.betTableOffset.y + this.horseOffset/2 + this.horseContainerBG.height + 1;
+					const offSetEndY = offSetStartY + this.horseContainerBG.height - 2;
+					
+					// Bet table
+					for (let i = 0; i < 5; i++){
+						for (let k = 0; k < 5-i; k++){
+							if (offSetStartX + (this.horseContainerBG.width * i) <= this.mouseX && this.mouseX <= offSetEndX + (this.horseContainerBG.width * i) &&
+								offSetStartY + (this.horseContainerBG.height * k) <= this.mouseY && this.mouseY <= offSetEndY + (this.horseContainerBG.height * k)) {
 								this.moveChipToBet.chips.push({
 									id: this.chipHoldingId,
 									currentPosX: this.holderOffset.chipStart + this.chipOffset * (this.chipHoldingId - 7 * (this.pageValue.currentPageNumber - 1)) + this.holderOffset.chipSize * (this.chipHoldingId - 7 * (this.pageValue.currentPageNumber - 1)),
 									currentPosY: this.holderOffset.y + this.holderOffset.height / 5.5,
-									targetPosX: this.randomPosition(horseX + 50, horseX + 215) - this.holderOffset.chipSize / 2,
-									targetPosY: this.randomPosition(horseY + 20, horseY + 100) - this.holderOffset.chipSize / 2
+									// targetPosX: this.randomPosition(startX + 50, endX + 215),
+									// targetPosY: this.randomPosition(startY + 20, endY + 100)
+									targetPosX: this.randomPosition(offSetStartX + (this.horseContainerBG.width * i) - 35, offSetEndX + (this.horseContainerBG.width * i) - 35),
+									targetPosY: this.randomPosition(offSetStartY + (this.horseContainerBG.height * k) - 50, offSetEndY + (this.horseContainerBG.height * k) - 50)
 								});
-								this.betTableOffset.betPoint[3*i+k] += this.chipsData[this.chipHoldingId].value;
-								// console.log(this.moveChipToBet.chips);
 								break;
 							}
 						}
