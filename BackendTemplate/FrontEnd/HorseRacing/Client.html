@@ -22,24 +22,24 @@
 		});
 
 		class Ultilities {
-			static createBtn = (text = 'Button', _event = null, _top = 0, _left = 0, _position = '') => {
-				const btn = document.createElement('button');
-				btn.innerText = text;
-				if (_position == '')
-					btn.style.position = 'absolute';
-				else
-					btn.style.position = _position;
-				btn.style.top = `${_top}px`;
-				btn.style.left = `${_left}px`;
-				// btn.addEventListener('click', _event != null ? _event : () => {
-				btn.addEventListener('click', _event != null ? _event : () => {
-					if (_event != null)
-						_event();
-					btn.remove();
-				})
-				document.body.appendChild(btn);
-				return btn;
-			}
+			// static createBtn = (text = 'Button', _event = null, _top = 0, _left = 0, _position = '') => {
+			// 	const btn = document.createElement('button');
+			// 	btn.innerText = text;
+			// 	if (_position == '')
+			// 		btn.style.position = 'absolute';
+			// 	else
+			// 		btn.style.position = _position;
+			// 	btn.style.top = `${_top}px`;
+			// 	btn.style.left = `${_left}px`;
+			// 	// btn.addEventListener('click', _event != null ? _event : () => {
+			// 	btn.addEventListener('click', _event != null ? _event : () => {
+			// 		if (_event != null)
+			// 			_event();
+			// 		btn.remove();
+			// 	})
+			// 	document.body.appendChild(btn);
+			// 	return btn;
+			// }
 
 			static lerp(start, end, t) {
 				const val = (1 - t) * start + t * end;
@@ -207,22 +207,22 @@
 		class sceneLogin extends GameScene {
 			constructor() { super("aaaaaa"); }
 			onInit() {
-				Ultilities.createBtn('Scene Bet', () => {
-					gameEngine.changeScene(new BetScene());
-					console.log("aaaaaa");
-				});
+				// Ultilities.createBtn('Scene Bet', () => {
+				// 	gameEngine.changeScene(new BetScene());
+				// 	console.log("aaaaaa");
+				// });
 				this.img = new Image();
 				this.background = new Image();
 				this.background.src = '../UI/map/range.png';
 				this.startBackground = new Image();
-				this.startBackground.src = '../UI/map/line-start.png';
+				this.startBackground.src = '../UI/map/line-start-6.png';
 				this.endBackground = new Image();
 				this.endBackground.src = '../UI/map/line-finish.png';
 
 				this.backgroundPosition = 0;
 				this.finishLinePos = 0;
 				this.startPosition = 0;
-				this.startDraw = (canvas.height / 2) - 129 * 2;
+				this.startDraw = (canvas.height / 2) - 129 * 1.5;
 				this.backgroundSpeed = 1;
 				this.currentBGPos = 0;
 				this.isRace = false;
@@ -236,18 +236,18 @@
 				// this.horseSpeed = 0.005;
 				this.horseSpeed = 0.001;
 				this.rankPosition = [50, 100, 150, 200, 250, 300, 350, 400, 450];
-				this.horeseRank = [0, 0, 0, 0, 0, 0, 0, 0];
-				this.currentHorsePos = [0, 0, 0, 0, 0, 0, 0, 0];
+				this.horeseRank = [];
+				this.currentHorsePos = [];
 				this.idleAnim = [];
 				this.runAnim = [];
 
-				for (let i = 0; i < 8; i++){
+				for (let i = 0; i < 6; i++){
+					this.horeseRank.push(0);
+					this.currentHorsePos.push(0);
+
 					this.idleAnim.push(new GameSprite(75));
 					this.runAnim.push(new GameSprite(40));
-				}
 
-
-				for (let i = 0; i < 8; i++){
 					for (let k = 0; k < 7; k++){
 						this.idleAnim[i].addAnimation(`../UI/Animation/Idle/128x128/Horse_${i+1}/Idle_Frame${k+1}.png`, k);
 					}
@@ -258,7 +258,7 @@
 				}
 				
 				this.backgroundCountX = canvas.width / 194 + 1;
-				this.backgroundCountY = 4;
+				this.backgroundCountY = 3;
 
 				// Time count down to race
 				this.timeCountDown = Date.now();
@@ -328,7 +328,7 @@
 
 
 				if (this.isRace) {
-					for (let i = 0; i < 8; i++) {
+					for (let i = 0; i < 6; i++) {
 						const horsePos = Ultilities.lerp(this.currentHorsePos[i], this.rankPosition[this.horeseRank[i]], this.horseSpeed);
 						this.currentHorsePos[i] = horsePos;
 						this.runAnim[i].draw(horsePos, this.startDraw - 64 + 64 * i, this.isFinishGame);
@@ -341,8 +341,9 @@
 							if (this.isHaveResult) {
 								this.isWaitToFinish = true;
 							} else {
+								console.log("Cheat horse win here");
 								this.secondHorseId = 0;
-								this.firstHorseId = 7;
+								this.firstHorseId = 5;
 								const arr = this.runAnim[1].randomRank(this.horeseRank, this.firstHorseId, this.secondHorseId, true);
 								this.horeseRank = arr;
 								this.isHaveResult = true;
@@ -362,7 +363,7 @@
 				} else {
 
 					if (this.isWaitToFinish) {
-						for (let i = 0; i < 8; i++) {
+						for (let i = 0; i < 6; i++) {
 							this.currentHorsePos[i] += this.horseSpeed;
 							this.runAnim[i].draw(this.currentHorsePos[i], this.startDraw - 64 + 64 * i, this.isFinishGame);
 						}
@@ -371,10 +372,11 @@
 							if (this.currentHorsePos[this.secondHorseId] + this.runAnim[this.firstHorseId].img[this.runAnim[this.firstHorseId].currentFrame].width >= (canvas.width + this.finishLinePos)) {
 								this.isFinishGame = true;
 								this.horseSpeed = 0;
+								this.timeCountDown = Date.now();
 							}
 						}
 					} else {
-						for (let i = 0; i < 8; i++) {
+						for (let i = 0; i < 6; i++) {
 							this.idleAnim[i].draw(0, this.startDraw - 64 + 64 * i, this.isFinishGame);
 						}
 					}
@@ -402,6 +404,10 @@
 					const silvelMedal = new Image();
 					silvelMedal.src = `../UI/BetScene/HorseAvatar/Avatar/2nd.png`;
 					gameEngine.ctx.drawImage(silvelMedal, 500, 320, 193, 300);
+
+					if (Date.now() - this.timeCountDown >= 3500){
+						gameEngine.changeScene(new BetScene());
+					}
 				}
 			}
 		}
@@ -462,7 +468,7 @@
 					let db = "";
 					for (let i = 0; i < arr.length; i++)
 						db += arr[i] + ", ";
-					console.log(db);
+					// console.log(db);
 					return arr;
 				}
 				return null;
@@ -477,11 +483,13 @@
 			}
 		}
 
+		// gameEngine.changeScene(new BetScene());
 		gameEngine.changeScene(new sceneLogin());
 
 		class BetScene extends GameScene {
 			constructor() { super("BetScene"); }
 			onInit() {
+				this.countDownBet = Date.now();
 				this.img = [];
 				for (let i = 1; i <= 8; i++) {
 					this.img[i - 1] = new Image();
@@ -511,14 +519,15 @@
 					width : 265,
 					height : 125,
 				}
-				this.betTableOffset.betPoint.push("1")
-				this.betTableOffset.betPoint.push("1")
-				this.betTableOffset.betPoint.push("1")
-				this.betTableOffset.betPoint.push("1")
-				this.betTableOffset.betPoint.push("1")
-				this.betTableOffset.betPoint.push("1")
-				this.betTableOffset.betPoint.push("1")
-				this.betTableOffset.betPoint.push("1")
+
+				this.betTableOffset.betPoint.push(0);
+				this.betTableOffset.betPoint.push(0);
+				this.betTableOffset.betPoint.push(0);
+				this.betTableOffset.betPoint.push(0);
+				this.betTableOffset.betPoint.push(0);
+				this.betTableOffset.betPoint.push(0);
+				this.betTableOffset.betPoint.push(0);
+				this.betTableOffset.betPoint.push(0);
 
 
 				this.historyTableOffset = {
@@ -559,6 +568,24 @@
 				}
 				this.imgArrows.left.src = `../UI/BetScene/ArrowHolder.png`;
 				this.imgArrows.right.src = `../UI/BetScene/ArrowHolderRight.png`;
+				
+				this.chipsData = [];
+				let value = 1;
+				for (let i = 0; i < 9; i++){
+					this.chipsData.push({
+						id: 1 + i*3,
+						value: 1 * value
+					});
+					this.chipsData.push({
+						id: 2 + i*3,
+						value: 2 * value
+					});
+					this.chipsData.push({
+						id: 3 + i*3,
+						value: 5 * value
+					});
+					value = value*10;
+				}
 
 				this.imgChipHolder = new Image();
 				this.imgChipHolder.src = `../UI/BetScene/ChipHolder.png`;
@@ -596,11 +623,15 @@
 				this.pageValue = {
 					maxPage : parseInt(27/7 + (27%7 >= 1 ? 1 : 0)),
 					currentPageNumber: 1,
-					valueEachPage: this.chipOffset * 7 + this.holderOffset.chipSize * 7
+					valueEachPage: this.chipOffset * 7 + this.holderOffset.chipSize * 7,
+					speedSlide : 1,
+					currentSlidePagePos: 0
 				}
 			}
 			onUpdate() {
-
+				if (Date.now() - this.countDownBet >= 5000){
+					gameEngine.changeScene(new sceneLogin());
+				}
 			}
 			onDraw() {
 				// betTable
@@ -668,8 +699,8 @@
 						gameEngine.ctx.fillStyle = "white";
 						gameEngine.ctx.font = "40px Ariel";
 						gameEngine.ctx.fillText(
-							this.betTableOffset.betPoint[i + k],
-							this.betTableOffset.x + this.horseContainerBG.width * i + this.horseOffset + 190 + this.horseOffset * i,
+							this.betTableOffset.betPoint[3*i + k],
+							this.betTableOffset.x + this.horseContainerBG.width * i + this.horseOffset + this.horseContainerBG.width*0.65 + this.horseOffset * i,
 							this.betTableOffset.y + this.horseContainerBG.height * k + this.horseOffset + 50 + this.horseOffset * k,
 						);
 					}
@@ -888,6 +919,7 @@
 									targetPosX: this.randomPosition(horseX + 50, horseX + 215) - this.holderOffset.chipSize / 2,
 									targetPosY: this.randomPosition(horseY + 20, horseY + 100) - this.holderOffset.chipSize / 2
 								});
+								this.betTableOffset.betPoint[3*i+k] += this.chipsData[this.chipHoldingId].value;
 								// console.log(this.moveChipToBet.chips);
 								break;
 							}
