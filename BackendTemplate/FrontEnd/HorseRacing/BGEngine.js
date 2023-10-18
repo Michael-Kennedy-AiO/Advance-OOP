@@ -109,66 +109,6 @@ class MessageReceiving{
 }
 
 
-class BGWebsocket{
-	#websocket;
-	constructor(){
-		this.isPause=false;
-	}
-	start(_ip,_port){
-		gameEngine.sessionId=-1;
-		this.#websocket = new WebSocket("ws://"+_ip+":"+_port);
-		this.#websocket.binaryType = "arraybuffer";
-
-		let currentBGWS=this;
-		this.#websocket.onopen = function(e) {
-			let _mgInit = new MessageSending(0);
-			_mgInit.writeShort(-1);
-			currentBGWS.send(_mgInit);
-		};
-		this.#websocket.onclose = ()=>{if(this.onDisconnect)this.onDisconnect();};
-		
-		this.#websocket.onmessage = function(event) {//
-			gameEngine.lastTimeWebsocket = Date.now();
-			let _data = event.data;
-			if (_data instanceof ArrayBuffer) {// binary frame
-				let messageReceiving = new MessageReceiving(_data);
-				console.log("Client receive CMD("+messageReceiving.cmd+") : "+(_data.byteLength-2));
-				if(gameEngine.sessionId==-1){//Lần đầu nhận sessionId
-					if(messageReceiving.readByte()==1){
-						gameEngine.sessionId = messageReceiving.readShort();
-						currentBGWS.SecWebSocketKey = messageReceiving.readString();
-						console.log("Connection success SessionId("+gameEngine.sessionId+") : "+currentBGWS.SecWebSocketKey);
-						if(gameEngine.onRealtimeConnectSuccess)
-							gameEngine.onRealtimeConnectSuccess();
-					}else
-						gameEngine.closeRealtime();
-				}else
-					if(gameEngine.onWSBinary[messageReceiving.cmd])
-						gameEngine.onWSBinary[messageReceiving.cmd](messageReceiving);
-					else
-						console.log("CMD("+messageReceiving.cmd+") is not Process. Please setup gameEngine.onWSBinary["+messageReceiving.cmd+"]= (messageReceiving)=>{};");
-			}else{// text frame
-
-
-			}
-		};
-		
-		this.#websocket.onerror = function(error) {console.log("=====> this.#websocket.onerror = function(error) : "+error);};
-	}
-	setReceiver(CMD,funReceive){
-
-	}
-	isRunning(){return this.#websocket && (this.#websocket.readyState==WebSocket.OPEN || this.#websocket.readyState==WebSocket.CONNECTING);}/*CONNECTING(0) - OPEN(1) - CLOSING(2) - CLOSED(3)*/
-	send(message){
-		console.log("Client send CMD("+message.cmd+") : " + (message.currentWriting-2) + " byte");
-		this.#websocket.send(new Int8Array(message.data,message.currentWriting));
-	}
-	release(){this.#websocket.close();}
-}
-
-
-
-
 
 /*tạo ra sự chuyển đổi giữa các màn hình*/
 class GameScene {
@@ -178,9 +118,26 @@ class GameScene {
 	onInit(){}
 	onUpdate(){}
 	onDraw(){}
-
-	onClick(){}
-	onDoubleClick(){}
+	//this.mouseX - this.mouseY
+	onClick(){
+		console.log("Click("+this.mouseX+","+this.mouseY+")");
+	}
+	onRightClick(){
+		console.log("Right Click("+this.mouseX+","+this.mouseY+")");
+	}
+	onDoubleClick(){
+		console.log("Double click");
+	}
+	onKeyDown(event){
+		var name = event.key;
+		var code = event.code;
+		console.log("onKeyDown : " + name + " = " + code);
+	}
+	onKeyUp(event){
+		var name = event.key;
+		var code = event.code;
+		console.log("onKeyUp : " + name + " = " + code);
+	}
 	onRelease(){}
 }
 
@@ -189,6 +146,7 @@ class BGEngine{//Lớp cha chứa vòng lặp game
 	#canvasBuffer;
 	#timeFPS;
 	#countFPS;
+	#websocket;
 	constructor(){
 		this.onWSBinary = [];
 		this.onWSString = [];
@@ -196,6 +154,7 @@ class BGEngine{//Lớp cha chứa vòng lặp game
 		this.#timeFPS = Date.now();
 		this.#countFPS=0;
 		this.FPS=0;
+		this.key=[];
 	}
 	changeScene(_scene){
 		let _old = this.gameloop;
@@ -206,12 +165,12 @@ class BGEngine{//Lớp cha chứa vòng lặp game
 		console.log("Change Scene "+_old.sceneName+" → "+_scene.sceneName);
 	}
 	tickGameLoop(){
+		this.#ctxMain.drawImage(this.#canvasBuffer, 0, 0);//draw buffer to Main Canvas
 		this.ctx.fillStyle = "black";
 		this.ctx.fillRect(0, 0, this.WIDTH, this.HEIGHT);
 		this.gameloop.currentTimeMillis = Date.now();
 		this.gameloop.onUpdate();
 		this.gameloop.onDraw();
-		this.#ctxMain.drawImage(this.#canvasBuffer, 0, 0);//draw buffer to Main Canvas
 		
 		if(Date.now()-this.#timeFPS>1000){
 			this.#timeFPS = Date.now();
@@ -220,48 +179,107 @@ class BGEngine{//Lớp cha chứa vòng lặp game
 		}else
 			this.#countFPS++;
 	}
-	initCanvas(canvasMain){
+	setupCanvas(canvasMain){
+		this.CANVAS = canvasMain;
 		this.WIDTH = canvasMain.width;
 		this.HEIGHT = canvasMain.height;
 		///////////////////////////////Tạo ra DoubleBuffer
-		if(this.#canvasBuffer)
-			this.#canvasBuffer.remove();				
-		this.#canvasBuffer = document.createElement('canvas');
+		if(!this.#canvasBuffer){
+			this.#canvasBuffer = document.createElement('canvas');
+			///////////////////////////////Sử dụng context để vẽ
+			this.#ctxMain = canvasMain.getContext('2d');
+			this.ctx = this.#canvasBuffer.getContext('2d');
+			
+			canvasMain.addEventListener("contextmenu", (e) => {
+				this.gameloop.onRightClick();
+				e.preventDefault()
+			});
+			canvasMain.onclick = (event)=>{this.gameloop.onClick();};
+			canvasMain.ondblclick = (event)=>{this.gameloop.onDoubleClick();};
+			canvasMain.onmousemove = (event)=>{
+				this._rectBoundCanvas = canvasMain.getBoundingClientRect();
+				this.gameloop.mouseX = event.clientX - this._rectBoundCanvas.left;
+				this.gameloop.mouseY = event.clientY - this._rectBoundCanvas.top;
+
+				this.mouseX = event.clientX - this._rectBoundCanvas.left;
+				this.mouseY = event.clientY - this._rectBoundCanvas.top;
+			};
+		}	
 		this.#canvasBuffer.width = canvasMain.width;
 		this.#canvasBuffer.height = canvasMain.height;
-		///////////////////////////////Sử dụng context để vẽ
-		this.#ctxMain = canvasMain.getContext('2d');
-		this.ctx = this.#canvasBuffer.getContext('2d');
-
-		canvasMain.addEventListener("contextmenu", (e) => {e.preventDefault()});
-		canvasMain.onclick = (event)=>{this.gameloop.onClick();};
-		canvasMain.ondblclick = (event)=>{this.gameloop.onDoubleClick();};
-		canvasMain.onmousemove = (event)=>{
-			this._rectBoundCanvas = canvasMain.getBoundingClientRect();
-			gameEngine.gameloop.mouseX = event.clientX - this._rectBoundCanvas.left;
-			gameEngine.gameloop.mouseY = event.clientY - this._rectBoundCanvas.top;
-		};
 	}
 
 
 	startRealtime(_ip,_port){
-		if(this.websocket)
-			this.websocket.release();
-		this.websocket = new BGWebsocket();
-		this.websocket.start(_ip,_port);
+		if(this.#websocket){
+			this.#websocket.close();
+			this.#websocket.remove();
+		}
+
+		this.channelId=-1;
+		this.#websocket = new WebSocket("ws://"+_ip+":"+_port);
+		this.#websocket.binaryType = "arraybuffer";
+
+		let _gEinstance = this;
+		this.#websocket.onopen = function(e) {
+			let _mgInit = new MessageSending(0);
+			_mgInit.writeShort(-1);
+			_gEinstance.send(_mgInit);
+		};
+		this.#websocket.onclose = ()=>{if(_gEinstance.onRealtimeDisconnect)_gEinstance.onRealtimeDisconnect();};
+		
+		this.#websocket.onmessage = function(event) {
+			_gEinstance.lastTimeWebsocket = Date.now();
+			let _data = event.data;
+			if (_data instanceof ArrayBuffer) {// binary frame
+				let messageReceiving = new MessageReceiving(_data);
+				console.log("Client receive CMD("+messageReceiving.cmd+") : "+(_data.byteLength-2));
+				if(_gEinstance.channelId==-1){//Lần đầu nhận channelId
+					if(messageReceiving.readByte()==1){
+						_gEinstance.channelId = messageReceiving.readShort();
+						_gEinstance.SecWebSocketKey = messageReceiving.readString();
+						console.log("Connection success ChannelId("+_gEinstance.channelId+") : "+_gEinstance.SecWebSocketKey);
+						if(_gEinstance.onRealtimeConnectSuccess)
+							_gEinstance.onRealtimeConnectSuccess();
+					}else
+						_gEinstance.closeRealtime();
+				}else
+					if(_gEinstance.onMessage && _gEinstance.onMessage[messageReceiving.cmd])
+						_gEinstance.onMessage[messageReceiving.cmd](messageReceiving);
+					else
+						console.log("CMD("+messageReceiving.cmd+") is not Process. Please setup gameEngine.onMessage["+messageReceiving.cmd+"]= (messageReceiving)=>{};");
+			}else{// text frame
+
+
+			}
+		}
 	}
 	send(messageSending){
-		if(this.websocket)
-			if(this.websocket.isRunning()){
-				this.websocket.send(messageSending);
-			}else
+		if(this.#websocket)
+			if(this.#websocket && (this.#websocket.readyState==WebSocket.OPEN || this.#websocket.readyState==WebSocket.CONNECTING))/*CONNECTING(0) - OPEN(1) - CLOSING(2) - CLOSED(3)*/
+				this.#websocket.send(new Int8Array(messageSending.data,messageSending.currentWriting));
+			else
 				alert("Websocket is Close");
 		else
 			alert("Websocket is not init");
 	}
-	closeRealtime(){if(this.websocket)this.websocket.release();}
+	closeRealtime(){if(this.#websocket)this.#websocket.release();}
 }
 
 const gameEngine = new BGEngine();
 const loopId = setInterval(function(){gameEngine.tickGameLoop();}, 1);//Vòng lặp game gọi mỗi 1ms
 //clearInterval(gameLoop);
+
+window.addEventListener('keydown', function (event) {
+	gameEngine.key[event.code]=true;
+	gameEngine.gameloop.onKeyDown(event);
+});
+window.addEventListener('keyup', function (event) {
+	gameEngine.key[event.code]=false;
+	gameEngine.gameloop.onKeyUp(event);
+});
+window.addEventListener('resize', function () {
+	canvas.width = window.innerWidth - 22;
+	canvas.height = window.innerHeight - 22;
+	gameEngine.setupCanvas(gameEngine.CANVAS);
+});
