@@ -370,11 +370,11 @@
 				});
 				this.img = new Image();
 				this.background = new Image();
-				this.background.src = '../UI/map/range.png';
+				this.background.src = '../UI/GameScene/map/range.png';
 				this.startBackground = new Image();
-				this.startBackground.src = '../UI/map/line-start-6.png';
+				this.startBackground.src = '../UI/GameScene/map/line-start-6.png';
 				this.endBackground = new Image();
-				this.endBackground.src = '../UI/map/line-finish.png';
+				this.endBackground.src = '../UI/GameScene/map/line-finish.png';
 				this.backgroundPosition = 0;
 				this.finishLinePos = 0;
 				this.startPosition = 0;
@@ -445,7 +445,7 @@
 						if (countdownNumber > 0) {
 
 							const numberImage = new Image();
-							numberImage.src = `../UI/BetScene/HorseAvatar/Avatar/num${countdownNumber}.png`;
+							numberImage.src = `../UI/GameScene/num${countdownNumber}.png`;
 							numberImage.onload = () => {
 								gameEngine.ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
 								gameEngine.ctx.fillRect(0, 0, cdw, cdh);
@@ -1437,8 +1437,8 @@
 			console.log("Kết quả trận 4 : " + listHistory[4][F.ID]);
 			console.log("Tỷ số trận 4 : " + listHistory[4][F.NEW_ANNOUNCE]);
 		};
-		gameEngine.changeScene(new BetScene());
-		// gameEngine.changeScene(new sceneLogin());
+		// gameEngine.changeScene(new BetScene());
+		gameEngine.changeScene(new sceneLogin());
 		// basicWS.onSuccess = () => {
 		// 	for (let i = 0; i < 15; i++)
 		// 	basicWS.doBet(i, i + 1);
