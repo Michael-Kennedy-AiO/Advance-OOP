@@ -432,23 +432,42 @@
 				gameEngine.ctx.fillStyle = "red";
 				gameEngine.ctx.fillRect(0, 540, 1080, 1);
 
-				if (this.isWaitToFinish == false) {
-					if (this.isRace == false) {
-						// 3000 3S count down before race
-						if (Date.now() - this.timeCountDown >= 3000) {
+				if (this.isWaitToFinish === false) {
+					if (this.isRace === false) {
+						const countdownTime = 3;
+						const currentTime = Date.now();
+						const timeRemaining = Math.max(0, countdownTime * 1000 - (currentTime - this.timeCountDown));
+						const countdownNumber = Math.ceil(timeRemaining / 1000);
+						const cdw = window.innerWidth - 22;
+						const cdh = window.innerHeight - 22;
+
+
+						if (countdownNumber > 0) {
+
+							const numberImage = new Image();
+							numberImage.src = `../UI/BetScene/HorseAvatar/Avatar/num${countdownNumber}.png`;
+							numberImage.onload = () => {
+								gameEngine.ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
+								gameEngine.ctx.fillRect(0, 0, cdw, cdh);
+								gameEngine.ctx.drawImage(numberImage, (canvas.width / 2) - 100, (canvas.height / 2) - 200);
+							};
+						}
+
+						if (timeRemaining <= 0) {
 							this.isRace = true;
 							this.timeCountDown = Date.now();
-							// TODO force add horse rank here
+							// TODO: force add horse rank here
 						}
 					} else {
-						if (this.isHaveResult == false) {
+						if (this.isHaveResult === false) {
 							const arr = this.runAnim[0].randomRank(this.horeseRank);
-							if (arr != null) {
+							if (arr !== null) {
 								this.horeseRank = arr;
 							}
 						}
 					}
 				}
+
 
 				// this.ctx.fillStyle = "#FFA500";
 				// this.ctx.fillText("👏 FPS : "+gameEngine.FPS, 200, 200);
@@ -890,7 +909,7 @@
 				}
 			}
 			onUpdate() {
-				if (Date.now() - this.timeChangeScene >= 5000){
+				if (Date.now() - this.timeChangeScene >= 5000) {
 					gameEngine.changeScene(new sceneLogin);
 				}
 			}
@@ -985,7 +1004,7 @@
 				// Draw other players
 				gameEngine.ctx.fillStyle = "blue";
 				for (let i = 0; i < 5; i++) {
-					for (let j = 5-i; j < 5; j++){
+					for (let j = 5 - i; j < 5; j++) {
 						gameEngine.ctx.fillRect(
 							startX + (this.horseContainerBG.width - 3) * i + 2 * i + 2,
 							startY + (this.horseContainerBG.height - 3) * j + (j * 2) + 2,
@@ -996,17 +1015,17 @@
 
 				gameEngine.ctx.fillStyle = "white";
 				for (let i = 0; i < 5; i++) {
-					for (let j = 5-i; j < 5; j++){
+					for (let j = 5 - i; j < 5; j++) {
 						gameEngine.ctx.fillRect(
 							startX + (this.horseContainerBG.width - 3) * i + 2 * i + 2 + (this.horseContainerBG.width - 2) / 3,
 							(startY + (this.horseContainerBG.height - 3) * j + (j * 2) + 2 + 2) + 2,
-							this.horseContainerBG.width*0.62, 32,
+							this.horseContainerBG.width * 0.62, 32,
 						);
 
 						gameEngine.ctx.fillRect(
 							startX + (this.horseContainerBG.width - 3) * i + 2 * i + 2 + (this.horseContainerBG.width - 2) / 3,
 							startY + (this.horseContainerBG.height - 3) * j + (j * 2) + this.horseContainerBG.height - 34,
-							this.horseContainerBG.width*0.62, 32,
+							this.horseContainerBG.width * 0.62, 32,
 						);
 					}
 				}
@@ -1016,7 +1035,7 @@
 				gameEngine.ctx.fillStyle = "black";
 				let countV = 0;
 				for (let i = 0; i < 5; i++) {
-					for (let j = 5-i; j < 5; j++){
+					for (let j = 5 - i; j < 5; j++) {
 						gameEngine.ctx.fillText(
 							this.betTableOffset.playerData[countV].userName,
 							startX + (this.horseContainerBG.width - 3) * i + 2 * i + 2 + (this.horseContainerBG.width - 2) / 3 + 5,
@@ -1400,7 +1419,7 @@
 			gameEngine.changeScene(new sceneLogin());
 			console.log(`Win Id: ${gameEngine.gameloop.firstHorseId} - ${gameEngine.gameloop.secondHorseId}`)
 			console.log("Kết quả : " + resultIndex + "	(" + winMoney + "," + lastMoney + ") ---> " + newScore);
-			if(lastMoney)
+			if (lastMoney)
 				gameEngine.money = lastMoney;
 		};
 		basicWS.onGameInfo = (money, currentGame, listBet, timeLeft, timeCircle, listHistory) => {
