@@ -428,7 +428,6 @@
 				// Make the line visible
 				gameEngine.ctx.stroke();
 				gameEngine.ctx.strokeStyle = "blue";
-
 				gameEngine.ctx.fillStyle = "red";
 				gameEngine.ctx.fillRect(0, 540, 1080, 1);
 
@@ -438,17 +437,12 @@
 						const currentTime = Date.now();
 						const timeRemaining = Math.max(0, countdownTime * 1000 - (currentTime - this.timeCountDown));
 						const countdownNumber = Math.ceil(timeRemaining / 1000);
-						const cdw = window.innerWidth - 22;
-						const cdh = window.innerHeight - 22;
 
-
-						if (countdownNumber > 0) {
-
+						if (countdownNumber > 0) {							
 							const numberImage = new Image();
 							numberImage.src = `../UI/GameScene/num${countdownNumber}.png`;
 							numberImage.onload = () => {
-								gameEngine.ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
-								gameEngine.ctx.fillRect(0, 0, cdw, cdh);
+
 								gameEngine.ctx.drawImage(numberImage, (canvas.width / 2) - 100, (canvas.height / 2) - 200);
 							};
 						}
@@ -552,6 +546,10 @@
 						for (let i = 0; i < 6; i++) {
 							this.idleAnim[i].draw(0, this.startDraw - 64 + 64 * i, this.isFinishGame);
 						}
+						const cdw = window.innerWidth - 22;
+						const cdh = window.innerHeight - 22;
+						gameEngine.ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
+						gameEngine.ctx.fillRect(0, 0, cdw, cdh);
 					}
 				}
 				if (this.isFinishGame) {
@@ -724,6 +722,7 @@
 					ODDs: [],
 					playerData: []
 				};
+				//userBetTable
 				this.horseContainerBG = {
 					width: 150,
 					height: 75,
@@ -909,9 +908,9 @@
 				}
 			}
 			onUpdate() {
-				if (Date.now() - this.timeChangeScene >= 5000) {
-					gameEngine.changeScene(new sceneLogin);
-				}
+				// if (Date.now() - this.timeChangeScene >= 5000) {
+				// 	gameEngine.changeScene(new sceneLogin);
+				// }
 			}
 			onDraw() {
 				// betTable 874x460
